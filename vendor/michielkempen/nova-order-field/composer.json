@@ -1,0 +1,30 @@
+{
+    "name": "michielkempen/nova-order-field",
+    "description": "A Laravel Nova field.",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0",
+        "spatie/eloquent-sortable": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "MichielKempen\\NovaOrderField\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MichielKempen\\NovaOrderField\\OrderFieldServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
