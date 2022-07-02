@@ -98,8 +98,6 @@
                         </a>
                     </li>
 
-
-
                     {{--  <li class="nav-item @if($sidebar == 'Logos' or $sidebar == 'email_templates') menu-open @endif">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-archway"></i>
@@ -127,14 +125,14 @@
                         <a href="{{route('admin.customers')}}" class="nav-link {{ Route::is('admin.customers') ? 'active' : '' }} ">
                             <i class="fa fa-users" aria-hidden="true" style="margin-right: 0.5rem;"></i>
                             <p>
-                                clients
+                                Kunden
                             </p>
                         </a>
                     </li>
 
                     <li class="nav-item {{ Route::is('admin.categories') || Route::is('admin.subcategories')  ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
-                            <i class="fas fa-image"></i> &nbsp; &nbsp;
+                            <i class="nav-icon fas fa-archway"></i>
                             <p>
                                 Dynamische Inhalte
                                 <i class="right fas fa-angle-left"></i>
@@ -153,8 +151,6 @@
                                     <p>Unterkategorien</p>
                                 </a>
                             </li>
-
-
                         </ul>
                     </li>
 

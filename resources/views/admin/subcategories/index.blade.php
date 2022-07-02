@@ -14,8 +14,8 @@
                 <div class="card-header">
                     <h3 class="card-title">Sub Categories</h3>
                     <div class="float-right">
-                        <a href="{{ route('admin.create.subcategories') }}" class="btn btn-primary">
-                            create sub categories
+                        <a href="{{ route('admin.create.subcategories') }}" class="btn btn-primary" style="font-size: 13px;">
+                            Unterkategorie hinzuf&#252;gen
                         </a>
                     </div>
                 </div>

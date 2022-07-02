@@ -11,7 +11,7 @@
                     <div class="alert alert-success" role="alert" style="margin-bottom: 25px;">
                         {{ session('status') }}.
                     </div>
-                @endif<!-- 
+                @endif<!--
                 <p class="login-box-msg">Anmeldung</p> -->
                 <p class="login-box-msg" style="font-size: 1rem !important;margin-top: -10px;">Wenn Sie Ihr Passwort vergessen haben, können Sie es hier zurückrücksetzen.</p>
                 <form action="{{ route('password.email') }}" method="post">

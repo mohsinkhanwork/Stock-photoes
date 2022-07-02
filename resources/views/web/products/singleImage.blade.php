@@ -126,8 +126,8 @@ vertical-align: middle;
 
 
              <div class="col-md-12">
-    <nav aria-label="breadcrumb" style="border-bottom: solid 1px lightgray;margin-left: 2%;">
-  <ol class="breadcrumb" style="padding-top: 2%;padding-left: 0;margin-bottom: 0;">
+    <nav aria-label="breadcrumb" style="border-bottom: solid 1px lightgray;margin-left: 2%;font-size: 15px;">
+  <ol class="breadcrumb" style="padding-left: 0;margin-bottom: 0;background: none;">
     <li class="breadcrumb-item"><a href="{{ asset('/') }}" style="color: black;">Home</a></li>
     <li class="breadcrumb-item"><a href="#" style="color: black;">Newest</a></li>
     <li class="breadcrumb-item active" aria-current="page">Duck</li>
@@ -137,14 +137,14 @@ vertical-align: middle;
   <div class="row" style="margin: 2%;">
      <div class="col-md-8" style="text-align: center;background-color: #efefef;">
         @foreach ($subcategory as $subcategorySingleImage )
-        <img src="{{ asset( '/storage/subcategories/'.$subcategorySingleImage->image_singlePage) }}" style="width: 80%;">
+        <img src="{{ asset( '/storage/subcategories/300dpiImages/'.$subcategorySingleImage->dpiImage) }}" style="width: 80%;">
         @endforeach
     </div>
     <div class="col-md-4" style="border: 1px solid lightgray;padding: 1%;">
         <p style="font-size: 17px;font-weight: 500;">
             Buy this stock image now…
         </p>
-   <p style="border-bottom: 3px solid lightgray;padding-bottom: 10px;">Royalty free licenses</p>
+   <p style="border-bottom: 3px solid lightgray;padding-bottom: 10px;font-size: 17px;">Royalty free licenses</p>
    <table id="userTable">
     <tbody>
         <tr id="$52.00 XSmall">
@@ -233,7 +233,9 @@ vertical-align: middle;
   </table>
 
   <p style="text-align: center;">
-    <button id="btnRowClick"  class="btn btn-primary" style="font-weight: 700;background-color: springgreen;color: black;border: 1px solid;width: 100%;border-radius: 77px;"> buy now &gt; </button>
+    <button id="btnRowClick"  class="btn btn-primary"
+    style="font-weight: 700;background-color: springgreen;color: black;border: 1px solid;
+    width: 100%;border-radius: 77px;font-size: 18px;"> buy now &gt; </button>
 </p>
 
 <p style="text-align: center;">
@@ -243,7 +245,7 @@ vertical-align: middle;
     color: black;
     border: 1px solid;
     width: 100%;
-    border-radius: 77px;">add to cart</button>
+    border-radius: 77px;font-size: 18px;">add to cart</button>
 </p>
 
 {{-- <input type="button" id="tst" value="OK" onclick="fnselect()" /> --}}
@@ -299,7 +301,7 @@ vertical-align: middle;
          </tr>
          <tr>
             <td>Resolutions:</td>
-            <td> 300 dpi </td>
+            <td> 72 dpi </td>
          </tr>
          {{-- <tr>
             <td>Vertical resolutions:</td>

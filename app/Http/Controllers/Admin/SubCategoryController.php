@@ -50,6 +50,9 @@ class SubCategoryController extends Controller
         ]);
 
          $image = new SubCategory;
+         if(!empty($request->input('status'))){
+            $image->status = $request->status; ;
+        }
          $image->name = $request->name;
          $image->image_title = $request->image_title;
          $image->category_id = $request->category_id;
@@ -60,10 +63,11 @@ class SubCategoryController extends Controller
 
         $uploadedimagepicklogo = $request->file('image');
         $inputResized['image'] = time().$uploadedimagepicklogo->getClientOriginalName();
-        $watermark = $request->file('watermark');
-        $watermark1['watermark'] = time().$watermark->getClientOriginalName();
+        // $watermark = $request->file('watermark');
+        // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
         $imgFile = Image::make($uploadedimagepicklogo->getRealPath())->resize(540, 405);       //image resize from here;
-        $watermark = Image::make($watermark->getRealPath())->opacity(50);   // watermark resize from here
+        $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
+        // $watermark = Image::make($watermark->getRealPath())->opacity(50);   // watermark resize from here
         $path = storage_path('app/public/subcategories').'/'.$inputResized['image'];
         $imgFile->insert($watermark, 'center')->save($path);
         $image->image =  $inputResized['image'];
@@ -77,10 +81,10 @@ class SubCategoryController extends Controller
 
         $uploadedimagesingle = $request->file('image');
         $inputsingle['image'] = time().$uploadedimagesingle->getClientOriginalName();
-        $watermark = $request->file('watermark');
-        $watermark1['watermark'] = time().$watermark->getClientOriginalName();
+        // $watermark = $request->file('watermark');
+        // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
         $imgFilesingle = Image::make($uploadedimagesingle->getRealPath())->resize(1024, 768);       //image resize from here;
-        $watermarksingle = Image::make($watermark->getRealPath())->opacity(30);   // watermark resize from here
+        $watermarksingle = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
         $pathsingle = storage_path('app/public/subcategories').'/'.$inputsingle['image'];
         $imgFilesingle->insert($watermarksingle, 'center')->save($pathsingle);
         $image->image_singlePage =  $inputsingle['image'];
@@ -102,21 +106,22 @@ class SubCategoryController extends Controller
         $image->originalImage = $originalinput['image'];
         $image->height =  $height;
         $image->width =  $width;
-
-
         // end original image
 
 
         // resoltuion of images
         $uploadedoriginalImageresol = $request->file('image');
         $originalinputresolution['image'] = time().$uploadedoriginalImageresol->getClientOriginalName();
-        $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath());       // original image
+        $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(1024, 768);       // original image
+
         $pathoriginalresolution = storage_path('app/public/subcategories').'/'.$originalinputresolution['image'];
+        $imgFileoriginalreso->insert($watermarksingle, 'center')->save($pathoriginalresolution);
         $imgFileoriginalreso->save($pathoriginalresolution);
         $imagick = new Imagick($pathoriginalresolution);
-        $imagick->setImageResolution(300,300) ; // it change only image density.
+        // $imagick->setImageResolution(300,300) ; // it change only image density.
+        $imagick->setImageResolution(72,72) ; // it change only image density.
 
-        $getimagreso = $imagick->getImageResolution();
+        // $getimagreso = $imagick->getImageResolution();
         // dd($getimagreso['x']);
         // dd($getimagreso['y']);
 
@@ -175,6 +180,10 @@ class SubCategoryController extends Controller
         $image = SubCategory::find($request->id);
         // dd($image);
         $image->name = $request->name;
+        $image = new SubCategory;
+         if(!empty($request->input('status'))){
+            $image->status = $request->status; ;
+        }
         $image->image_title = $request->image_title;
         $image->category_id = $request->category_id;
         $image->image_price = $request->image_price;
@@ -188,15 +197,15 @@ class SubCategoryController extends Controller
 
         //pick logo from the user
 
-        $watermark = $request->file('watermark');
-        $watermark1['watermark'] = time().$watermark->getClientOriginalName();
+        // $watermark = $request->file('watermark');
+        // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
 
         // end pick logo from the user
 
         // watermark start in local folder
 
         $imgFile = Image::make($uploadedimagepicklogo->getRealPath())->resize(540, 405);       //image resize from here;
-        $watermark = Image::make($watermark->getRealPath())->opacity(50);   // watermark resize from here
+        $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
 
         $path = storage_path('app/public/subcategories').'/'.$inputResized['image'];
         $imgFile->insert($watermark, 'center')->save($path);
@@ -216,15 +225,15 @@ class SubCategoryController extends Controller
 
          //pick logo from the user
 
-         $watermark = $request->file('watermark');
-         $watermark1['watermark'] = time().$watermark->getClientOriginalName();
+        //  $watermark = $request->file('watermark');
+        //  $watermark1['watermark'] = time().$watermark->getClientOriginalName();
 
          // end pick logo from the user
 
         //watermark start in local folder
 
         $imgFilesingle = Image::make($uploadedimagesingle->getRealPath())->resize(1024, 768);       //image resize from here;
-        $watermarksingle = Image::make($watermark->getRealPath())->opacity(30);   // watermark resize from here
+        $watermarksingle = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
 
         $pathsingle = storage_path('app/public/subcategories').'/'.$inputsingle['image'];
         $imgFilesingle->insert($watermarksingle, 'center')->save($pathsingle);

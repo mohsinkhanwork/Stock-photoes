@@ -39,9 +39,15 @@ label{
         {{-- @include('admin.layouts.session_message') --}}
         <input type="hidden" value="{{ $SubCategory->id }}" name="id" >
 
+        <div class="form-group" style="width: 100%;display: flex;">
+            <label style="width: 30%;"> Aktiv? <code>*</code></label>
+            <div style="width: 70%;">
+                <input type="checkbox" style="display: block;" name="status">
+            </div>
+        </div>
 
         <div class="form-group" style="width: 100%;display: flex;">
-            <label for="name" class="form-label" style="width: 30%;"> Sub Category Name <code>*</code></label>
+            <label for="name" class="form-label" style="width: 30%;"> Unterkategorie-Name  <code>*</code></label>
             <div style="width: 70%;">
                 <input required class="form-control @error('name') is-invalid @enderror" name="name"
                        @if(old('name'))
@@ -78,27 +84,6 @@ label{
                     </span>
                 @endif
 
-            </div>
-
-        </div>
-
-        <div class="form-group" style="width: 100%;display: flex;">
-            <label for="watermark" class="col-form-label" style="width: 30%;"> Select Water Mark <code>*</code>
-            </label>
-            <div class="" style="width: 70%;">
-
-                <label for="inputTag2">
-                    <i class="fa fa-2x fa-camera" style="color: green;"></i>
-                    <input id="inputTag2" type="file"/ name="watermark">
-                    <span id="imageName2"></span>
-
-                  </label>
-
-                @if ($errors->has('watermark'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('watermark') }}</strong>
-                </span>
-            @endif
             </div>
 
         </div>

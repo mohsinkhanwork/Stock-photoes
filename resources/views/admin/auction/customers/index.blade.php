@@ -1,10 +1,17 @@
 @extends('layouts.admin')
-
 @section('content')
+<style>
+    .table td {
+        height: 28px !important;
+    }
+
+    {{--  .table th {
+        width: 33% !important;
+    }  --}}
+</style>
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
-
             </div>
         </div>
         <div class="content">
@@ -20,7 +27,6 @@
                             </a>
                             <a href="{{route('admin.customer.create_page')}}" class="btn btn-primary float-right btn-sm">Kunde erstellen</a>
                         </div>
-
                     </div>
                     <div class="card-body">
                         @if(session()->has('message'))
@@ -40,7 +46,8 @@
                                 <th style="width: 5%;">{{ __('admin-customers.table_column_title') }}</th>
                                 <th style="width: 13%;" >{{ __('admin-customers.table_column_name') }}</th>
                                 <th style="width: 13%;">{{ __('admin-customers.table_column_last_name') }}</th>
-                                <th style="width:38%;" >{{ __('admin-customers.table_column_email') }}</th>
+                                <th style="width: 19% !important;" >{{ __('admin-customers.table_column_email') }}</th>
+                                <th style="width: 11% !important; text-align: right; padding-right: 4px;" >Anzahl Fotos</th>
                                 {{--  <th class=" "  style="width: 6%; text-align: center;">Domains</th>
                                 <th class=" "  style="width: 6%; text-align: center;">Watchlist</th>
                                 <th class=" "  style="width: 6%; text-align: center;">Favoriten</th>
@@ -51,6 +58,7 @@
                             </tr>
                             </thead>
                             <tbody>
+                                <?php $i=11; ?>
                             @foreach($customers as $user)
                                 <tr>
                                     <td><p style="text-align: right;margin: 0px">{{ $loop->index+1 }}</p></td>
@@ -59,6 +67,7 @@
                                     <td>{{$user->first_name}}</td>
                                     <td>{{$user->last_name}}</td>
                                     <td>{{$user->email}}</td>
+                                    <td style="text-align: right">{{ $i++ }}</td>
                                     {{--  <td class="text-center">{{ $user->domains->count()  }}</td>
                                     <td class="text-center">{{$user->watchlist->count()}}</td>
                                     <td class="text-center">{{$user->favourite->count()}}</td>
@@ -77,7 +86,6 @@
                                         @endif
                                     </td>
                                     <td>
-
                                             <a href="{{route('admin.customer.edit', [$user->id])}}"
                                                style="cursor: pointer;color: black"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
 
