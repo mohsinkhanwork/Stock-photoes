@@ -61,22 +61,28 @@ label{
 
     <div class="card-body">
 
+        <div class="form-group" style="width: 100%;display: flex;">
+            <label style="width: 20%;"> Aktiv? <code>*</code></label>
+            <div style="width: 30%;">
+                <input type="checkbox" style="display: block;" name="status">
+            </div>
+        </div>
         <div>
             <div class="form-group" style="width: 100%;display: flex;">
-                <label for="name" class="col-form-label" style="width: 30%;"> Sub Category Name <code>*</code></label>
-                <div style="width: 70%;">
+                <label for="name" class="col-form-label" style="width: 20%;"> Unterkategorie-Name <code>*</code></label>
+                <div style="width: 30%;">
                     <input type="text" required="" class="form-control" name="name">
 
                 </div>
             </div>
 
             <div class="form-group" style="width: 100%;display: flex;">
-                <label for="image" class="col-form-label" style="width: 30%;"> Select Image <code>*</code>
+                <label for="image" class="col-form-label" style="width: 20%;"> Select Image <code>*</code>
                 </label>
-                <div style="width: 70%;">
+                <div style="width: 30%;">
 
                     <label for="inputTag">
-                        <i class="fa fa-2x fa-upload"></i>
+                        <i class="btn btn-primary" style="font-style: inherit;">choose Image</i>
                         <input id="inputTag" type="file"/ name="image">
                         <span id="imageName"></span>
 
@@ -87,10 +93,10 @@ label{
 
             </div>
 
-            <div class="form-group" style="width: 100%;display: flex;">
-                <label for="watermark" class="col-form-label" style="width: 30%;"> Select Water Mark <code>*</code>
+            {{--  <div class="form-group" style="width: 100%;display: flex;">
+                <label for="watermark" class="col-form-label" style="width: 20%;"> Select Water Mark <code>*</code>
                 </label>
-                <div style="width: 70%;">
+                <div style="width: 30%;">
 
                     <label for="inputTag2">
                         <i class="fa fa-2x fa-camera" style="color: green;"></i>
@@ -102,28 +108,28 @@ label{
                       <span class="text-danger" id="image-input-error2"></span>
                 </div>
 
-            </div>
+            </div>  --}}
 
 
             <div class="form-group" style="width: 100%;display: flex;">
-                <label for="image_title" class="col-form-label" style="width: 30%;"> Image title <code>*</code></label>
-                <div style="width: 70%;">
+                <label for="image_title" class="col-form-label" style="width: 20%;"> Image title <code>*</code></label>
+                <div style="width: 30%;">
                     <input type="text" required="" class="form-control" name="image_title">
 
                 </div>
             </div>
 
             <div class="form-group" style="width: 100%;display: flex;">
-                <label for="image_price" class="col-form-label" style="width: 30%;"> Image Price <code>*</code></label>
-                <div style="width: 70%;">
+                <label for="image_price" class="col-form-label" style="width: 20%;"> Image Price <code>*</code></label>
+                <div style="width: 30%;">
                     <input type="number" required="" class="form-control" name="image_price">
 
                 </div>
             </div>
 
             <div class="form-group" style="width: 100%;display: flex;">
-                <label for="category_id" class="col-form-label" style="width: 30%;"> Select Parent Category <code>*</code></label>
-                <div style="width: 70%;">
+                <label for="category_id" class="col-form-label" style="width: 20%;"> Select Parent Category <code>*</code></label>
+                <div style="width: 30%;">
 
                     {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 
@@ -131,17 +137,14 @@ label{
             </div>
 
         </div>
-
-
             </div>
-<div class="card-footer" style="text-align: center;">
+<div class="card-footer" style="text-align: right;">
 <a href="{{ route('admin.subcategories') }}" class="btn btn-default btn-sm filterButton" style="border-color: #ddd">
-    cancel
+    Abbrechen
 </a>
-    <button type="submit" class="btn btn-success"> Create Sub Category </button>
+    <button type="submit" class="btn btn-primary"> Unterkategorie hinzufügen/ändern </button>
 
 </div>
-
 
 </form>
         </div>

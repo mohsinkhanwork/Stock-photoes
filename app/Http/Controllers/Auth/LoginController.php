@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use App\Category;
+use App\SubCategory;
+
 
 
 class LoginController extends Controller
@@ -57,7 +60,9 @@ class LoginController extends Controller
     public function showCustomerLoginForm()
     {
         if(\auth()->guard(Customer::$guardType)->check()) return redirect()->route('home');
-        return view('auth.customer.customer_login');
+        $categories = Category::with('subcategory')->get();
+        $subcategories = SubCategory::all();
+        return view('auth.customer.customer_login', compact('categories', 'subcategories'));
     }
 
 
@@ -86,11 +91,11 @@ class LoginController extends Controller
                     'customer_id' => Auth::guard(Customer::$guardType)->id(),
                     'last_login' => $_SERVER['REMOTE_ADDR'],
                 ]);
-            
+
             $customer = Auth::guard('customer')->user();
 
             // dd($customer);
-           
+
                 if(Auth::guard('customer')->user()->lang){
                     session(['customer' => Auth::guard(Customer::$guardType)->user()]);
                     session(['preferred_lang' => Auth::guard(Customer::$guardType)->user()->lang]);
@@ -103,16 +108,16 @@ class LoginController extends Controller
                 \Session::put('customer',  $customer);
                 $request->session()->put('customer',  $customer);
 
-      
+
                 // $user = Auth::user();
                 // dd($user);
-                    
+
                 return redirect()->intended('/customer/dashboard');
-                    
+
                 // dd(session()->all());
 
                 // return redirect()->route('customer.dashboard');
-                
+
             } else {
                 /*return Redirect::route('customer.login_form')->with('loginError', 'Passwort falsch!');*/
                 return \redirect()->back()->withInput()->withErrors(['password' => 'Passwort falsch!']);

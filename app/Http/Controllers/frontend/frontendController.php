@@ -119,23 +119,39 @@ class frontendController extends Controller
     }
 
     public function pagesAbout()
+
     {
-        return view('web.products.about');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategory = SubCategory::all();
+        return view('web.products.about', compact('categories', 'subcategory'));
     }
     public function pagesContact()
     {
-        return view('web.products.contact');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategory = SubCategory::all();
+        return view('web.products.contact', compact('categories', 'subcategory'));
     }
     public function pagesCopyright()
     {
-        return view('web.products.copyright');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategory = SubCategory::all();
+        return view('web.products.copyright', compact('categories', 'subcategory'));
     }
     public function pagesLisence()
     {
-        return view('web.products.lisence');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategory = SubCategory::all();
+        return view('web.products.lisence', compact('categories', 'subcategory'));
     }
     public function pagesPrivacy()
     {
-        return view('web.products.privacy');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategory = SubCategory::all();
+        return view('web.products.privacy', compact('categories', 'subcategory'));
     }
 }

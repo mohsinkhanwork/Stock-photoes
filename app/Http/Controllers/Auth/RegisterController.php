@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use App\Category;
+use App\SubCategory;
 
 class RegisterController extends Controller
 {
@@ -103,7 +105,9 @@ class RegisterController extends Controller
     public function showCustomerRegisterForm()
     {
         if(\auth()->guard('customer')->check()) return redirect()->back();
-        return view('auth.customer.customer_register');
+        $categories = Category::with('subcategory')->get();
+        $subcategories = SubCategory::all();
+        return view('auth.customer.customer_register', compact('categories', 'subcategories'));
     }
 
 

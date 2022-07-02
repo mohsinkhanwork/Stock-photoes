@@ -1,6 +1,11 @@
 @extends('layouts.admin')
-
 @section('content')
+
+<style>
+.table td {
+    height: 28px !important;
+}
+</style>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -12,10 +17,10 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Categories</h3>
+                    <h3 class="card-title">Kategorien</h3>
                     <div class="float-right">
-                        <a href="{{ route('admin.create.categories') }}" class="btn btn-primary">
-                            create categories
+                        <a href="{{ route('admin.create.categories') }}" class="btn btn-primary" style="font-size: 13px;">
+                            Kategorie hinzufügen
                         </a>
                     </div>
                 </div>

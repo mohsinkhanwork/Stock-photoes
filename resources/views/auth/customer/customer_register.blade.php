@@ -11,7 +11,7 @@
    <div class="container-fluid tm-container-content tm-mt-60" style="padding: 30px;margin-top: -3%;">
 
             <div class="row mb-4">
-                <h1 class="text-center" style="font-size: 1.5rem;margin-top: 50px;font-weight: 400;">
+                <h1 class="text-center" style="margin-top: 50px;font-weight: 400;">
                     Create account
                 </h1>
         <div class="row">
@@ -38,7 +38,7 @@
                       <div class="form-group">
                         <input  type="text" value="{{ old('name') }}"
                             name="name" required = "requried"
-                            class="form-control @error('name') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="First Name">
+                            class="form-control @error('name') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="First Name" style="font-size: 20px;">
                     @error('name')
                         <span class="invalid-feedback error" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
                       <div class="form-group">
                         <input  type="text" value="{{ old('last_name') }}"
                                    name="last_name"
-                                   class="form-control @error('last_name') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Last Name">
+                                   class="form-control @error('last_name') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Last Name" style="font-size: 20px;">
                             @error('last_name')
                                 <span class="invalid-feedback error" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -62,7 +62,7 @@
                                    name="email"
                                     {{--oninvalid="this.setCustomValidity('E-Mail Adresse ist ung체ltig.')"
                                     oninput="this.setCustomValidity('')"--}}
-                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="{{__('auth.customer_registration_form_input_email')}}">
+                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="{{__('auth.customer_registration_form_input_email')}}" style="font-size: 20px;">
 
                             @error('email')
                             <span class="invalid-feedback error" role="alert">
@@ -76,7 +76,7 @@
                                    name="email_confirmation"
                                     {{--oninvalid="this.setCustomValidity('E-Mail Adresse stimmt nicht mit der Best채tigung 체berein.')"
                                     oninput="this.setCustomValidity('')"--}}
-                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email}">
+                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email}" style="font-size: 20px;">
 
                             @error('email_confirmation')
                             <span class="invalid-feedback error" role="alert">
@@ -96,17 +96,17 @@
                         </div>
 
                         <div class="col-12" style="padding: 0;">
-                        <button type="submit"  class="btn btn-secondary btn-sm" style="background-color:#048BA8;">Save and continue</button>
+                        <button type="submit"  class="btn btn-secondary btn-sm" style="background-color:#048BA8;font-size: 19px;">create</button>
                       </div>
 </form>
 
-                      <div class="form-group mt-4 text-center">
+                      <div class="form-group text-center">
 
-        or <span><a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 14px;">Bact to store</a></span>
+                        <span style="font-size: 18px;">  or <a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 20px;">Bact to store</a></span>
     </div>
 
 
-                   <p class="text-gray text-sm text-center"> Do you already have a customer account? <a href="{{route('customer.login_form')}}"><u>Log in here</u></a></p>
+                   <p class="text-gray text-sm text-center" style="font-size: 17px;"> Do you already have a customer account? <a href="{{route('customer.login_form')}}"><u>Log in here</u></a></p>
                 </div>
              </div>
           </div>

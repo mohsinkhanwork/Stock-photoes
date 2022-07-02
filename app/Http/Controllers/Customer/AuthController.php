@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use App\Category;
+use App\SubCategory;
 
 
 class AuthController extends Controller
@@ -24,7 +26,10 @@ class AuthController extends Controller
     public function reset_password_request_form()
     {
         if(\auth()->guard('customer')->check()) return redirect()->route('home');
-        return view('auth.customer.password.email');
+        $categories = Category::with('subcategory')->get();
+
+        $subcategories = SubCategory::all();
+        return view('auth.customer.password.email', compact('categories', 'subcategories'));
     }
 
     public function reset_password_request_validate(Request $request){
@@ -187,7 +192,7 @@ class AuthController extends Controller
         $cred['email'] = $request->email;
         $cred['password'] = $request->password;
         if (auth()->guard('customer')->attempt($cred)) {
-            
+
             $customer = Auth::guard('customer')->user();
             \Session::put('customer',  $customer);
             $request->session()->put('customer',  $customer);
