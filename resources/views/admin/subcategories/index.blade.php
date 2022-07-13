@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Sub Categories</h3>
+                    <h3 class="card-title"> Unterkategorien </h3>
                     <div class="float-right">
                         <a href="{{ route('admin.create.subcategories') }}" class="btn btn-primary" style="font-size: 13px;">
                             Unterkategorie hinzuf&#252;gen

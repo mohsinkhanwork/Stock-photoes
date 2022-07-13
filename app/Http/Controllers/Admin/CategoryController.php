@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
+use DataTables;
 
 class CategoryController extends Controller
 {
@@ -18,6 +19,41 @@ class CategoryController extends Controller
         $categories = Category::all();
 
         return view('admin.categories.index', compact('categories'));
+    }
+
+    public function getAllCatJson()
+    {
+        $leastSortRecords = Category::orderBy('sort', 'desc')->first();
+
+            return Datatables::of(Category::query())
+                    ->addColumn('id', function($row){
+
+                        return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
+
+                    })
+                    ->addColumn('status', function ($row) {
+                        if ($row->status == 'active' ) {
+                            return '<p style="text-align:center; line-height:0px; margin-bottom:0px;"><i class="fa fa-check-circle" style="font-size: 20px;color: #67b100;"></i></p>';
+                        } else {
+                            return '<p style="text-align:center; line-height:0px; margin-bottom:0px;"><i class="fa fa-times-circle" style="font-size: 20px;color: #ff0000b5;"></i></p>';
+                        }
+                    })
+                    ->addColumn('image', function ($row) {
+                        return '<div style="text-align:center; padding-left:7px;">
+                        <img src="' . asset('/storage/'.$row->image) . '" style="object-fit: cover;width: 4rem; margin-top:5px; margin-bottom:3px;"/>
+                        </div>';
+                    })
+                    ->editColumn('name', function($row){
+                        return '<p style="margin: 0px">' . $row->name . '</p>';
+                    })
+                    ->rawColumns([
+                        'id',
+                        'status',
+                        'image',
+                        'name',
+                        ])
+                    ->make(true);
+
     }
 
     /**
@@ -40,18 +76,22 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'status' => 'required',
         ]);
 
         $category = new Category;
-         $category->name = $request->name;
-         $category->status = $request->status;
+        $category->name = $request->name;
+        $category->sort = (Category::getLastSortNumber() + 1);
+
+        if($request->input('status') == 'on'){
+            $category->status = 'active';
+        } else {
+            $category->status = 'inActive';
+        }
 
          $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
-        // dd($request->file('image'));
 
         if ($request->file('image')) {
             $imagePath = $request->file('image');
@@ -63,8 +103,6 @@ class CategoryController extends Controller
           }
 
           $category->save();
-
-        // dd($request->all());
 
         return redirect()->route('admin.categories')->with('message', 'category created successfully' );
     }
@@ -104,12 +142,17 @@ class CategoryController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'status' => 'required',
         ]);
 
         $category = Category::findOrfail($request->id);
         $category->name = $request->name;
-        $category->status = $request->status;
+        $category->sort = (Category::getLastSortNumber() + 1);
+
+        if($request->input('status') == 'on'){
+            $category->status = 'active';
+        } else {
+            $category->status = 'inActive';
+        }
 
         if ($request->file('image')) {
             $imagePath = $request->file('image');

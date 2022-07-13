@@ -66,8 +66,8 @@ label{
 
                     <label for="inputTag">
                         <i class="fa fa-2x fa-camera"></i>
-                        <input id="inputTag" type="file"/ name="image">
-                        <span id="imageName"></span>
+                        <input id="inputTag" type="file"/ name="image" required>
+                        <span id="imageName" required style="font-weight: 400">No file Chosen</span>
 
                       </label>
 

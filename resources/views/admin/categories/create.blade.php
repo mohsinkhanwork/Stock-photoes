@@ -2,6 +2,19 @@
 
 @section('content')
 
+<style>
+    input{
+  display: none;
+}
+
+label{
+    cursor: pointer;
+}
+
+#imageName{
+        color: black;
+      }
+</style>
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -13,7 +26,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Kategorien hinzufügen</h3>
+                    <h3 class="card-title">Kategorien hinzuf&#252;gen</h3>
                 </div>
 
 <form method="POST" action="{{ route('admin.store.categories') }}" enctype="multipart/form-data">
@@ -24,22 +37,11 @@
         {{-- @include('admin.layouts.session_message') --}}
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> Aktiv? <code>*</code></label>
-            <div class="col-sm-4">
-                <select name="status" class="form-control">
-                    <option value="active"> Active </option>
-                    <option value="inActive"> In Active </option>
-
-                </select>
-
-                <div style="width: 30%;">
-                    <input type="checkbox" style="display: block;" value="active" name="status">
+            <div style="width: 100%;display: flex;">
+                <label class="col-sm-2 col-form-label" style="width: 20%;"> Aktiv? <code>*</code></label>
+                <div class="col-sm-4" style="width: 30%;">
+                    <input type="checkbox" style="display: block;" name="status">
                 </div>
-                @error('status')
-                    <span class="invalid-feedback error" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
             </div>
         </div>
         <div class="form-group row">
@@ -58,29 +60,46 @@
                 @enderror
             </div>
         </div>
+
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label"> Kategoriebild auswählen <code>*</code></label>
+            <label for="image" class="col-sm-2 col-form-label" style="width: 20%;"> Kategorie-Bild <code>*</code>
+            </label>
             <div class="col-sm-4">
-                <input type="file" required class="form-control @error('image') is-invalid @enderror" name="image">
-                @error('image')
-                <span class="invalid-feedback error" role="alert">
-                    <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+                <label for="inputTag">
+                    <i class="btn btn-primary" style="font-style: inherit;font-size: 14px;">Datei ausw&#0228;hlen</i>
+                    <input id="inputTag" type="file"/ name="image">
+                    <span id="imageName" style="font-weight: 400">No file Chosen</span>
+                  </label>
+                  <span class="text-danger" id="image-input-error"></span>
+                  @error('image')
+            <span class="invalid-feedback error" role="alert">
+                <strong>{{ $message }}</strong>
+                </span>
+            @enderror
             </div>
         </div>
 
+        <script>
+            let input = document.getElementById("inputTag");
+            let imageName = document.getElementById("imageName")
 
+            input.addEventListener("change", ()=>{
+                let inputImage = document.querySelector("input[type=file]").files[0];
+
+                imageName.innerText = inputImage.name;
+            })
+
+        </script>
         </div>
 
-
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-sm float-right"> Kategorie erstellen </button>
+            <a href="{{ route('admin.categories') }}" class="btn btn-default btn-sm float-right filterButton" style="border-color: #ddd">
+                Abbrechen
+            </a>
+        </div>
     </div>
-<div class="card-footer">
-    <button type="submit" class="btn btn-primary btn-sm float-right"> Kategorie erstellen </button>
-    <a href="{{ route('admin.categories') }}" class="btn btn-default btn-sm float-right filterButton" style="border-color: #ddd">
-        Abbrechen
-    </a>
-</div>
+
 
 
 </form>

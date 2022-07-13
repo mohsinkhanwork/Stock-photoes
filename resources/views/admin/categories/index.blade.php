@@ -20,47 +20,50 @@
                     <h3 class="card-title">Kategorien</h3>
                     <div class="float-right">
                         <a href="{{ route('admin.create.categories') }}" class="btn btn-primary" style="font-size: 13px;">
-                            Kategorie hinzufügen
+                            Kategorie hinzuf&#252;gen
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row"></div>
+                <table class="table table-striped table-bordered data_table_yajra" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="text-align: right; padding-right: 12px; width: 30px;">
+                                #
+                            </th>
+                            <th style="text-align: center">Aktiv?</th>
+                            <th style="text-align: center">Bild</th>
+                            <th>Name</th>
+                            <th>Sortierung</th>
+                            <th class="no-sort">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
+                    </tbody>
+                </table>
 
-            {{-- @include('admin.layouts.session_message') --}}
-            <table class="table table-striped table-bordered "style="width:100%;text-align: center;">
-         <thead>
-         <tr>
-             {{-- <th class="no-sort" style="text-align: right; padding-right: 12px; width: 30px;">#</th> --}}
-             <th style="text-align: right; padding-right: 12px; width: 30px;" class="active_column">ID</th>
-             <th>Name</th>
-             <th>Status</th>
+        <script type="text/javascript">
+            $(function () {
 
-             <th class="no-sort">Action</th>
-         </tr>
-         </thead>
-         <tbody>
-         @foreach($categories as $category)
-             <tr>
-                 {{-- <td><p style="text-align: right;margin: 0px">{{ $loop->index+1 }}</p></td> --}}
-                 <td><p style="text-align: right;margin: 0px">{{$category->id}}</p></td>
-                 <td>{{$category->name}}</td>
-                 <td>{{$category->status}}</td>
+              var table = $('.data_table_yajra').DataTable({
+                  processing: true,
+                  serverSide: true,
+                  bInfo: true,
+                  paging: false,
+                  bPaginate: false,
+                  ajax: "{{ route('admin.getAllCatJson') }}",
+                  columns: [
+                      {data: 'id', name: 'id'},
+                      {data: 'status', name: 'status'},
+                      {data: 'image', name: 'image'},
+                      {data: 'name', name: 'image'},
+                  ]
+              });
 
-                 <td>
-                     <a href="{{ route('admin.edit.categories', [$category->id] ) }}"
-                        style="cursor: pointer;color: black">
-                        <i class="fa fa-pen"></i></a>&nbsp;&nbsp;
-                     <a href="{{ route('admin.delete.categories', [$category->id]) }}" style="cursor: pointer"
-                            class="OpenModal">
-                            <i class="fa fa-trash" style="color: red;"></i></a>
-                 </td>
-             </tr>
-         @endforeach
-         </tbody>
-
-        </table>
+            });
+          </script>
                     </div>
                 </div>
             </div>

@@ -53,7 +53,7 @@ label{
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> Add sub Categories</h3>
+                    <h3 class="card-title"> Unterkategorie hinzufügen </h3>
                 </div>
 
 <form method="POST" id="upload-image-form" enctype="multipart/form-data">
@@ -84,7 +84,7 @@ label{
                     <label for="inputTag">
                         <i class="btn btn-primary" style="font-style: inherit;">choose Image</i>
                         <input id="inputTag" type="file"/ name="image">
-                        <span id="imageName"></span>
+                        <span id="imageName" style="font-weight: 400">No file Chosen</span>
 
                       </label>
 

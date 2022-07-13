@@ -10,6 +10,7 @@ class SubCategory extends Model
 
         'name',
         'image',
+        'status',
         'image_singlePage',
         'image_title',
         'image_price',

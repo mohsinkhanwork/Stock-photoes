@@ -16,32 +16,35 @@
 
     <nav class="navbar navbar-expand-lg" style="background: white;margin: 0;">
         <div style="margin-left: 0;width: 100%;display: flex;">
-            <a class="navbar-brand" href="{{ route('home') }}" style="padding: 5px;width: 33%;">
+            <a class="navbar-brand" href="{{ route('home') }}" style="padding: 5px;width: 30%;">
                 <img src="{{ asset('frontend/img/logo.png') }}">
             </a>
 
-            <div class="d-none d-lg-block" style="width: 33%;margin-top: 10px;/* padding-left: 60px; */">
+            <div class="d-none d-lg-block" style="width: 46%;margin-top: 10px;">
                 <form class="d-flex tm-search-form" style="width: 100%;font-size: 16px;">
-            <input type="search" placeholder="Search photos..." aria-label="Search" style="width: 80%;height: 28px;">
-            <button class="btn btn-outline-success tm-search-btn" style="width: 36px;height: 28px;" type="submit">
+            <input type="search" placeholder="Search photos..." aria-label="Search" style="width: 80%;height: 40px;border: 1px solid black;font-size: 14px;padding: 1%;">
+            <button class="btn btn-outline-success tm-search-btn" style="width: 45px;height: 40px;" type="submit">
                 <center><i class="fas fa-search"></i></center>
 
             </button>
         </form>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: 33%;">
-            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: 25%;justify-content: right;display: flex !important;">
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                 <li class="nav-item" style="text-align: right;">
                     <a class="" href="{{ route('customer.login_form') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">Sign in </a> <br>
                     <a class="" href="{{ route('customer.register') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">New Account</a>
                 </li>
                 <span style="font-size: 25px;padding: 4px;color: lightgray;">|</span>
                 <li class="nav-item">
-                    <a class="nav-link nav-link" href="#" style="margin-top: 10%; font-size:0.9rem;"><i style="padding-right: 5px;" class="fas fa-shopping-cart"></i>CART</a>
+                    <a class="nav-link nav-link" href="#" style="margin-top: 10%;font-size: 14px;">
+                        <i style="padding-right: 5px;" class="fas fa-shopping-cart"></i>CART
+                    </a>
                 </li>
             </ul>
+
+
             </div>
         </div>
     </nav>
@@ -76,6 +79,12 @@ a:focus {
 
 }
 
+input[type=search] {
+
+    outline-offset: 0px;
+
+}
+
 </style>
 
     <div style="background: white;padding: 25px;display: flex;">
@@ -93,8 +102,6 @@ a:focus {
                 <ul class="list-inline" style="width: 100%;">
                 @foreach ($categories as $category )
                 @if ($category->status == 'active')
-
-
                     <li class="nav-item">
                         <a href="{{ url('collections/' . $category->id . '/' . $category->name  ) }}"
                             class="nav-link {{ (\Request::is('collections/' . $category->id . '/' . $category->name  )) ? 'active' : '' }}"
@@ -113,23 +120,24 @@ a:focus {
     @yield('content')
     {{--  <!-- container-fluid, tm-container-content -->  --}}
 
+
+    <footer class="footer px-5 text-light" style="
+display: flex;
+font-size: 14px;
+background-color: #444;
+padding: 2%;">
+        <div class="col-md">
+            Copyright © 2002-2022 DAY Investments Ltd. – All rights reserved
+        </div>
+        <div class="col-auto" style="font-size: 16px">
+
+               <a href="{{ url('pages/about')}}" style="font-size: 13px;color: white"> About </a>
+               <span><span> <a href="{{ url('pages/contact')}}" style="margin-left: 5px;font-size: 13px;color: white;"> Contact </a> </span></span>
+               <span> <a href="{{ url('pages/lisence') }}" style="margin-left: 5px;font-size: 13px;color: white"> Lisence Terms </a> </span>
+               <span> <a href="{{ url('pages/copyright') }}" style="margin-left: 5px;font-size: 13px;color: white"> Copyright </a> </span>
+                <span> <a href="{{ url('pages/privacy') }}" style="margin-left: 5px;font-size: 13px;color: white"> Privacy Policy </a> </span>
+        </div>
+    </footer>
 </body>
-
-<footer class="footer px-5 text-light" style="
- display: flex;
- font-size: 16px;
- background-color: #444;padding: 1%;">
-         <div class="col-md">
-             Copyright © 2002-2022 DAY Investments Ltd. – All rights reserved
-         </div>
-         <div class="col-auto" style="font-size: 16px">
-
-                <a href="{{ url('pages/about')}}" style="font-size: 13px;color: white"> About </a>
-                <span><span> <a href="{{ url('pages/contact')}}" style="margin-left: 5px;font-size: 13px;color: white;"> Contact </a> </span></span>
-                <span> <a href="{{ url('pages/lisence') }}" style="margin-left: 5px;font-size: 13px;color: white"> Lisence Terms </a> </span>
-                <span> <a href="{{ url('pages/copyright') }}" style="margin-left: 5px;font-size: 13px;color: white"> Copyright </a> </span>
-                 <span> <a href="{{ url('pages/privacy') }}" style="margin-left: 5px;font-size: 13px;color: white"> Privacy Policy </a> </span>
-         </div>
-     </footer>
 </html>
 
