@@ -137,7 +137,7 @@ vertical-align: middle;
   <div class="row" style="margin: 2%;">
      <div class="col-md-8" style="text-align: center;background-color: #efefef;">
         @foreach ($subcategory as $subcategorySingleImage )
-        <img src="{{ asset( '/storage/subcategories/300dpiImages/'.$subcategorySingleImage->dpiImage) }}" style="width: 80%;">
+        <img src="{{ asset( '/storage/subcategories/96dpiImagesForSub/'.$subcategorySingleImage->dpiImage) }}" style="width: 80%;">
         @endforeach
     </div>
     <div class="col-md-4" style="border: 1px solid lightgray;padding: 1%;">

@@ -14,10 +14,17 @@ class Category extends Model
         'name',
         'status',
         'image',
+        'sort',
     ];
 
     public function subcategory()
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public static function getLastSortNumber()
+    {
+        $leastSortRecords = Category::orderBy('sort', 'desc')->first();
+        return $leastSortRecords->sort;
     }
 }

@@ -207,6 +207,9 @@ Route::group([
             Route::post('/update/categories', 'CategoryController@update')->name('admin.update.categories');
             Route::get('/delete-categories/{id}', 'CategoryController@destroy')->name('admin.delete.categories');
 
+
+            Route::get('/getAllCatJson', 'CategoryController@getAllCatJson')->name('admin.getAllCatJson');
+
             // sub cate //
 
             Route::get('/sub-categories', 'SubCategoryController@index')->name('admin.subcategories');
@@ -217,7 +220,6 @@ Route::group([
             Route::get('/delete-sub-categories/{id}', 'SubCategoryController@destroy')->name('admin.delete.subcategories');
 
             // Route::post('/add-watermark', 'SubCategoryController@addWatermark')->name('add-watermark');
-
             // Route::get('/testing-postcard', 'SubCategoryController@test')->name('test.postcard');
 
 
