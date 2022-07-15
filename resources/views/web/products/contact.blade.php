@@ -1,7 +1,7 @@
 @extends('layouts.web.app')
 @section('content')
 
-<div class="row">
+<div class="row" style="min-height: calc(100vh - 40px)">
     <div class="col-md-12">
 <nav aria-label="breadcrumb">
 <ol class="breadcrumb" style="padding-top: 20px;padding-left: 2%;border-bottom: 1px solid lightgray;">

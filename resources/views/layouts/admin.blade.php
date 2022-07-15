@@ -133,10 +133,10 @@
                     <li class="nav-item {{ Route::is('admin.categories') || Route::is('admin.subcategories')  ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-archway"></i>
-                            <p>
-                                Dynamische Inhalte
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
+                               <span style="font-size: 15px">
+                                Unterkategorie-Verwaltung
+                                </span>
+                                <i class="right fas fa-angle-left" style="right: 2px"></i>
                         </a>
                         <ul class="nav nav-treeview">
                              <li class="nav-item">

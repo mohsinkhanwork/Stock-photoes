@@ -12600,7 +12600,7 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
 
 .main-sidebar, .main-sidebar::before {
     transition: margin-left .3s ease-in-out, width .3s ease-in-out;
-    width: 250px
+    width: 261px
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -30,9 +30,9 @@
         </form>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: 25%;justify-content: right;display: flex !important;">
-                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-                <li class="nav-item" style="text-align: right;">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: 21%;justify-content: right;display: flex !important;">
+                <ul class="navbar-nav">
+                <li class="nav-item" style="text-align: right;padding-top: 11px;">
                     <a class="" href="{{ route('customer.login_form') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">Sign in </a> <br>
                     <a class="" href="{{ route('customer.register') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">New Account</a>
                 </li>

@@ -210,6 +210,9 @@ Route::group([
 
             Route::get('/getAllCatJson', 'CategoryController@getAllCatJson')->name('admin.getAllCatJson');
 
+            Route::post('/logo/sort-logo', 'CategoryController@sortLogo')->name('sort-logo');
+
+
             // sub cate //
 
             Route::get('/sub-categories', 'SubCategoryController@index')->name('admin.subcategories');

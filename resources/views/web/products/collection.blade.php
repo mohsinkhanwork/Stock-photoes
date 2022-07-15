@@ -80,7 +80,7 @@ a:hover h2 {
              </div>
         </div>
 
-        <div class="row">
+        <div class="row" style="min-height: calc(100vh - 40px)">
             <div class="col-md-2" style="border-right: 1px solid lightgrey;padding-left: 2%;">
                 <ul>
                    {{--  <?php $url = Request::path() ?>
@@ -92,15 +92,15 @@ a:hover h2 {
                             @endif
                         </li>  --}}
 
-                        @foreach ($categories as $category )
-                        @if ($category->status == 'active')
+                        @foreach ($subcategories as $subcategory )
+                        @if ($subcategory->status == 'active')
 
                         <li>
-                            <a href="{{ url('collections/' . $category->id . '/' . $category->name  ) }}"
-                                class="nav-link {{ (\Request::is('collections/' . $category->id . '/' . $category->name  )) ? 'active' : '' }}"
+                            <a href="{{ url('/products/singleImage/' . $subcategory->id ) }}"
+                                class="nav-link {{ (\Request::is('/products/singleImage/' . $subcategory->id )) ? 'active' : '' }}"
                                 style="font-size: 18px;padding: 0px 0px 0px 9px;"
                                 >
-                                  <span>{{$category->name}}</span>
+                                  <span>{{$subcategory->name}}</span>
                             </a>
                         </li>
 
@@ -148,17 +148,34 @@ a:hover h2 {
                         <h2 class="caption">{{ $subcategory->image_title }}</h2>
                     </figcaption>
                 </a>
-                <span style="font-size: 16.8px;color: black">
+                <p style="font-size: 16.8px;color: black">
+                    {{ $subcategory->name }}
+                </p>
+                <p style="font-size: 16.8px;color: black">
                     {{ $subcategory->image_price }}
-                </span>
+                </p>
 
               </div>
 
               @endforeach
             </div>
         </div>
-
-
         </div>
-
+        <script>
+            document.addEventListener('contextmenu', event=> event.preventDefault());
+            document.onkeydown = function(e) {
+            if(event.keyCode == 123) {
+            return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+            return false;
+            }
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+            return false;
+            }
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+            return false;
+            }
+            }
+            </script>
 @endsection

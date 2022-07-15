@@ -1,7 +1,7 @@
 @extends('layouts.web.app')
 @section('content')
-<div class="row">
-    <div class="col-md-12">
+
+
 <nav aria-label="breadcrumb">
 <ol class="breadcrumb" style="padding-top: 20px;;border-bottom: 1px solid lightgray;">
 <li class="breadcrumb-item"><a href="http://127.0.0.1:8000" style="color: black
@@ -14,16 +14,16 @@
 </ol>
 </nav>
 
-<div class="row-md-12" style="margin-top: 3%;">
-<div class="row">
-<div class="col" style="padding-left: 1%;">
+
+<div class="row" style="min-height: calc(100vh - 40px);">
+<div class="col" style="padding-left: 2%;">
 <h1 style="/* line-height: 29px; */font-size: 20px;/* font-weight: 400; */">Privacy and Data Policy</h1>
 
 </div>
 
 <div class="col-12" style="width: 100%; display:flex">
 
-    <div class="col-6" style="/* width: 49%; *//* padding-left: 1%; */margin-left: 0.5%;">
+    <div class="col-6" style="padding-left: 1.6%; */margin-left: 0.5%;">
 
         <p><span class="s1"></span><span class="s1">Last updated: 13th May 2020</span></p>
 <meta charset="utf-8">
@@ -335,20 +335,5 @@
 
 </div>
 
-
-
-
-
-
-   <!-- <script src="js/plugins.js"></script>
-    <script>
-        $(window).on("load", function() {
-            $('body').addClass('loaded');
-        });
-    </script> -->
-
-
-
-
-</div></div></div></div>
+</div>
 @endsection
