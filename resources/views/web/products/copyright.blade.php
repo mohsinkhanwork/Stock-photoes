@@ -1,8 +1,7 @@
 @extends('layouts.web.app')
 @section('content')
 
-<div class="row">
-    <div class="col-md-12">
+
 <nav aria-label="breadcrumb" style="/* border-bottom: 1px solid lightgray; */">
 <ol class="breadcrumb" style="border-bottom: 1px solid lightgray;font-size: 14px;padding-left: 1.3%;">
 <li class="breadcrumb-item"><a href="#" style="color: black;">Home</a></li>
@@ -11,13 +10,12 @@
 </ol>
 </nav>
 
-<div class="row-md-12" style="margin-top: 2%;">
-<div class="row">
+<div class="row" style="min-height: calc(100vh - 40px); margin-top: 2%;">
 <div class="col" style="/* padding-left: 2%; */margin-left: 1%;">
-<h1 style="line-height: 29px;font-size: 20px;">Copyright Notice</h1>
+<span style="line-height: 29px;font-size: 20px;padding-left: 0.7%;">Copyright Notice</span>
 
 
-<div class="col" style="padding-top: 25px;/* color: black; */">
+<div class="col" style="padding-top: 25px;padding-left: 1%;">
 <p>© 2020
 </p>
 
@@ -38,14 +36,9 @@
 <p style="font-size: 15px;">confidential information and copyright and any other right granted by operation of law which confers protection on any written, artistic or other work created by intellectual effort and all associated intangible assets created as a by-product (including market position, brands, trade names) in relation to any work, collectively referred to as the “Intellectual Property Rights”).</p>
 <p style="font-size: 15px;">Unless otherwise agreed in writing, title, ownership, rights, and all Intellectual Property Rights in any material provided or made available by the Provider, including but not limited to the Content, shall remain at all times with the Provider or its licensors.  You agree that you will not in any way question or dispute the Provider’s / its licensor’s ownership of these Intellectual Property Rights.</p><p style="font-size: 15px;">In addition, you grant to the Provider an irrevocable perpetual licence to reproduce, publish, copy or transmit any information, forms, documents or other materials uploaded by you to the Site without charge.</p>
 
-
-
 </div>
 
-
-</div></div>
-
-</div></div>
+</div>
 
 
 @endsection

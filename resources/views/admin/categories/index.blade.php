@@ -26,17 +26,38 @@
                 </div>
                 <div class="card-body">
                     <div class="row"></div>
-                <table class="table table-striped table-bordered data_table_yajra" style="width:100%">
+                <table class="table table-striped table-bordered data_table_yajra"
+                data-url="{{route('admin.getAllCatJson')}}"
+                               data-length="{{$page_length}}"
+                               data-custom-order="5"
+                               data-table-show="1"
+                               data-custom-sort-type="asc"
+                               data-table-name="logo-table"
+                style="width:100%">
                     <thead>
                         <tr>
-                            <th style="text-align: right; padding-right: 12px; width: 30px;">
-                                #
-                            </th>
-                            <th style="text-align: center">Aktiv?</th>
-                            <th style="text-align: center">Bild</th>
-                            <th>Name</th>
-                            <th>Sortierung</th>
-                            <th class="no-sort">Action</th>
+
+                            @foreach($columns as $column_key=>$column_val)
+                            <th data-column="{{$column_key}}"
+                            @if($column_val['name'] == '#')
+                            style="text-align: right !important; padding-right: 6px; width:20px;"
+                            @endif
+                            @if($column_val['name'] == 'Aktiv?')
+                            style="text-align: center !important; width:50px; padding-left: 12px !important;"
+                            @endif
+                            @if($column_val['name'] == 'Aktion')
+                            style="width:50px;"
+                            @endif
+                            @if($column_val['name'] == 'Sortierung')
+                            style="width:70px;"
+                            @endif
+                            @if($column_val['name'] == 'Bild')
+                            style="text-align: center !important; width:120px; padding-left: 12px !important;"
+                            @endif
+                            @if(!$column_val['sort']) class="no-sort" @endif
+                            data-sort="{{$column_val['sort']}}">{!! $column_val['name'] !!}
+                        </th>
+                        @endforeach
                         </tr>
                     </thead>
                     <tbody>
@@ -44,7 +65,7 @@
                     </tbody>
                 </table>
 
-        <script type="text/javascript">
+        {{--  <script type="text/javascript">
             $(function () {
 
               var table = $('.data_table_yajra').DataTable({
@@ -55,15 +76,18 @@
                   bPaginate: false,
                   ajax: "{{ route('admin.getAllCatJson') }}",
                   columns: [
-                      {data: 'id', name: 'id'},
-                      {data: 'status', name: 'status'},
-                      {data: 'image', name: 'image'},
-                      {data: 'name', name: 'image'},
+                    {data: 'id', name: 'id'},
+                    {data: 'status', name: 'status'},
+                    {data: 'image', name: 'image'},
+                    {data: 'name', name: 'name'},
+                    {data: 'sort',name: 'sort'},
+                    {data: 'action', name: 'action'},
+
                   ]
               });
 
             });
-          </script>
+          </script>  --}}
                     </div>
                 </div>
             </div>

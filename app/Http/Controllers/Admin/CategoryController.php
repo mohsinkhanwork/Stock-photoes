@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
+use App\User;
 use DataTables;
+use response;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->session_name = "logo_table";
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,20 +22,56 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        // $categories = Category::all();
+        User::clearSession($this->session_name);
+        $this->return_array['page_length'] = -1;
+        $this->return_array['columns'] = array(
+            'id' => array(
+                'name' => '#',
+                'sort' => true,
+            ),
+            'status' => array(
+                'name' => 'Aktiv?',
+                'sort' => false,
+            ),
+            'image' => array(
+                'name' => 'Bild',
+                'sort' => false,
+            ),
+            'name' => array(
+                'name' => 'Name',
+                'sort' => true,
+            ),
+            'sort' => array(
+                'name' => 'Sortierung',
+                'sort' => true,
+            ),
+            'action' => array(
+                'name' => 'Aktion',
+                'sort' => false,
+            ),
+        );
 
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index')->with($this->return_array);
+    }
+
+    public function sortLogo(Request $request)
+    {
+        $this->validate($request, [
+            'mode' => 'required',
+            'id' => 'required',
+        ]);
+
+        Category::sortLogo($request->mode, $request->id);
+        return response()->json(['error' => 0, 'message' => 'done']);
     }
 
     public function getAllCatJson()
     {
-        $leastSortRecords = Category::orderBy('sort', 'desc')->first();
-
+        $lastSorting = Category::getLastSortNumber();
             return Datatables::of(Category::query())
-                    ->addColumn('id', function($row){
-
+                    ->editColumn('id', function($row){
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
-
                     })
                     ->addColumn('status', function ($row) {
                         if ($row->status == 'active' ) {
@@ -46,11 +88,36 @@ class CategoryController extends Controller
                     ->editColumn('name', function($row){
                         return '<p style="margin: 0px">' . $row->name . '</p>';
                     })
+                    ->editColumn('sort', function ($row) use ($lastSorting) {
+                        $arrowUp = "";
+                        $arrowDown = "";
+                        if ($row->sort != '1') {
+                            $arrowUp = '<i data-url="' . route('sort-logo') . '" class="fas fa-arrow-circle-up sort" data-mode="up" data-sort="' . $row->sort . '" data-id="' . $row->id . '" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;';
+                        }
+                        if ($row->sort != $lastSorting) {
+                            $arrowDown = '<i data-url="' . route('sort-logo') . '" style="font-size: 20px;cursor: pointer;" data-mode="down" data-sort="' . $row->sort . '" data-id="' . $row->id . '" class="sort fas fa-arrow-circle-down"></i>';
+                        }
+                        return $arrowUp . $arrowDown;
+                    })
+                    ->addColumn('action', function ($row) {
+                        return '
+                        <a href="' . route('admin.edit.categories', [$row->id]) . '"
+                        style="cursor: pointer;color: black"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+                        <a href="' . route('admin.delete.categories', [$row->id]) . '"
+                        style="cursor: pointer"><i class="fa fa-trash" style="color: black"></i>
+                        </a>';
+
+                    })
+                    ->order(function ($query) {
+                        return $query->orderBy('sort', 'asc');
+                    })
                     ->rawColumns([
                         'id',
                         'status',
                         'image',
                         'name',
+                        'sort',
+                        'action',
                         ])
                     ->make(true);
 
