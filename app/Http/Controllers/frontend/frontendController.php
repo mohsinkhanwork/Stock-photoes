@@ -16,7 +16,7 @@ class frontendController extends Controller
      */
     public function home()
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategories = SubCategory::all();
 
@@ -93,14 +93,9 @@ class frontendController extends Controller
 
     public function collections(Request $request, $categoryId, $categoryName)
     {
-        // dd($categoryId);
 
-        $categories = Category::with('subcategory')->get();
-
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
         $subcategories = SubCategory::where('category_id', $categoryId)->get();
-
-        // dd($subcategories);
-
 
 
         return view('web.products.collection', compact('categories', 'subcategories','categoryName'));
@@ -109,7 +104,7 @@ class frontendController extends Controller
     public function singleImage(Request $request, $subcateid)
     {
 
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
         $subcategory = SubCategory::where('id', $subcateid)->get();
 
         // dd($subcategories);
@@ -121,35 +116,35 @@ class frontendController extends Controller
     public function pagesAbout()
 
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategory = SubCategory::all();
         return view('web.products.about', compact('categories', 'subcategory'));
     }
     public function pagesContact()
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategory = SubCategory::all();
         return view('web.products.contact', compact('categories', 'subcategory'));
     }
     public function pagesCopyright()
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategory = SubCategory::all();
         return view('web.products.copyright', compact('categories', 'subcategory'));
     }
     public function pagesLisence()
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategory = SubCategory::all();
         return view('web.products.lisence', compact('categories', 'subcategory'));
     }
     public function pagesPrivacy()
     {
-        $categories = Category::with('subcategory')->get();
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
         $subcategory = SubCategory::all();
         return view('web.products.privacy', compact('categories', 'subcategory'));

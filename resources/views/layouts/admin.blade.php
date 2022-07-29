@@ -134,7 +134,7 @@
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-archway"></i>
                                <span style="font-size: 15px">
-                                Unterkategorie-Verwaltung
+                                Dynamische Inhalte
                                 </span>
                                 <i class="right fas fa-angle-left" style="right: 2px"></i>
                         </a>

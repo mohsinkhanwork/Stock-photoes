@@ -2,7 +2,7 @@
 
 @section('content')
 
-<style>
+{{--  <style>
     input{
   display: none;
 }
@@ -18,7 +18,7 @@ label{
 #imageName2{
         color: black;
 }
-</style>
+</style>  --}}
 
 <style type="text/css">
     #page-loader {
@@ -49,6 +49,15 @@ label{
 
         </div>
     </div>
+    @if (count($errors) > 0)
+    <div class = "alert alert-danger">
+       <ul>
+          @foreach ($errors->all() as $error)
+             <li>{{ $error }}</li>
+          @endforeach
+       </ul>
+    </div>
+ @endif
     <div class="content">
         <div class="container-fluid">
             <div class="card">
@@ -76,22 +85,23 @@ label{
                 </div>
             </div>
 
-            <div class="form-group" style="width: 100%;display: flex;">
+            {{--  <div class="form-group" style="width: 100%;display: flex;">
                 <label for="image" class="col-form-label" style="width: 20%;"> Select Image <code>*</code>
                 </label>
-                <div style="width: 30%;">
+                <div style="width: 30%;">  --}}
 
-                    <label for="inputTag">
+                    {{--  <label for="inputTag">
                         <i class="btn btn-primary" style="font-style: inherit;">choose Image</i>
                         <input id="inputTag" type="file"/ name="image">
                         <span id="imageName" style="font-weight: 400">No file Chosen</span>
 
                       </label>
 
-                      <span class="text-danger" id="image-input-error"></span>
+                      <span class="text-danger" id="image-input-error"></span>  --}}
+                      {{--  <input type="file" name="image" required>
                 </div>
 
-            </div>
+            </div>  --}}
 
             {{--  <div class="form-group" style="width: 100%;display: flex;">
                 <label for="watermark" class="col-form-label" style="width: 20%;"> Select Water Mark <code>*</code>
@@ -151,7 +161,7 @@ label{
     </div>
 </div>
 
-<script>
+{{--  <script>
     let input = document.getElementById("inputTag");
     let imageName = document.getElementById("imageName")
 
@@ -170,7 +180,7 @@ label{
 
         imageName2.innerText = inputImage2.name;
     })
-</script>
+</script>  --}}
 
 
 <script>

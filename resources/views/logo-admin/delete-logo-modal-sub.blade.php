@@ -1,6 +1,6 @@
 @extends('layouts.modal-layout')
 @section('content')
-    <form action="{{route('delete-logo-process-cat')}}" method="post">
+    <form action="{{route('delete-logo-process-sub')}}" method="post">
         @csrf
         <div class="modal-body">
             <p>{{ __('admin-logo.logoDeleteConfirmationMessage') }}</p>

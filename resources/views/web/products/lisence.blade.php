@@ -18,7 +18,7 @@
 <h1 style="line-height: 29px;font-size: 20px;font-weight: 500;padding-left: 3%;">License Terms</h1>
 
 
-<div class="col" style="padding-top: 3px;padding-left: 3%;">
+<div class="col" style="padding-left: 3%;margin-top: 3%;">
 <p>Last updated: 13th May 2020
 </p>
 

@@ -50,7 +50,7 @@ ul {
     padding: 0;
 }
 .caption {
-    margin-top: -344px;
+    margin-top: -9%;
     margin-left: 107px;
     color: white;
     text-transform: uppercase;
@@ -139,6 +139,7 @@ a:hover h2 {
         <div class="row tm-mb-90 tm-gallery" style="">
 
             @foreach ($subcategories as $subcategory )
+            @if ($subcategory->status == 'active')
 
              <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5 diffScreen">
                <a href="{{ url('/products/singleImage/' . $subcategory->id ) }}">
@@ -156,12 +157,12 @@ a:hover h2 {
                 </p>
 
               </div>
-
+              @endif
               @endforeach
             </div>
         </div>
         </div>
-        <script>
+        {{--  <script>
             document.addEventListener('contextmenu', event=> event.preventDefault());
             document.onkeydown = function(e) {
             if(event.keyCode == 123) {
@@ -177,5 +178,5 @@ a:hover h2 {
             return false;
             }
             }
-            </script>
+            </script>  --}}
 @endsection

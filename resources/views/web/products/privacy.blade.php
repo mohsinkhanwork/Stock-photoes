@@ -21,11 +21,13 @@
 
 </div>
 
-<div class="col-12" style="width: 100%; display:flex">
+<div class="col-12" style="width: 100%; display:flex;margin-top: 2%;">
 
     <div class="col-6" style="padding-left: 1.6%; */margin-left: 0.5%;">
 
-        <p><span class="s1"></span><span class="s1">Last updated: 13th May 2020</span></p>
+        <p>
+            <span class="s1">Last updated: 13th May 2020</span>
+        </p>
 <meta charset="utf-8">
 <p class="p5" style="color: black;"><span class="s1" style="font-size: 14px;"><span>NZ Photos</span>&nbsp;is committed to respecting the privacy and security of information received from User(s) of our website. We have prepared this Privacy and Data Policy to ensure that we communicate to Users, in the clearest way possible, how we collect, use, disclose or transfer personal information supplied by Users or collected by us and the ways in which Users can protect their privacy. </span></p>
 <p class="p5" style="font-size: 14px;"><span class="s1" style="color: black;">By using our products and/or services, or accessing our website, Users agree to comply with the terms and conditions of this Privacy and Data Policy and agree that we may process (i.e. collect, use, store, transfer and disclose) User’s personal information in accordance with this Privacy and Data Policy (as well as for any other use authorised by the User). </span></p>

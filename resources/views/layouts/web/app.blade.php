@@ -12,7 +12,7 @@
 
 </head>
 
-<body class="loaded" style="background: #F7F7F7;overflow-x: hidden;">
+<body style="background: #F7F7F7;overflow-x: hidden;">
 
     <nav class="navbar navbar-expand-lg" style="background: white;margin: 0;">
         <div style="margin-left: 0;width: 100%;display: flex;">
@@ -64,18 +64,18 @@ a:focus {
 }
 .AllCategories {
     color: black;
-    font-size: 16px;
     display: block;
-    margin-top: 7px;
+    margin-top: 0.25%;
+    font-size: 15px;
 
 }
 
 .ActiveGreenColor {
 
     color: #048ba8;
-    font-size: 16px;
     display: block;
-    margin-top: 7px;
+    margin-top: 0.25%;
+    font-size: 15px;
 
 }
 
@@ -87,10 +87,10 @@ input[type=search] {
 
 </style>
 
-    <div style="background: white;padding: 25px;display: flex;">
+    <div style="background: white;padding: 0px 0px 0px 20px;display: flex;">
 
         @if (\Request::is('/'))
-                <a href="{{ route('home') }}" class="ActiveGreenColor">
+                <a href="{{ route('home') }}" class="ActiveGreenColor" style="font-size: 14px;color: black;">
                     All
                 </a>
         @else
@@ -105,7 +105,7 @@ input[type=search] {
                     <li class="nav-item">
                         <a href="{{ url('collections/' . $category->id . '/' . $category->name  ) }}"
                             class="nav-link {{ (\Request::is('collections/' . $category->id . '/' . $category->name  )) ? 'active' : '' }}"
-                            style="font-size: 18px;"
+                            style="font-size: 14px;color: black;"
                             >
                         {{$category->name}}
                         </a>

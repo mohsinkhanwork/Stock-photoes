@@ -209,8 +209,9 @@ Route::group([
 
 
             Route::get('/getAllCatJson', 'CategoryController@getAllCatJson')->name('admin.getAllCatJson');
-
             Route::post('/logo/sort-logo', 'CategoryController@sortLogo')->name('sort-logo');
+            Route::post('/logo/get-delete-logo-modal', 'CategoryController@getDeleteLogoModalCat')->name('get-delete-logo-modal-cat');
+            Route::post('/logo/delete-logo-process', 'CategoryController@deleteLogoProcessCat')->name('delete-logo-process-cat');
 
 
             // sub cate //
@@ -222,8 +223,11 @@ Route::group([
             Route::post('/update/sub-categories', 'SubCategoryController@update')->name('admin.update.subcategories');
             Route::get('/delete-sub-categories/{id}', 'SubCategoryController@destroy')->name('admin.delete.subcategories');
 
-            // Route::post('/add-watermark', 'SubCategoryController@addWatermark')->name('add-watermark');
-            // Route::get('/testing-postcard', 'SubCategoryController@test')->name('test.postcard');
+            Route::get('/getAllSubCatJson', 'SubCategoryController@getAllSubCatJson')->name('admin.getAllSubCatJson');
+            Route::get('/getAllSubCatJson11', 'SubCategoryController@getAllSubCatJson11')->name('admin.getAllSubCatJson11');
+            Route::post('/logo/sort-logo-sub', 'SubCategoryController@sortLogosub')->name('sort-logo-sub');
+            Route::post('/logo/get-delete-logo-modal-sub', 'SubCategoryController@getDeleteLogoModaSub')->name('get-delete-logo-modal-sub');
+            Route::post('/logo/delete-logo-process-sub', 'SubCategoryController@deleteLogoProcessSub')->name('delete-logo-process-sub');
 
 
 
