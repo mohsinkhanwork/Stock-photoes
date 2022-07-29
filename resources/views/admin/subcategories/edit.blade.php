@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 
-<style>
+{{--  <style>
     input{
   display: none;
 }
@@ -17,7 +17,7 @@ label{
 #imageName2{
         color: black;
 }
-</style>
+</style>  --}}
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -25,6 +25,15 @@ label{
 
         </div>
     </div>
+    @if (count($errors) > 0)
+         <div class = "alert alert-danger">
+            <ul>
+               @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+               @endforeach
+            </ul>
+         </div>
+      @endif
     <div class="content">
         <div class="container-fluid">
             <div class="card">
@@ -36,15 +45,17 @@ label{
     @csrf
 
     <div class="card-body">
-        {{-- @include('admin.layouts.session_message') --}}
+
         <input type="hidden" value="{{ $SubCategory->id }}" name="id" >
 
         <div class="form-group" style="width: 100%;display: flex;">
             <label style="width: 30%;"> Aktiv? <code>*</code></label>
             <div style="width: 70%;">
-                <input type="checkbox" style="display: block;" name="status">
+                <input type="checkbox" style="display: block;" name="status" @if($SubCategory->status == 'active') checked @endif>
             </div>
         </div>
+
+        <input type="hidden" name="sort" value="{{ $SubCategory->sort }}">
 
         <div class="form-group" style="width: 100%;display: flex;">
             <label for="name" class="form-label" style="width: 30%;"> Unterkategorie-Name  <code>*</code></label>
@@ -58,35 +69,27 @@ label{
             </div>
         </div>
 
-        <div class="form-group" style="width: 100%;display: flex;">
+        {{--  <div class="form-group" style="width: 100%;display: flex;">
             <label for="image" class="form-label" style="width: 30%;"> Select Image <code>*</code></label>
             <div style="width: 70%;">
 
-                <div class="" style="width: 70%;">
+                <div class="" style="width: 70%;">  --}}
 
-                    <label for="inputTag">
+                    {{--  <label for="inputTag">
                         <i class="fa fa-2x fa-camera"></i>
                         <input id="inputTag" type="file"/ name="image" required>
                         <span id="imageName" required style="font-weight: 400">No file Chosen</span>
 
-                      </label>
+                      </label>  --}}
 
-                    @if ($errors->has('image'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('image') }}</strong>
-                    </span>
-                @endif
-                </div>
+                      {{--  <input type="file" name="image">  --}}
 
-                @if ($errors->has('image'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('image') }}</strong>
-                    </span>
-                @endif
+                {{--  </div>
+
 
             </div>
 
-        </div>
+        </div>  --}}
 
         <div class="form-group" style="width: 100%;display: flex;">
           <label class="form-label" style="width: 30%;"> Image title <code>*</code></label>
@@ -120,7 +123,6 @@ label{
 
             {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 
-
         </div>
     </div>
 
@@ -141,7 +143,7 @@ label{
     </div>
 </div>
 
-<script>
+{{--  <script>
     let input = document.getElementById("inputTag");
     let imageName = document.getElementById("imageName")
 
@@ -160,6 +162,6 @@ label{
 
         imageName2.innerText = inputImage2.name;
     })
-</script>
+</script>  --}}
 
 @endsection

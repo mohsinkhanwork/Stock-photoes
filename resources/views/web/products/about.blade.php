@@ -9,7 +9,7 @@
 <div class="row" style="min-height: calc(100vh - 40px)">
     <div class="col-md-12">
 <nav aria-label="breadcrumb" style="font-size: 14px;">
-<ol class="breadcrumb" style="padding-top: 20px;border-bottom: 1px solid lightgray;padding-left: 1.3%;border-bottom-left-radius: 68;">
+<ol class="breadcrumb" style="border-bottom: 1px solid lightgray;padding: 13px 0px 9px 34px;font-size: 13px;color: lightgray;">
 <li class="breadcrumb-item">
     <a href="http://127.0.0.1:8000" style="color: black">Home</a>
 </li>
@@ -20,9 +20,9 @@
 </nav>
 
 <div class="row-md-12">
-<div class="row" style="/* width: 100%; */">
-<div class="col" style="padding-left: 1%; margin-left: 1%;">
-<h1 style="line-height: 29px;font-size: 21px;font-weight: 400;">About</h1>
+<div class="row">
+<div class="col" style="padding-left: 1.5%;margin-left: 1%;">
+<span style="line-height: 29px;font-size: 18px;font-weight: 400;margin-bottom: 2%;display: block;margin-top: 2%;color: black;">About</span>
 
 
 <div class="col" style="padding-top: 6px;">

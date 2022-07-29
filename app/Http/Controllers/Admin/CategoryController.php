@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\User;
 use DataTables;
+use MichielKempen\NovaOrderField\OrderField;
 use response;
 
 class CategoryController extends Controller
@@ -26,8 +27,12 @@ class CategoryController extends Controller
         User::clearSession($this->session_name);
         $this->return_array['page_length'] = -1;
         $this->return_array['columns'] = array(
-            'id' => array(
+            'consecutive' => array(
                 'name' => '#',
+                'sort' => false,
+            ),
+            'id' => array(
+                'name' => 'Cat-ID',
                 'sort' => true,
             ),
             'status' => array(
@@ -40,7 +45,7 @@ class CategoryController extends Controller
             ),
             'name' => array(
                 'name' => 'Name',
-                'sort' => true,
+                'sort' => false,
             ),
             'sort' => array(
                 'name' => 'Sortierung',
@@ -66,11 +71,33 @@ class CategoryController extends Controller
         return response()->json(['error' => 0, 'message' => 'done']);
     }
 
+    public function deleteLogoProcessCat(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required',
+        ]);
+        Category::deleteLogo($request->id);
+        return redirect()->back()->with('message', __('admin-logo.deleteLogoSuccessMessage'));
+    }
+
+    public function getDeleteLogoModalCat(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        $return_array['ModalTitle'] = __('admin-logo.deleteLogoModalTitle');
+        $return_array['id'] = $request->id;
+        return (string)view('logo-admin.delete-logo-modal')->with($return_array);
+    }
+
     public function getAllCatJson()
     {
         $lastSorting = Category::getLastSortNumber();
             return Datatables::of(Category::query())
-                    ->editColumn('id', function($row){
+                    ->addColumn('consecutive', function($row){
+                        return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
+                    })
+                    ->editColumn('id', function ($row) {
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
                     })
                     ->addColumn('status', function ($row) {
@@ -103,16 +130,14 @@ class CategoryController extends Controller
                         return '
                         <a href="' . route('admin.edit.categories', [$row->id]) . '"
                         style="cursor: pointer;color: black"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-                        <a href="' . route('admin.delete.categories', [$row->id]) . '"
-                        style="cursor: pointer"><i class="fa fa-trash" style="color: black"></i>
-                        </a>';
+                        <label data-href="' . route('get-delete-logo-modal-cat') . '"
+                        data-id="' . $row->id . '"
+                        data-name="get-delete-inquiry-modal" style="cursor: pointer" class="OpenModal"><i class="fa fa-trash"></i></label>';
 
-                    })
-                    ->order(function ($query) {
-                        return $query->orderBy('sort', 'asc');
                     })
                     ->rawColumns([
                         'id',
+                        'consecutive',
                         'status',
                         'image',
                         'name',
@@ -213,7 +238,8 @@ class CategoryController extends Controller
 
         $category = Category::findOrfail($request->id);
         $category->name = $request->name;
-        $category->sort = (Category::getLastSortNumber() + 1);
+        // $category->sort = (Category::getLastSortNumber() + 1);
+        $category->sort = $request->sort;
 
         if($request->input('status') == 'on'){
             $category->status = 'active';

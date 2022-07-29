@@ -4,9 +4,17 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 
-class Category extends Model
+class Category extends Model implements Sortable
 {
+    use SortableTrait;
+
+    public $sortable = [
+        'order_column_name' => 'sort',
+        'sort_when_creating' => true,
+    ];
 
     protected $fillable = [
 
@@ -19,6 +27,11 @@ class Category extends Model
     public function subcategory()
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public static function deleteLogo($id)
+    {
+        return Category::find($id)->delete();
     }
 
     public static function getLastSortNumber()

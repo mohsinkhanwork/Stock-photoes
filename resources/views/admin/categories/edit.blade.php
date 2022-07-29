@@ -39,7 +39,7 @@ label{
             <div style="width: 100%;display: flex;">
                 <label class="col-sm-2 col-form-label" style="width: 20%;"> Aktiv? <code>*</code></label>
                 <div class="col-sm-4" style="width: 30%;">
-                    <input type="checkbox" style="display: block;" name="status">
+                    <input type="checkbox" style="display: block;" name="status" @if($category->status == 'active') checked @endif>
                 </div>
             </div>
         </div>
@@ -57,6 +57,17 @@ label{
                     <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+            </div>
+        </div>
+
+        <input type="hidden" name="sort" value="{{ $category->sort }}">
+
+        <div class="form-group row">
+            <label for="image" class="col-sm-2 col-form-label"> Image <code>*</code></label>
+            <div class="col-sm-4">
+
+                <img src=" {{ asset('/storage/'.$category->image) }} " style="object-fit: cover;width: 5rem;border: 1px solid lightgrey;padding: 1%;">
+
             </div>
         </div>
 
