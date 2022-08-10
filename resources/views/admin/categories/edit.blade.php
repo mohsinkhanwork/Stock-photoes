@@ -63,16 +63,17 @@ label{
         <input type="hidden" name="sort" value="{{ $category->sort }}">
 
         <div class="form-group row">
-            <label for="image" class="col-sm-2 col-form-label"> Image <code>*</code></label>
+            <label for="image" class="col-sm-2 col-form-label"> Bild <code>*</code></label>
             <div class="col-sm-4">
 
-                <img src=" {{ asset('/storage/'.$category->image) }} " style="object-fit: cover;width: 5rem;border: 1px solid lightgrey;padding: 1%;">
+                <img src=" {{ asset('/storage/'.$category->image) }} "
+                style="object-fit: cover;width: 32.255rem;border: 1px solid lightgrey;padding: 1%;">
 
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="image" class="col-sm-2 col-form-label" style="width: 20%;"> Kategorie-Bild <code>*</code>
+            <label for="image" class="col-sm-2 col-form-label" style="width: 20%;"> Kategorie-Bild (888 x 666)  <code>*</code>
             </label>
             <div class="col-sm-4">
                 <label for="inputTag">

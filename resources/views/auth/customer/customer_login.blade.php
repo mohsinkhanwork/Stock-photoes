@@ -40,7 +40,7 @@
                       </div>
 
                         <div class="form-group">
-                        <div class="row">
+                        <div class="form-group" style="display: flex">
                         <div class="col-6">
                             <div class="icheck-primary">
                                 <span>
@@ -74,9 +74,7 @@
                       </div>
                       <div class="form-group mt-4 text-center">
 
-                        <span style="font-size: 18px;"> or <a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 20px;">
-            Back to the store
-        </a></span>
+                        {{--  <span style="font-size: 18px;"> or <a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 20px;"> Back to the store </a></span>  --}}
     </div>
 
                    </form>

@@ -43,6 +43,12 @@ class SubCategory extends Model implements Sortable
         return $leastSortRecords->sort;
     }
 
+    public static function getFirstSortNumber()
+    {
+        $leastSortRecords = SubCategory::orderBy('sort', 'asc')->first();
+        return $leastSortRecords->sort;
+    }
+
     public static function sortLogo($mode, $id)
     {
         $logo = SubCategory::find($id);

@@ -12,11 +12,38 @@
 
 </head>
 
+<style>
+
+    @media (max-width: 1326px) {
+        .logoStoc {
+            padding: 5px 5px 5px 23px;
+            width: 30%;
+
+        }
+        .mainMenuCat {
+            background: white;
+            padding: 0px 0px 0px 20px;
+            display: flex;
+        }
+    }
+
+    .logoStoc {
+        padding: 5px 5px 5px 17px;
+        width: 30%;
+    }
+    .mainMenuCat {
+        background: white;
+        padding: 0px 0px 0px 18px;
+        display: flex;
+    }
+
+</style>
+
 <body style="background: #F7F7F7;overflow-x: hidden;">
 
     <nav class="navbar navbar-expand-lg" style="background: white;margin: 0;">
         <div style="margin-left: 0;width: 100%;display: flex;">
-            <a class="navbar-brand" href="{{ route('home') }}" style="padding: 5px;width: 30%;">
+            <a class="navbar-brand logoStoc" href="{{ route('home') }}">
                 <img src="{{ asset('frontend/img/logo.png') }}">
             </a>
 
@@ -33,9 +60,14 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent" style="width: 21%;justify-content: right;display: flex !important;">
                 <ul class="navbar-nav">
                 <li class="nav-item" style="text-align: right;padding-top: 11px;">
-                    <a class="" href="{{ route('customer.login_form') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">Sign in </a> <br>
-                    <a class="" href="{{ route('customer.register') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;">New Account</a>
+                    <a href="{{ route('customer.login_form') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;padding: 0;">
+                        Sign in </a>
+                        <br />
+                        <a href="{{ route('customer.register') }}" style="color: #2f2d2e;font-size:11.9px;font-weight: 700;padding: 0;">
+                        New Account
+                    </a>
                 </li>
+
                 <span style="font-size: 25px;padding: 4px;color: lightgray;">|</span>
                 <li class="nav-item">
                     <a class="nav-link nav-link" href="#" style="margin-top: 10%;font-size: 14px;">
@@ -87,9 +119,9 @@ input[type=search] {
 
 </style>
 
-    <div style="background: white;padding: 0px 0px 0px 20px;display: flex;">
+    <div class="mainMenuCat">
 
-        @if (\Request::is('/'))
+        {{--  @if (\Request::is('/'))
                 <a href="{{ route('home') }}" class="ActiveGreenColor" style="font-size: 14px;color: black;">
                     All
                 </a>
@@ -97,7 +129,7 @@ input[type=search] {
         <a href="{{ route('home') }}" class="AllCategories">
             All
         </a>
-        @endif
+        @endif  --}}
 
                 <ul class="list-inline" style="width: 100%;">
                 @foreach ($categories as $category )

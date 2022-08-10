@@ -37,7 +37,7 @@
 
     .ActiveGreenColor {
 
-        color: #048ba8;
+        {{--  color: #048ba8;  --}}
         font-size: 16px;
         display: block;
         margin-top: 7px;
@@ -65,9 +65,13 @@ ul {
 a:hover h2 {
     display: block !important;
 }
+
+.col-lg-4 {
+    padding-right: 9px;
+}
     </style>
 
-        <div class="row" style="padding-left: 2%;padding-right: 2%;">
+        <div class="row" style="padding-left: 2%;padding-right: 2%;width: 100%;">
              <div class="col-md-12">
     <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" style="border-bottom: 1px solid lightgrey;font-size: 16px;padding: 14px 0px 15px 0px;">
@@ -80,17 +84,17 @@ a:hover h2 {
              </div>
         </div>
 
-        <div class="row" style="min-height: calc(100vh - 40px)">
+        <div class="row" style="min-height: calc(100vh - 40px); width: 100%;">
             <div class="col-md-2" style="border-right: 1px solid lightgrey;padding-left: 2%;">
                 <ul>
-                   {{--  <?php $url = Request::path() ?>
+
                         <li>
-                            @if(\Request::is('collections/*'))
-                            <a class="nav-link" href="{{ url('/' . $url ) }}" class="ActiveGreenColor" style="font-size: 18px;padding: 0px 0px 0px 9px;color: #048ba8;">
+
+                            <a class="nav-link" href="{{ url('/') }}" class="ActiveGreenColor" style="font-size: 18px;padding: 0px 0px 0px 9px;">
                                 All
                             </a>
-                            @endif
-                        </li>  --}}
+
+                        </li>
 
                         @foreach ($subcategories as $subcategory )
                         @if ($subcategory->status == 'active')
@@ -108,40 +112,43 @@ a:hover h2 {
                         @endforeach
                 </ul>
         </div>
-        <div class="col-md-10" style="padding: 0px 0px 0px 2%;">
-            <div class="row mt-3 mb-3">
-                <div class="col-6" style="font-size: 1.5rem;text-transform: capitalize;font-weight: bold;font-size: 19px;">
+        <div class="col-md-10" style="padding: 0px 0px 0px 25px;">
+            <div class="row mt-3 mb-3" style="width: 100%">
+                <div class="col-md-6" style="font-size: 1.5rem;text-transform: capitalize;font-weight: bold;font-size: 19px;">
                 {{ $categoryName }}
                 </div>
-                <div class="col" style="text-align: right;/* display: flex; */">
+            <div class="col-md-6" style="text-align: right">
+                <div>
+                    <label style="font-size: 14px;">Sort by</label>
+                    <select style="font-size: 16px;">
+                    <option>Featured</option>
+                    <option>Best Selling</option>
+                    <option>Alphabetically, A-Z</option>
+                    <option>Alphabetically, Z-A</option>
+                    <option>Price, low to high</option>
+                    <option>Price, high to low</option>
+                    <option>Date, new to old</option>
+                    <option>Date, old to new</option>
+                    </select>
 
-                <label style="font-size: 14px;">Sort by</label>
-                <select style="font-size: 16px;">
-                <option>Featured</option>
-                <option>Best Selling</option>
-                <option>Alphabetically, A-Z</option>
-                <option>Alphabetically, Z-A</option>
-                <option>Price, low to high</option>
-                <option>Price, high to low</option>
-                <option>Date, new to old</option>
-                <option>Date, old to new</option>
-                </select>
 
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
 
-                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    <a href="#" style=""><i class="fa fa-th-large" aria-hidden="true" style="color: black;"></i></a>
+                    <a href="#" style="/* margin-left: 117px; */"><i class="fa fa-list" aria-hidden="true" style="color: black;"></i></a>
 
-                <a href="#" style=""><i class="fa fa-th-large" aria-hidden="true" style="color: black;"></i></a>
-                <a href="#" style="/* margin-left: 117px; */"><i class="fa fa-list" aria-hidden="true" style="color: black;"></i></a>
                 </div>
 
             </div>
 
-        <div class="row tm-mb-90 tm-gallery" style="">
+            </div>
+
+        <div class="row tm-mb-90 tm-gallery" style="width: 100%;">
 
             @foreach ($subcategories as $subcategory )
             @if ($subcategory->status == 'active')
 
-             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5 diffScreen">
+             <div class="col-lg-4 mb-5 diffScreen">
                <a href="{{ url('/products/singleImage/' . $subcategory->id ) }}">
 
                     <img src="{{ asset( '/storage/subcategories/96dpiImagesForSub/'.$subcategory->dpiImage) }}" alt="Image" class="img-fluid" style="width: 100%">
@@ -149,12 +156,12 @@ a:hover h2 {
                         <h2 class="caption">{{ $subcategory->image_title }}</h2>
                     </figcaption>
                 </a>
-                <p style="font-size: 16.8px;color: black">
+                {{--  <p style="font-size: 16.8px;color: black">
                     {{ $subcategory->name }}
                 </p>
                 <p style="font-size: 16.8px;color: black">
                     {{ $subcategory->image_price }}
-                </p>
+                </p>  --}}
 
               </div>
               @endif
