@@ -136,7 +136,7 @@
                                <span style="font-size: 15px">
                                 Dynamische Inhalte
                                 </span>
-                                <i class="right fas fa-angle-left" style="right: 2px"></i>
+                                <i class="right fas fa-angle-left"></i>
                         </a>
                         <ul class="nav nav-treeview">
                              <li class="nav-item">

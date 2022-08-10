@@ -28,7 +28,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $subcategories = SubCategory::all();
         User::clearSession($this->session_name);
         $this->return_array['page_length'] = -1;
         $this->return_array['columns'] = array(
@@ -50,7 +50,7 @@ class SubCategoryController extends Controller
             ),
             'category_id' => array(
                 'name' => 'Übergeordnete Kategorie',
-                'sort' => true,
+                'sort' => false,
             ),
             'sort' => array(
                 'name' => 'Sortierung',
@@ -61,7 +61,7 @@ class SubCategoryController extends Controller
                 'sort' => false,
             ),
         );
-        return view('admin.subcategories.index', compact('categories'))->with($this->return_array);
+        return view('admin.subcategories.index', compact('subcategories'))->with($this->return_array);
     }
 
     public function deleteLogoProcessSub(Request $request)
@@ -96,10 +96,9 @@ class SubCategoryController extends Controller
 
     public function getAllSubCatJson(Request $request)
     {
-        $subcategories = SubCategory::all();
-        // $subcategories1 = SubCategory::with(['Category'])->;
         $lastSorting = SubCategory::getLastSortNumber();
-            return Datatables::of($subcategories)
+        $firstSorting = SubCategory::getFirstSortNumber();
+            return Datatables::of(SubCategory::query())
                     ->addColumn('consecutive', function($row){
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
                     })
@@ -119,10 +118,10 @@ class SubCategoryController extends Controller
                     ->editColumn('category_id', function($row){
                         return '<p style="margin: 0px">' . $row->Category->name . '</p>';
                     })
-                    ->editColumn('sort', function ($row) use ($lastSorting) {
+                    ->editColumn('sort', function ($row) use ($lastSorting, $firstSorting) {
                         $arrowUp = "";
                         $arrowDown = "";
-                        if ($row->sort != '1') {
+                        if ($row->sort != $firstSorting) {
                             $arrowUp = '<i data-url="' . route('sort-logo-sub') . '" class="fas fa-arrow-circle-up sort" data-mode="up" data-sort="' . $row->sort . '" data-id="' . $row->id . '" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;';
                         }
                         if ($row->sort != $lastSorting) {

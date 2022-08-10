@@ -95,8 +95,7 @@ class frontendController extends Controller
     {
 
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
-        $subcategories = SubCategory::where('category_id', $categoryId)->get();
-
+        $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
 
         return view('web.products.collection', compact('categories', 'subcategories','categoryName'));
 

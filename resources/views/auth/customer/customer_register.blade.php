@@ -8,7 +8,7 @@
 {{--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />  --}}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-   <div class="container-fluid tm-container-content tm-mt-60" style="padding: 30px;margin-top: -3%;">
+   <div class="container-fluid tm-container-content tm-mt-60" style="padding: 30px;margin-top: -3%;min-height: calc(100vh - 40px)">
 
             <div class="row mb-4">
                 <h1 class="text-center" style="margin-top: 50px;font-weight: 400;">
@@ -76,7 +76,7 @@
                                    name="email_confirmation"
                                     {{--oninvalid="this.setCustomValidity('E-Mail Adresse stimmt nicht mit der Best채tigung 체berein.')"
                                     oninput="this.setCustomValidity('')"--}}
-                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email}" style="font-size: 20px;">
+                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email" style="font-size: 20px;">
 
                             @error('email_confirmation')
                             <span class="invalid-feedback error" role="alert">
@@ -102,7 +102,7 @@
 
                       <div class="form-group text-center">
 
-                        <span style="font-size: 18px;">  or <a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 20px;">Bact to store</a></span>
+                        {{--  <span style="font-size: 18px;">  or <a class="" href="{{ url('/') }}" style="color: #048ba8;font-size: 20px;">Bact to store</a></span>  --}}
     </div>
 
 

@@ -91,7 +91,7 @@ label{
 
         </div>  --}}
 
-        <div class="form-group" style="width: 100%;display: flex;">
+        {{--  <div class="form-group" style="width: 100%;display: flex;">
           <label class="form-label" style="width: 30%;"> Image title <code>*</code></label>
           <div style="width: 70%;">
             <input required class="form-control @error('image_title') is-invalid @enderror" name="image_title"
@@ -102,9 +102,9 @@ label{
                    @endif>
 
         </div>
-      </div>
+      </div>  --}}
 
-      <div class="form-group" style="width: 100%;display: flex;">
+      {{--  <div class="form-group" style="width: 100%;display: flex;">
         <label class="form-label" style="width: 30%;"> Image Price <code>*</code></label>
         <div style="width: 70%;">
           <input required class="form-control @error('image_price') is-invalid @enderror" name="image_price"
@@ -115,7 +115,7 @@ label{
                  @endif>
 
       </div>
-    </div>
+    </div>  --}}
 
     <div class="form-group" style="width: 100%;display: flex;">
         <label for="category_id" class="form-label" style="width: 30%;"> Select Parent Category <code>*</code></label>
@@ -128,10 +128,10 @@ label{
 
 
     </div>
-    <div class="card-footer" style="text-align: center;">
+    <div class="card-footer" style="text-align: right;">
       <a href="{{ route('admin.subcategories') }}" class="btn btn-default btn-sm filterButton"
       style="border-color: #ddd">
-          cancel
+      Abbrechen
       </a>
         <button type="submit" class="btn btn-primary btn-sm"> Update </button>
 

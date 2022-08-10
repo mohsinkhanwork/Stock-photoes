@@ -70,7 +70,7 @@
                             @if($column_val['name'] == 'Aktiv?')
                             style="text-align: center !important; width:50px; padding-left: 12px !important;"
                             @endif
-                            @if($column_val['name'] == 'Cat-ID')
+                            @if($column_val['name'] == 'Kat-ID')
                             style="text-align: right; padding-right: 12px; width:52px;"
                             @endif
                             @if($column_val['name'] == 'Aktion')

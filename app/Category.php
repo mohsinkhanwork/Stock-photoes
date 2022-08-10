@@ -40,6 +40,12 @@ class Category extends Model implements Sortable
         return $leastSortRecords->sort;
     }
 
+    public static function getFirstSortNumber()
+    {
+        $leastSortRecords = Category::orderBy('sort', 'asc')->first();
+        return $leastSortRecords->sort;
+    }
+
     public static function sortLogo($mode, $id)
     {
         $logo = Category::find($id);

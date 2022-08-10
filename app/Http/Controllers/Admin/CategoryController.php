@@ -32,7 +32,7 @@ class CategoryController extends Controller
                 'sort' => false,
             ),
             'id' => array(
-                'name' => 'Cat-ID',
+                'name' => 'Kat-ID',
                 'sort' => true,
             ),
             'status' => array(
@@ -45,7 +45,7 @@ class CategoryController extends Controller
             ),
             'name' => array(
                 'name' => 'Name',
-                'sort' => false,
+                'sort' => true,
             ),
             'sort' => array(
                 'name' => 'Sortierung',
@@ -93,6 +93,7 @@ class CategoryController extends Controller
     public function getAllCatJson()
     {
         $lastSorting = Category::getLastSortNumber();
+        $firstSorting = Category::getFirstSortNumber();
             return Datatables::of(Category::query())
                     ->addColumn('consecutive', function($row){
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
@@ -115,10 +116,10 @@ class CategoryController extends Controller
                     ->editColumn('name', function($row){
                         return '<p style="margin: 0px">' . $row->name . '</p>';
                     })
-                    ->editColumn('sort', function ($row) use ($lastSorting) {
+                    ->editColumn('sort', function ($row) use ($lastSorting, $firstSorting) {
                         $arrowUp = "";
                         $arrowDown = "";
-                        if ($row->sort != '1') {
+                        if ($row->sort != $firstSorting) {
                             $arrowUp = '<i data-url="' . route('sort-logo') . '" class="fas fa-arrow-circle-up sort" data-mode="up" data-sort="' . $row->sort . '" data-id="' . $row->id . '" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;';
                         }
                         if ($row->sort != $lastSorting) {

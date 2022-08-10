@@ -38,9 +38,9 @@
                                 </span>  --}}
 
                                 <select id="yajraSearch" class="form-control">
-                                    <option value="">Übergeordnete Kategorie auswählen</option>
-                                    @foreach ($categories as $category)
-                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                    <option value="">alle Unterkategorien</option>
+                                    @foreach ($subcategories as $subcategory)
+                                    <option value="{{ $subcategory->name }}">{{ $subcategory->name }}</option>
                                     @endforeach
 
                                 </select>
@@ -73,6 +73,9 @@
 
             @foreach($columns as $column_key=>$column_val)
                             <th data-column="{{$column_key}}"
+                            @if(isset($column_val['type']))
+                            data-custom-type="{{$column_val['type']}}"
+                            @endif
                             @if($column_val['name'] == '#')
                             style="text-align: right !important; padding-right: 6px; width:25px;"
                             @endif
