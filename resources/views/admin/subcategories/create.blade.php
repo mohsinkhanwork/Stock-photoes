@@ -65,7 +65,8 @@ label{
                     <h3 class="card-title"> Unterkategorie hinzufügen </h3>
                 </div>
 
-<form method="POST" id="upload-image-form" enctype="multipart/form-data">
+{{--  <form method="POST" action="{{ route('admin.store.subcategories') }}" id="upload-image-form" enctype="multipart/form-data">  --}}
+    <form method="POST" action="{{ route('admin.store.subcategories') }}" enctype="multipart/form-data">
     @csrf
 
     <div class="card-body">
@@ -73,14 +74,14 @@ label{
         <div class="form-group" style="width: 100%;display: flex;">
             <label style="width: 20%;"> Aktiv? <code>*</code></label>
             <div style="width: 30%;">
-                <input type="checkbox" style="display: block;" name="status">
+                <input type="checkbox" style="display: block;" name="status" checked>
             </div>
         </div>
         <div>
             <div class="form-group" style="width: 100%;display: flex;">
                 <label for="name" class="col-form-label" style="width: 20%;"> Unterkategorie-Name <code>*</code></label>
                 <div style="width: 30%;">
-                    <input type="text" required="" class="form-control" name="name">
+                    <input type="text" required="" class="form-control" name="name" autofocus>
 
                 </div>
             </div>
@@ -121,38 +122,40 @@ label{
             </div>  --}}
 
 
-            <div class="form-group" style="width: 100%;display: flex;">
+            {{--  <div class="form-group" style="width: 100%;display: flex;">
                 <label for="image_title" class="col-form-label" style="width: 20%;"> Image title <code>*</code></label>
                 <div style="width: 30%;">
                     <input type="text" required="" class="form-control" name="image_title">
 
                 </div>
-            </div>
+            </div>  --}}
 
-            <div class="form-group" style="width: 100%;display: flex;">
+            {{--  <div class="form-group" style="width: 100%;display: flex;">
                 <label for="image_price" class="col-form-label" style="width: 20%;"> Image Price <code>*</code></label>
                 <div style="width: 30%;">
                     <input type="number" required="" class="form-control" name="image_price">
 
                 </div>
-            </div>
+            </div>  --}}
 
-            <div class="form-group" style="width: 100%;display: flex;">
+            <input type="hidden" name="category_id" value="{{ $category_id }}">
+
+            {{--  <div class="form-group" style="width: 100%;display: flex;">
                 <label for="category_id" class="col-form-label" style="width: 20%;"> Select Parent Category <code>*</code></label>
                 <div style="width: 30%;">
 
                     {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 
                 </div>
-            </div>
+            </div>  --}}
 
         </div>
             </div>
 <div class="card-footer" style="text-align: right;">
-<a href="{{ route('admin.subcategories') }}" class="btn btn-default btn-sm filterButton" style="border-color: #ddd">
+<a href="{{ route('admin.subcategories', [$category_name]) }}" class="btn btn-default btn-sm filterButton" style="border-color: #ddd">
     Abbrechen
 </a>
-    <button type="submit" class="btn btn-primary"> Unterkategorie hinzufügen/ändern </button>
+    <button type="submit" class="btn btn-primary btn-sm filterButton" style="font-size: 13px;"> Unterkategorie erstellen </button>
 
 </div>
 

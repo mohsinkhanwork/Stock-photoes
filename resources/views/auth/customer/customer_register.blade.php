@@ -22,7 +22,7 @@
                     @csrf
 
                       <div class="form-group col-md-4 " style="padding: 0;">
-                        <select style="border: solid 1px lightgrey;border-radius: 4px;color: grey !important;height: 6%;" data-message="Bitte w채hlen Sie die Option aus der Liste" name="title" id="data-message" class=" @error('title') is-invalid @enderror">
+                        <select style="border: solid 1px lightgrey;border-radius: 4px;color: grey !important;height: 8%;width: 33%;" data-message="Bitte w채hlen Sie die Option aus der Liste" name="title" id="data-message" class=" @error('title') is-invalid @enderror">
                                 <option value="">-</option>
                                 <option {{ old('title') == 'mr'  ? 'selected' : '' }} value="mr">Mr</option>
                                 <option {{ old('title') == 'mrs' ? 'selected' : '' }}  value="mrs">Mrs</option>

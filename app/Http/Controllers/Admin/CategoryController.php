@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\User;
-use DataTables;
+use Yajra\Datatables\Datatables;
 use MichielKempen\NovaOrderField\OrderField;
 use response;
 
@@ -87,6 +87,9 @@ class CategoryController extends Controller
         ]);
         $return_array['ModalTitle'] = __('admin-logo.deleteLogoModalTitle');
         $return_array['id'] = $request->id;
+        $category_name = Category::where('id', $return_array['id'])->value('name');
+        $return_array['name'] = $category_name;
+
         return (string)view('logo-admin.delete-logo-modal')->with($return_array);
     }
 
@@ -94,7 +97,9 @@ class CategoryController extends Controller
     {
         $lastSorting = Category::getLastSortNumber();
         $firstSorting = Category::getFirstSortNumber();
-            return Datatables::of(Category::query())
+        $all_scategories = Category::query()->orderBy('sort', 'asc')
+        ->get();
+            return Datatables::of($all_scategories)
                     ->addColumn('consecutive', function($row){
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
                     })
@@ -174,7 +179,6 @@ class CategoryController extends Controller
         $category = new Category;
         $category->name = $request->name;
         $category->sort = (Category::getLastSortNumber() + 1);
-
         if($request->input('status') == 'on'){
             $category->status = 'active';
         } else {
