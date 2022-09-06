@@ -113,7 +113,7 @@ $(function() {
             },
             columns: columns,
             columnDefs: columnDefs,
-            order: ($('.data_table_yajra').attr('data-custom-order') !== undefined) ? [parseInt($('.data_table_yajra').attr('data-custom-order')), ($('.data_table_yajra').attr('data-custom-sort-type') !== undefined) ? $('.data_table_yajra').attr('data-custom-sort-type') : 'desc'] : [1, 'desc'],
+            // order: ($('.data_table_yajra').attr('data-custom-order') !== undefined) ? [parseInt($('.data_table_yajra').attr('data-custom-order')), ($('.data_table_yajra').attr('data-custom-sort-type') !== undefined) ? $('.data_table_yajra').attr('data-custom-sort-type') : 'desc'] : [1, 'desc'],
             sScrollX: ($('.data_table_yajra').attr('data-scrollable') !== undefined) ? "100%" : false,
             sScrollXInner: ($('.data_table_yajra').attr('data-scrollable') !== undefined) ? "110%" : false,
             pageLength: parseInt($('.data_table_yajra').attr('data-length')),

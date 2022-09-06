@@ -38,7 +38,7 @@ label{
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> Edit Sub Categories</h3>
+                    <h3 class="card-title"> Unterkategorie aktualisieren</h3>
                 </div>
 
 <form method="post" action="{{route('admin.update.subcategories',  [$SubCategory->id]) }} " enctype="multipart/form-data">
@@ -117,19 +117,21 @@ label{
       </div>
     </div>  --}}
 
-    <div class="form-group" style="width: 100%;display: flex;">
+        <input type="hidden" name="category_id" value="{{ $category_id }}">
+
+    {{--  <div class="form-group" style="width: 100%;display: flex;">
         <label for="category_id" class="form-label" style="width: 30%;"> Select Parent Category <code>*</code></label>
         <div style="width: 70%;">
 
             {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 
         </div>
-    </div>
+    </div>  --}}
 
 
     </div>
     <div class="card-footer" style="text-align: right;">
-      <a href="{{ route('admin.subcategories') }}" class="btn btn-default btn-sm filterButton"
+      <a href="{{ route('admin.subcategories', [$category_name]) }}" class="btn btn-default btn-sm filterButton"
       style="border-color: #ddd">
       Abbrechen
       </a>

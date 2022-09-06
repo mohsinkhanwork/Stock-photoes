@@ -1,6 +1,7 @@
 @extends('layouts.web.app')
 @section('content')
 
+
 <style>
 
 img:hover {
@@ -36,16 +37,16 @@ a:hover h2 {
 
 </style>
 
-<div style="padding: 1%;">
+<div style="padding: 25px 25px 10px 25px;">
 
     <div class="row">
         @foreach ($categories as $category )
-
         @if ($category->status == 'active')
-        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-12 diffScreen" style="margin-bottom: 1%;">
+        <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-12 diffScreen" style="margin-bottom: 25px;padding-right: 10px;">
             <a href="{{ url('collections/' . $category->id . '/' . $category->name) }}" >
                 <figure>
-                    <img oncontextmenu=return!1 src="{{ url('/storage/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;">
+                    {{--  <img oncontextmenu=return!1 src="{{ url('/storage/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;">  --}}
+                    <img src="{{ url('/storage/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;border-radius: 6px;">
                     <figcaption class="d-flex align-items-left justify-content-left">
                         <h2 class="caption">{{ $category->name }}</h2>
                     </figcaption>
@@ -58,7 +59,7 @@ a:hover h2 {
 
 
 </div>
-<script>
+{{--  <script>
     document.addEventListener('contextmenu', event=> event.preventDefault());
     document.onkeydown = function(e) {
     if(event.keyCode == 123) {
@@ -74,6 +75,6 @@ a:hover h2 {
     return false;
     }
     }
-    </script>
+    </script>  --}}
 
 @endsection

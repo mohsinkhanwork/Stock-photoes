@@ -216,15 +216,15 @@ Route::group([
 
             // sub cate //
 
-            Route::get('/sub-categories', 'SubCategoryController@index')->name('admin.subcategories');
-            Route::get('/create/sub-categories', 'SubCategoryController@create')->name('admin.create.subcategories');
+            Route::get('/sub-categories/{category_name?}', 'SubCategoryController@index')->name('admin.subcategories');
+            Route::get('/getCatName/sub-categories/{name}', 'SubCategoryController@getCatName')->name('admin.getCatName.subcategories');
+            Route::get('/create/sub-categories/{name}', 'SubCategoryController@create')->name('admin.create.subcategories');
             Route::post('/store/sub-categories', 'SubCategoryController@store')->name('admin.store.subcategories');
-            Route::get('/edit/sub-categories/{id}', 'SubCategoryController@edit')->name('admin.edit.subcategories');
+            Route::get('/edit/sub-categories/{id}/{category_name}', 'SubCategoryController@edit')->name('admin.edit.subcategories');
             Route::post('/update/sub-categories', 'SubCategoryController@update')->name('admin.update.subcategories');
             Route::get('/delete-sub-categories/{id}', 'SubCategoryController@destroy')->name('admin.delete.subcategories');
 
             Route::get('/getAllSubCatJson', 'SubCategoryController@getAllSubCatJson')->name('admin.getAllSubCatJson');
-            Route::get('/getAllSubCatJson11', 'SubCategoryController@getAllSubCatJson11')->name('admin.getAllSubCatJson11');
             Route::post('/logo/sort-logo-sub', 'SubCategoryController@sortLogosub')->name('sort-logo-sub');
             Route::post('/logo/get-delete-logo-modal-sub', 'SubCategoryController@getDeleteLogoModaSub')->name('get-delete-logo-modal-sub');
             Route::post('/logo/delete-logo-process-sub', 'SubCategoryController@deleteLogoProcessSub')->name('delete-logo-process-sub');
@@ -232,6 +232,21 @@ Route::group([
 
 
             //
+
+            // photo section started
+
+            Route::get('/photos/{category_name?}', 'PhotoController@index')->name('admin.photos');
+            Route::get('/photos-cat-name/{name}', 'PhotoController@getCatName')->name('admin.getCatName.photos');
+            Route::get('/create/photos/{name}', 'PhotoController@create')->name('admin.create.photos');
+            Route::post('/store/photos', 'PhotoController@store')->name('admin.store.photos');
+            Route::get('/getAllPhotos', 'PhotoController@getAllPhotos')->name('admin.getAllPhotos');
+            Route::get('/edit/photos/{photo_id}/{category_name}', 'PhotoController@edit')->name('admin.edit.photos');
+            Route::post('/logo/get-delete-modal-photo', 'PhotoController@getDeleteLogoModaPhoto')->name('get-delete-modal-photo');
+            Route::post('/logo/delete-process-photo', 'PhotoController@deleteLogoProcessPhoto')->name('delete-process-photo');
+            Route::post('/update/photos', 'PhotoController@update')->name('admin.update.photos');
+
+
+            // photo ended
 
 
             //Customer part started

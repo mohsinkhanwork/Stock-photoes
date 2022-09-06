@@ -1,9 +1,9 @@
-@extends('layouts.modal-layout')
+@extends('layouts.modal-layout-cat')
 @section('content')
     <form action="{{route('delete-logo-process-cat')}}" method="post">
         @csrf
         <div class="modal-body">
-            <p>{{ __('admin-logo.logoDeleteConfirmationMessage') }}</p>
+            <p>Wollen Sie die Kategorie {{ $name }} wirklich löschen?</p>
             <input type="hidden" name="id" value="{{$id}}">
         </div>
         <div class="modal-footer">

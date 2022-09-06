@@ -28,12 +28,12 @@
     }
 
     .logoStoc {
-        padding: 5px 5px 5px 17px;
+        padding: 5px 5px 5px 16px;
         width: 30%;
     }
     .mainMenuCat {
         background: white;
-        padding: 0px 0px 0px 18px;
+        padding: 0px 0px 0px 14px;
         display: flex;
     }
 
@@ -43,14 +43,15 @@
 
     <nav class="navbar navbar-expand-lg" style="background: white;margin: 0;">
         <div style="margin-left: 0;width: 100%;display: flex;">
-            <a class="navbar-brand logoStoc" href="{{ route('home') }}">
-                <img src="{{ asset('frontend/img/logo.png') }}">
-            </a>
-
+            <div class="logoStoc">
+                <a style="float: left" href="{{ route('home') }}">
+                    <img src="{{ asset('frontend/img/logo.png') }}">
+                </a>
+            </div>
             <div class="d-none d-lg-block" style="width: 46%;margin-top: 10px;">
                 <form class="d-flex tm-search-form" style="width: 100%;font-size: 16px;">
             <input type="search" placeholder="Search photos..." aria-label="Search" style="width: 80%;height: 40px;border: 1px solid black;font-size: 14px;padding: 1%;">
-            <button class="btn btn-outline-success tm-search-btn" style="width: 45px;height: 40px;" type="submit">
+            <button class="btn btn-outline-success tm-search-btn" style="width: 45px;height: 40px;border-radius: 0px 4px 4px 0px;" type="submit">
                 <center><i class="fas fa-search"></i></center>
 
             </button>

@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{url('css/adomino-theme.min.css')}}">
     <link rel="stylesheet" href="{{url('css/adomino.css')}}">
     <script src="{{url('themes/jquery/jquery.min.js')}}"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -123,9 +123,18 @@
                     </li>  --}}
                      <li class="nav-item">
                         <a href="{{route('admin.customers')}}" class="nav-link {{ Route::is('admin.customers') ? 'active' : '' }} ">
-                            <i class="fa fa-users" aria-hidden="true" style="margin-right: 0.5rem;"></i>
+                            <i class="nav-icon fa fa-users" aria-hidden="true" style="margin-right: 0.5rem;"></i>
                             <p>
                                 Kunden
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.photos') }}" class="nav-link {{ Route::is('admin.photos') ? 'active' : '' }} ">
+                            <i class="nav-icon fas fa-image" aria-hidden="true" style="margin-right: 0.5rem;"></i>
+                            <p>
+                                Fotoverwaltung
                             </p>
                         </a>
                     </li>

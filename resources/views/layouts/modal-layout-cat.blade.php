@@ -12,7 +12,7 @@
     <div class="modal-dialog @if(isset($big_modal)) modal-lg @endif" role="document">
         <div class="modal-content">
             <div class="modal-header" style="padding-top: 5px; padding-bottom: 5px;">
-                <h5 class="modal-title" id="defaultModalLabel">Unterkategorie löschen</h5>
+                <h5 class="modal-title" id="defaultModalLabel">Kategorie löschen</h5>
             </div>
             @yield('content')
         </div>

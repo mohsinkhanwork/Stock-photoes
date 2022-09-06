@@ -40,7 +40,7 @@ label{
             <div style="width: 100%;display: flex;">
                 <label class="col-sm-2 col-form-label" style="width: 20%;"> Aktiv? <code>*</code></label>
                 <div class="col-sm-4" style="width: 30%;">
-                    <input type="checkbox" style="display: block;" name="status">
+                    <input type="checkbox" style="display: block;" name="status" checked>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ label{
         </div>
 
         <div class="form-group row">
-            <label for="image" class="col-sm-2 col-form-label" style="width: 20%;"> Kategorie-Bild <code>*</code>
+            <label for="image" class="col-sm-2 col-form-label" style="width: 20%;"> Kategorie-Bild (888 x 666) <code>*</code>
             </label>
             <div class="col-sm-4">
                 <label for="inputTag">

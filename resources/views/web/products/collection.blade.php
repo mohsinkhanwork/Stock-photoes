@@ -72,7 +72,7 @@ a:hover h2 {
     </style>
 
         <div class="row" style="padding-left: 2%;padding-right: 2%;width: 100%;">
-             <div class="col-md-12">
+             <div class="col-md-12" style="padding-left: 7px;">
     <nav aria-label="breadcrumb" >
   <ol class="breadcrumb" style="border-bottom: 1px solid lightgrey;font-size: 16px;padding: 14px 0px 15px 0px;">
     <li class="breadcrumb-item">
