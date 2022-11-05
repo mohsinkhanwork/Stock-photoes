@@ -37,7 +37,7 @@ a:hover h2 {
 
 </style>
 
-<div style="padding: 25px 25px 10px 25px;">
+<div style="padding: 20px 23px 20px 23px;background: white;">
 
     <div class="row">
         @foreach ($categories as $category )
@@ -46,7 +46,7 @@ a:hover h2 {
             <a href="{{ url('collections/' . $category->id . '/' . $category->name) }}" >
                 <figure>
                     {{--  <img oncontextmenu=return!1 src="{{ url('/storage/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;">  --}}
-                    <img src="{{ url('/storage/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;border-radius: 6px;">
+                    <img src="{{ url('/storage/categories/'. $category->image) }}" alt="Image" class="img-fluid" style="width: 100%;border-radius: 16px;">
                     <figcaption class="d-flex align-items-left justify-content-left">
                         <h2 class="caption">{{ $category->name }}</h2>
                     </figcaption>

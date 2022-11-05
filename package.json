@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "lightgallery": "^2.7.0",
         "slick-carousel": "^1.8.1"
     }
 }

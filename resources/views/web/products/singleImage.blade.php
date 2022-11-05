@@ -129,16 +129,192 @@ vertical-align: middle;
     <nav aria-label="breadcrumb" style="border-bottom: solid 1px lightgray;margin-left: 2%;font-size: 15px;">
   <ol class="breadcrumb" style="padding-left: 0;margin-bottom: 0;background: none;">
     <li class="breadcrumb-item"><a href="{{ asset('/') }}" style="color: black;">Home</a></li>
-    <li class="breadcrumb-item"><a href="#" style="color: black;">Newest</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Duck</li>
+    <li class="breadcrumb-item">
+        <a href="#" style="color: black;">{{ $category->name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ $image->description }}</li>
   </ol>
 </nav>
+<style>
+
+    .singleImage {
+        {{--  display: flex;  --}}
+        min-height: 400px; /* if you prefer */
+        text-align: center;
+        height: 535px;
+    }
+    .singleImage img {
+        margin: auto;
+            display: block;
+           /*  width: 100%;  */
+            max-width: 100%;
+            /*  object-fit: cover;  */
+    }
+
+</style>
+<style>
+    .slide-container .prev,
+.slide-container .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  /*  margin-top: -22px; */
+  padding: 16px;
+  /* color: white; */
+  font-weight: bold;
+  background: #CCCCCC;
+  font-size: 20px;
+  transition: all 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.slide-container .prev:hover,
+.slide-container .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.slide-container .prev {
+  left: 2px;
+}
+
+.slide-container .next {
+  right: 2px;
+}
+
+.dots-container {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  display: none;
+}
+
+.dots-container .dot {
+  cursor: pointer;
+  margin: 5px;
+  width: 20px;
+  height: 20px;
+  color: #333;
+  border-radius: 50%;
+  background-color: #dfd6ce;
+}
+
+.dots-container .dot.active {
+  border: 2px solid green;
+}
+
+
+.slide-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 892px;
+  margin: auto;
+  position: relative;
+}
+
+.slide-container .slide {
+  display: none;
+  width: 100%;
+}
+
+.slide-container .slide.fade {
+  animation: fade 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+.fade:not(.show) {
+    opacity: 1;
+}
+
+.slide-container .prev, .slide-container .next {
+
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    /* margin-top: -22px; */
+    padding: 16px;
+    color: white;
+    font-weight: 100;
+    background: none;
+    font-size: 34px;
+    transition: all 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
   <div class="row" style="margin: 2%;">
-     <div class="col-md-8" style="text-align: center;background-color: #efefef;">
-        @foreach ($subcategory as $subcategorySingleImage )
-        <img src="{{ asset( '/storage/subcategories/96dpiImagesForSub/'.$subcategorySingleImage->dpiImage) }}" style="width: 80%;">
-        @endforeach
+     <div class="col-md-8 SingleImage" style="background: #E8EAED;">
+        <p class="imglist">
+            <div class="slide-container">
+            {{--  @foreach($images as $image)  --}}
+            <div class="slide fade">
+                @php
+                $height = Image::make(storage_path('/app/public/photos/').$image->image)->height();
+                $width = Image::make(storage_path('/app/public/photos/').$image->image)->width();
+                @endphp
+                @if($height > $width)
+
+                {{--  portrait  --}}
+
+            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
+             <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}">
+            </a>
+            @else
+
+            {{--  landscape  --}}
+
+            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
+                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" style="width: 886px;height: 528px;">
+               </a>
+            @endif
+
+            </div>
+            {{--  @endforeach  --}}
+
+            @foreach($images as $image)
+            @php
+                $height = Image::make(storage_path('/app/public/photos/').$image->image)->height();
+                $width = Image::make(storage_path('/app/public/photos/').$image->image)->width();
+                @endphp
+            <div class="slide fade">
+
+                @if($height > $width)
+
+                {{--  portrait  --}}
+
+                <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
+                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}">
+                </a>
+             @else
+
+            {{--  landscape  --}}
+
+            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
+                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" style="width: 886px;height: 528px;">
+               </a>
+            @endif
+
+
+            </div>
+            @endforeach
+
+            <a href="#" class="prev" title="Previous">&#10094</a>
+             <a href="#" class="next" title="Next">&#10095</a>
+            </div>
+            <div class="dots-container">
+                @foreach($images as $image)
+                <span class="dot"></span>
+                @endforeach
+              </div>
+        </p>
     </div>
     <div class="col-md-4" style="border: 1px solid lightgray;padding: 1%;">
         <p style="font-size: 17px;font-weight: 500;">
@@ -266,7 +442,7 @@ vertical-align: middle;
 
          </tr>
 
-         @foreach ($subcategory as $subcategorySingleImage )
+         {{--  @foreach ($subcategory as $subcategorySingleImage )
          <tr>
             <td>Dimensions:</td>
             <td>
@@ -286,7 +462,7 @@ vertical-align: middle;
 
                 ?>
 
-                {{ round($cmwidth, 2) }} x {{ round($cmheight, 2) }} cm --}}
+                {{ round($cmwidth, 2) }} x {{ round($cmheight, 2) }} cm -
 
 
             </td>
@@ -303,16 +479,16 @@ vertical-align: middle;
             <td>Resolutions:</td>
             <td> 72 dpi </td>
          </tr>
-         {{-- <tr>
+         <tr>
             <td>Vertical resolutions:</td>
             <td> 96 dpi </td>
-         </tr> --}}
-         {{-- <tr>
+         </tr>
+        <tr>
             <td>Bit depth:</td>
             <td> 24 </td>
-         </tr> --}}
+         </tr>
 
-         @endforeach
+         @endforeach  --}}
       </tbody></table>
 
   </div>
@@ -373,5 +549,59 @@ vertical-align: middle;
             }
             </script>  --}}
 
+
+            <script>
+                let currentSlide = 0;
+const slides = document.querySelectorAll(".slide")
+const dots = document.querySelectorAll('.dot')
+
+const init = (n) => {
+  slides.forEach((slide, index) => {
+    slide.style.display = "none"
+    dots.forEach((dot, index) => {
+      dot.classList.remove("active")
+    })
+  })
+  slides[n].style.display = "block"
+  dots[n].classList.add("active")
+}
+document.addEventListener("DOMContentLoaded", init(currentSlide))
+const next = () => {
+  currentSlide >= slides.length - 1 ? currentSlide = 0 : currentSlide++
+  init(currentSlide)
+}
+
+const prev = () => {
+  currentSlide <= 0 ? currentSlide = slides.length - 1 : currentSlide--
+  init(currentSlide)
+}
+
+document.querySelector(".next").addEventListener('click', next)
+
+document.querySelector(".prev").addEventListener('click', prev)
+
+
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => {
+    console.log(currentSlide)
+    init(i)
+    currentSlide = i
+  })
+})
+
+
+            </script>
+
+            <script>
+                document.addEventListener('click', event => {
+                    const link = event.target.closest('a[href="#"]');
+
+                    if (link === null) {
+                      return;
+                    }
+
+                    event.preventDefault();
+                  });
+            </script>
 
 @endsection

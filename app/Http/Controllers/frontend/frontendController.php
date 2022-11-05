@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Category;
 use App\SubCategory;
+use App\Photo;
+
 
 class frontendController extends Controller
 {
@@ -18,9 +20,11 @@ class frontendController extends Controller
     {
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
 
-        $subcategories = SubCategory::all();
+        // $subcategories = SubCategory::all();
+        // $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
 
-        return view('web.home', compact('categories', 'subcategories'));
+
+        return view('web.home', compact('categories'));
 
     }
 
@@ -96,20 +100,47 @@ class frontendController extends Controller
 
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
         $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
+        //get all photos of this category with latest added first and paginate
+        $latestPhotos  = Photo::where('category_id', $categoryId)->orderBy('created_at', 'desc')->paginate(12);
+        // dd($latestPhotos);
 
-        return view('web.products.collection', compact('categories', 'subcategories','categoryName'));
+        return view('web.products.collection', compact('categories', 'latestPhotos' , 'categoryId' ,'subcategories','categoryName'));
 
     }
-    public function singleImage(Request $request, $subcateid)
+    //function for photo_collections
+    public function photo_collections(Request $request, $categoryId, $categoryName, $subcategoryId, $subcategoryName)
     {
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
+        $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
+        //get all photos of this category with latest added
+        $latestPhotos = Photo::where('category_id', $categoryId)->where('sub_category_id', $subcategoryId)->orderBy('created_at', 'desc')->paginate(12);
+        //if latestPhotos is empty then show message
+        if($latestPhotos->isEmpty()){
+            $message = "Keine Fotos gefunden";
+        }else{
+            $message = "";
+        }
+
+        return view('web.products.photo_collection', compact('categories', 'message' ,'latestPhotos' , 'categoryId' ,'subcategories','categoryName', 'subcategoryName'));
+
+    }
+    public function singleImage(Request $request, $categoryId,$subcategoryId, $image_id)
+    {
+        // dd($image_id, $categoryId, $subcategoryId);
+        $image         = Photo::where('id', $image_id)->orderBy('created_at', 'desc')->first();
+        $category     = Category::with('subcategory')
+        ->where('id', $image->category_id)->first();
+        // dd($category);
+        $subcategory    = SubCategory::where('id', $image->sub_category_id)->first();
+        // dd($subcategory);
 
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
-        $subcategory = SubCategory::where('id', $subcateid)->get();
+        $subcategoris = SubCategory::all();
+        //get all images based on category id
+        $images = Photo::where('category_id', $categoryId)->where('sub_category_id', $subcategoryId)->get();
+        // dd($images);
 
-        // dd($subcategories);
-
-
-        return view('web.products.singleImage', compact('categories', 'subcategory'));
+        return view('web.products.singleImage', compact('category', 'subcategory', 'categories' ,'image', 'images' ,'subcategoris'));
     }
 
     public function pagesAbout()

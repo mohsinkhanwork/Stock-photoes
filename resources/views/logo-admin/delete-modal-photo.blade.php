@@ -5,6 +5,7 @@
         <div class="modal-body">
             <p>Wollen Sie das Foto {{ $name }} wirklich löschen?</p>
             <input type="hidden" name="id" value="{{$id}}">
+            <input type="hidden" name="category_name" value="{{$category_name}}">
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default btn-sm"

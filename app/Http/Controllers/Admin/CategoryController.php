@@ -8,6 +8,10 @@ use App\Category;
 use App\User;
 use Yajra\Datatables\Datatables;
 use MichielKempen\NovaOrderField\OrderField;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Imagick;
 use response;
 
 class CategoryController extends Controller
@@ -115,7 +119,7 @@ class CategoryController extends Controller
                     })
                     ->addColumn('image', function ($row) {
                         return '<div style="text-align:center; padding-left:7px;">
-                        <img src="' . asset('/storage/'.$row->image) . '" style="object-fit: cover;width: 4rem; margin-top:5px; margin-bottom:3px;"/>
+                        <img src="' . asset('/storage/categories/'.$row->image) . '" style="object-fit: cover;width: 4rem; margin-top:5px; margin-bottom:3px;"/>
                         </div>';
                     })
                     ->editColumn('name', function($row){
@@ -173,7 +177,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:12255'],
         ]);
 
         $category = new Category;
@@ -191,14 +195,23 @@ class CategoryController extends Controller
 
 
         if ($request->file('image')) {
-            $imagePath = $request->file('image');
-            $imageName = $imagePath->getClientOriginalName();
 
-            $path = $request->file('image')->storeAs('categories', $imageName, 'public');
-            $category->image = $path;
+        $uploadedoriginalImageresol = $request->file('image');
+        $originalinputresolution = time().$uploadedoriginalImageresol->getClientOriginalName();
+        $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(510, 340);       // original image
+        $pathoriginalresolution = storage_path('/app/public/categories').'/'.$originalinputresolution;
+        $imgFileoriginalreso->save($pathoriginalresolution);
+
+        $imagick = new Imagick($pathoriginalresolution);
+
+        $imagick->setImageResolution(72,72) ; // it change only image density.
+
+        $saveImagePath = storage_path('app/public/categories/72dpiImages') . '/' . $originalinputresolution;
+        $imagick->writeImages($saveImagePath, true);
+
+        $category->image = $originalinputresolution;
 
           }
-
           $category->save();
 
         return redirect()->route('admin.categories')->with('message', 'category created successfully' );
@@ -243,7 +256,6 @@ class CategoryController extends Controller
 
         $category = Category::findOrfail($request->id);
         $category->name = $request->name;
-        // $category->sort = (Category::getLastSortNumber() + 1);
         $category->sort = $request->sort;
 
         if($request->input('status') == 'on'){
@@ -253,13 +265,30 @@ class CategoryController extends Controller
         }
 
         if ($request->file('image')) {
-            $imagePath = $request->file('image');
-            $imageName = $imagePath->getClientOriginalName();
 
-            $path = $request->file('image')->storeAs('categories', $imageName, 'public');
-            $category->image = $path;
+            $image_path           = storage_path('/app/public/categories') . '/' . $category->image;
+            if (File::exists($image_path)) {
+                File::delete($image_path);
+            }
 
-          }
+            $uploadedoriginalImageresol = $request->file('image');
+            $originalinputresolution = time().$uploadedoriginalImageresol->getClientOriginalName();
+            $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(510, 340);       // original image
+            $pathoriginalresolution = storage_path('/app/public/categories').'/'.$originalinputresolution;
+            $imgFileoriginalreso->save($pathoriginalresolution);
+
+            $imagick = new Imagick($pathoriginalresolution);
+
+            $imagick->setImageResolution(72,72) ; // it change only image density.
+
+            $saveImagePath = storage_path('app/public/categories/72dpiImages') . '/' . $originalinputresolution;
+            $imagick->writeImages($saveImagePath, true);
+
+            $category->image = $originalinputresolution;
+
+
+              }
+
 
           $category->update();
 

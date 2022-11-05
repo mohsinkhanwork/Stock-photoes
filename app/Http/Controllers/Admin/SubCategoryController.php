@@ -271,41 +271,6 @@ class SubCategoryController extends Controller
         $image->name = $request->name;
         // $image->image_title = $request->image_title;
         $image->category_id = $request->category_id;
-        // $image->image_price = $request->image_price;
-
-
-        // pick logo from local folder
-
-    //     if ($request->file('image')) {
-
-    //     $uploadedimagepicklogo = $request->file('image');
-    //     $inputResized['image'] = time().$uploadedimagepicklogo->getClientOriginalName();
-    //     // $watermark = $request->file('watermark');
-    //     // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
-    //     $imgFile = Image::make($uploadedimagepicklogo->getRealPath())->resize(500, 675);       //image resize from here;
-        // $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //     // $watermark = Image::make($watermark->getRealPath())->opacity(50);   // watermark resize from here
-    //     $path = storage_path('app/public/subcategories').'/'.$inputResized['image'];
-    //     $imgFile->insert($watermark, 'center')->save($path);
-    //     $image->image =  $inputResized['image'];
-
-    //     // // end pick logo from local
-
-    //     // // single image start
-
-    //     $uploadedimagesingle = $request->file('image');
-    //     $inputsingle['image'] = time().$uploadedimagesingle->getClientOriginalName();
-    //     // $watermark = $request->file('watermark');
-    //     // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
-    //     $imgFilesingle = Image::make($uploadedimagesingle->getRealPath())->resize(1024, 768);       //image resize from here;
-    //     $watermarksingle = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //     $pathsingle = storage_path('app/public/subcategories').'/'.$inputsingle['image'];
-    //     $imgFilesingle->insert($watermarksingle, 'center')->save($pathsingle);
-    //     $image->image_singlePage =  $inputsingle['image'];
-
-    //     // // end single image
-
-
 
     //     // // original image
 
@@ -331,11 +296,11 @@ class SubCategoryController extends Controller
     //     $pathoriginalresolution = storage_path('app/public/subcategories').'/'.$originalinputresolution['image'];
     //     $imgFileoriginalreso->insert($watermark, 'center')->save($pathoriginalresolution);
     //     $imgFileoriginalreso->save($pathoriginalresolution);
-    //     $imagick = new Imagick($pathoriginalresolution);
+        // $imagick = new Imagick($pathoriginalresolution);
 
     //     $imagick->setImageResolution(72,72) ; // it change only image density.
 
-    //     // $getimagreso = $imagick->getImageResolution();
+        // $getimagreso = $imagick->getImageResolution();
     //     // dd($getimagreso['x']);
     //     // dd($getimagreso['y']);
 
@@ -351,11 +316,6 @@ class SubCategoryController extends Controller
         $category_name = $categories->name;
         // dd($category_name);
         $image->save();
-        // return response()->json('Image uploaded successfully');
-        // return redirect()->route('admin.subcategories')->with([
-        //     'success' => 'Unterkategorie hinzugefügt',
-        //     'category_name' => $category_name
-        // ]);
 
         //
 

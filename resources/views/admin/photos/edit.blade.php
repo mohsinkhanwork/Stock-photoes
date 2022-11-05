@@ -69,43 +69,22 @@ label{
             <label for="category_id" class="col-form-label" style="width: 20%;"> Unterkategorie zuweisen <code>*</code></label>
             <div style="width: 30%;">
 
-                {!! Form::select('sub_category_id', $sub_categories, null, ['class' => 'form-control']) !!}
+                <select class="form-control" name="sub_category_id">
+                    <option value="">Bitte w&#228;hlen</option>
+                    @foreach ($sub_categories as $subcategory)
+                    <option value="{{ $subcategory->id }}" @if($photo->sub_category_id == $subcategory->id) selected @endif>{{ $subcategory->name }}</option>
+                    @endforeach
+                </select>
 
             </div>
         </div>
-
-        {{--  <div class="form-group" style="width: 100%;display: flex;">
-            <label for="category_id" class="col-form-label" style="width: 20%;"> Upload <code>*</code></label>
-           <div style="width: 30%;">
-            <div class="input-group control-group increment">
-                <input type="file" name="image[]" class="form-control">
-                <div class="input-group-btn">
-                  <button class="btn btn-primary AddMoreFiles" type="button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    mehr hinzufügen
-                </button>
-                </div>
-              </div>
-              <div class="clone hide">
-                <div class="control-group input-group" style="margin-top:10px">
-                  <input type="file" name="image[]" class="form-control">
-                  <div class="input-group-btn">
-                    <button class="btn btn-danger" type="button"><i class="glyphicon glyphicon-remove"></i>
-                        entfernen
-                    </button>
-                  </div>
-                </div>
-              </div>
-           </div>
-
-        </div>  --}}
 
         <div class="form-group" style="width: 100%;display: flex;">
             <label for="image" class="col-form-label" style="width: 20%;"> Bild <code>*</code></label>
             <div style="width: 30%;">
 
-                <img src=" {{ asset('/storage/photos/originalImage/'.$photo->original_image) }} "
-                style="object-fit: cover;width: 100%;border: 1px solid lightgrey;">
+                <img src=" {{ asset('/storage/photos/originalResized/'.$photo->originalResized) }} "
+                style="object-fit: cover;width: 32.255rem;border: 1px solid lightgrey;">
 
             </div>
         </div>
@@ -146,72 +125,6 @@ label{
         </div>
     </div>
 </div>
-
-{{--  <script type="text/javascript">
-
-    $(document).ready(function() {
-
-      $(".AddMoreFiles").click(function(){
-          var html = $(".clone").html();
-          $(".increment").after(html);
-      });
-
-      $("body").on("click",".btn-danger",function(){
-          $(this).parents(".control-group").remove();
-      });
-
-    });
-
-</script>  --}}
-
-
-{{--  <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-   $('#upload-image-form').submit(function(e) {
-       e.preventDefault();
-       let formData = new FormData(this);
-       $('#image-input-error').text('');
-       $('#image-input-error2').text('');
-
-       $.ajax({
-          type:'POST',
-          url: "{{ route('admin.store.subcategories') }}",
-           data: formData,
-           contentType: false,
-           processData: false,
-           success: (response) => {
-             if (response) {
-               this.reset();
-
-            swal({
-                title: "Congratualtions!",
-                text: "Image has been uploaded successfully",
-                icon: "success",
-                buttons: "OK",
-                })
-                .then((willDelete) => {
-                if (willDelete) {
-
-                    window.location.href = "{{ route('admin.subcategories') }}";
-                }
-                });
-
-             }
-           },
-           error: function(response){
-              console.log(response);
-                $('#image-input-error').text(response.responseJSON.errors.file);
-                $('#image-input-error2').text(response.responseJSON.errors.file);
-           }
-       });
-  });
-
-</script>  --}}
 
 <script>
     let input = document.getElementById("inputTag1");

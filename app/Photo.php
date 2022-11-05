@@ -13,6 +13,7 @@ class Photo extends Model
         'image',
         'status',
         'small_thumbnail',
+        'singleImage',
         'original_image',
         'description',
         'sub_category_id',

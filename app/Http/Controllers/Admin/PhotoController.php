@@ -44,11 +44,11 @@ class PhotoController extends Controller
                 'sort' => false,
             ),
             'id' => array(
-                'name' => 'Photo-ID',
+                'name' => 'Foto-ID',
                 'sort' => true,
             ),
             'image' => array(
-                'name' => 'Bild',
+                'name' => 'Foto',
                 'sort' => false,
             ),
             'status' => array(
@@ -68,7 +68,7 @@ class PhotoController extends Controller
                 'sort' => false,
             ),
             'created_at' => array(
-                'name' => 'hochgeladenes Datum',
+                'name' => 'Hochgeladenes Datum',
                 'sort' => false,
             ),
             'action' => array(
@@ -107,8 +107,11 @@ class PhotoController extends Controller
                         }
                     })
                     ->addColumn('image', function ($row) {
-                        return '<div style="text-align:center; padding-left:7px;">
-                        <img src="' . asset('/storage/photos/thumbnail/'.$row->small_thumbnail) . '" style="object-fit: cover;width: 50px;height:50px; margin-top:5px; margin-bottom:3px;"/>
+                        return '<div style="text-align:center; padding-left:7px;height: 58px;">
+                        <label data-href="' . route('get-modal-photo') . '"
+                        data-id="' . $row->id . '"
+                        data-name="get-delete-inquiry-modal" style="cursor: pointer" class="OpenModal">
+                        <img src="' . asset('/storage/photos/thumbnail/'.$row->small_thumbnail) . '" style="height:50px; margin-top:5px; margin-bottom:3px;"/></label>
                         </div>';
                     })
                     ->addColumn('description', function($row){
@@ -161,8 +164,25 @@ class PhotoController extends Controller
         $return_array['ModalTitle'] = __('admin-logo.deleteLogoModalTitle');
         $return_array['id'] = $request->id;
         $photo_description = Photo::where('id', $return_array['id'])->value('description');
+        //categories based on category_id of photo
+        $category_id = Photo::where('id', $return_array['id'])->value('category_id');
+        $category_name = Category::where('id', $category_id)->value('name');
+        //category name as return array
+        $return_array['category_name'] = $category_name;
         $return_array['name'] = $photo_description;
         return (string)view('logo-admin.delete-modal-photo')->with($return_array);
+    }
+
+     public function getLogoModaPhoto(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+
+        $photoId = $request->id;
+        $photo = Photo::where('id', $photoId)->first();
+
+        return view('logo-admin.modal-photo', compact('photo'));
     }
 
     public function deleteLogoProcessPhoto(Request $request)
@@ -171,7 +191,7 @@ class PhotoController extends Controller
             'id' => 'required',
         ]);
         Photo::deleteLogo($request->id);
-        return redirect()->back()->with('success','Foto erfolgreich gelöscht');
+        return redirect()->route('admin.photos', ['category_name' => $request->category_name])->with('success','Foto erfolgreich gelöscht');
     }
 
     /**
@@ -213,22 +233,27 @@ class PhotoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:7048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:207048',
             'description' => 'required'
         ]);
 
         if($request->hasfile('image'))
          {
-            // foreach($request->file('image') as $image)
-            // {
-                $image = $request->file('image');
-                $ImageNameresized= time().$image->getClientOriginalName();
-                $imgFileCollection = Image::make($image->getRealPath())->resize(888, 666);       //image resize from here;
-                $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);
-                $pathOfOriginalImage = storage_path('/app/public/photos/') . '/' . $ImageNameresized;
-                $imgFileCollection->insert($watermark, 'center')->save($pathOfOriginalImage);
-                // $data[] = $ImageNameCollection;
-            // }
+
+            $image = $request->file('image');
+            $ImageNameresized= time().$image->getClientOriginalName();
+            // $imgFileCollection = Image::make($image->getRealPath())->resize(888, 666);       //image resize from here;
+            $imgFileCollection = Image::make($image->getRealPath());       //image resize from here;
+            $imgFileCollection->resize(600, 340, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $height = $imgFileCollection->height();
+            $width = $imgFileCollection->width();
+            $pathOfOriginalImage = storage_path('/app/public/photos/') . '/' . $ImageNameresized;
+            $imgFileCollection->save($pathOfOriginalImage); //for collection
+
 
             //upload file for small thmbnails
             $filenamewithextension = $image->getClientOriginalName();
@@ -239,16 +264,61 @@ class PhotoController extends Controller
             $smallfilenametostore = $filename.'_small_'.time().'.'.$extension;
             //resize image in storage
             $smallthumbnailpath = storage_path('/app/public/photos/thumbnail') . '/' . $smallfilenametostore;
-            $smallthumbnail = Image::make($image->getRealPath())->resize(150, 93);
-            $smallthumbnail->save($smallthumbnailpath);
+            $smallthumbnail = Image::make($image->getRealPath());
+            $smallthumbnail->resize(150, 93, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $smallthumbnail->save($smallthumbnailpath); //for small thumbnail
 
 
             //upload file without watermark and original image
             $ImageNameOriginal= time().$image->getClientOriginalName();
             $imgFileOriginal = Image::make($image->getRealPath());       //image resize from here;
             $pathOfCollectionImage = storage_path('/app/public/photos/originalImage') . '/' . $ImageNameOriginal;
-            $imgFileOriginal->save($pathOfCollectionImage);
+            $imgFileOriginal->save($pathOfCollectionImage); //original image
 
+            //upload file with watermark and resized image with new variable single image
+            $ImageNameWatermark= time().$image->getClientOriginalName();
+            $SingleImage = Image::make($image->getRealPath())
+            ->resize(900, 500, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $pathOfWatermarkImage = storage_path('/app/public/photos/singleImage') . '/' . $ImageNameWatermark;
+            $watermarkPath = public_path('frontend/img/logo.png');
+            $watermark              = Image::make($watermarkPath)->resize(160, 30)->opacity(40);
+            $wmarkWidth             = $watermark->width();
+            $wmarkHeight            = $watermark->height();
+            $imgHeight              = $SingleImage->height();
+            $imgWidth               = $SingleImage->width();
+            $x                      = 20;
+            $y                      = 10;
+            while ($x < $imgWidth) {
+                $y = 10;
+                while($y < $imgHeight) {
+                    $SingleImage->insert($watermark, 'top-left', $x, $y);
+                    $y += $wmarkHeight+70;
+                }
+                $x += $wmarkWidth+70;
+            }
+            $SingleImage->save($pathOfWatermarkImage, 80); //for single image
+
+
+
+
+            //upload file without watermark and resized image edit images
+            $WithoutWatermarkResized= time().$image->getClientOriginalName();
+            $imgWithoutWatermarkResized = Image::make($image->getRealPath());
+            $imgWithoutWatermarkResized->resize(600, 340, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $pathOfEditOriginalImage = storage_path('/app/public/photos/originalResized') . '/' . $WithoutWatermarkResized;
+            $imgWithoutWatermarkResized->save($pathOfEditOriginalImage); //for edit show images
 
 
 
@@ -265,6 +335,10 @@ class PhotoController extends Controller
         $form->small_thumbnail =    $smallfilenametostore;
         //save original_image name in database
         $form->original_image  =    $ImageNameOriginal;
+        //save singleImage name in database of watermark
+        $form->singleImage     =    $ImageNameWatermark;
+         //save original resized image name in database
+        $form->originalResized =    $WithoutWatermarkResized;
 
         $categories = DB::table('categories')->where('id', $request->category_id)->first();
         $category_name = $categories->name;
@@ -273,7 +347,7 @@ class PhotoController extends Controller
 
 
         return redirect()->route('admin.photos', [$category_name])
-        ->with('success', 'Ihre Bilder wurden erfolgreich hinzugefügt');
+        ->with('success', 'Foto wurde erfolgreich hinzugefügt');
     }
 
     /**
@@ -302,7 +376,7 @@ class PhotoController extends Controller
         $photo = Photo::findOrfail($photo_id);
         $sub_categories = SubCategory::with('category')
         ->where('category_id',$category_id)
-        ->get()->pluck('name', 'id')->prepend('Wählen Sie', '');
+        ->get();
         return view('admin.photos.edit', compact('photo', 'sub_categories' ,'category_id', 'category_name'));
     }
 
@@ -316,7 +390,7 @@ class PhotoController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'image.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:7048',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:207048',
             'description' => 'required',
         ]);
 
@@ -334,45 +408,118 @@ class PhotoController extends Controller
 
         if($request->hasfile('image') && $request->image != '')
         {
-            $image_path = storage_path('/app/public/photos/') . '/' . $photo->image;
+            $image_path           = storage_path('/app/public/photos/') . '/' . $photo->image;
             //image path for small thumbnail
             $small_thumbnail_path = storage_path('/app/public/photos/thumbnail') . '/' . $photo->small_thumbnail;
             //image path for original image
-            $original_image_path = storage_path('/app/public/photos/originalImage') . '/' . $photo->original_image;
+            $original_image_path  = storage_path('/app/public/photos/originalImage') . '/' . $photo->original_image;
+            //image path for single image
+            $watermark_image_path    = storage_path('/app/public/photos/singleImage') . '/' . $photo->singleImage;
+            //image path for original resized image
+            $original_resized_image_path    = storage_path('/app/public/photos/OriginalResized') . '/' . $photo->originalResized;
             //if file exists delete multiple images
-            if(File::exists($image_path) && File::exists($small_thumbnail_path) && File::exists($original_image_path)) {
+            if(File::exists($image_path) && File::exists($small_thumbnail_path)
+                && File::exists($original_image_path)
+                && File::exists($watermark_image_path)
+                && File::exists($original_resized_image_path)
+                ) {
                 File::delete($image_path);
                 File::delete($small_thumbnail_path);
                 File::delete($original_image_path);
+                File::delete($watermark_image_path);
+                File::delete($original_resized_image_path);
             }
 
-            $image = $request->file('image');
-            $ImageNameCollection= time().$image->getClientOriginalName();
-            $imgFileCollection = Image::make($image->getRealPath())->resize(888, 666);       //image resize from here;
-            $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);
-            $pathCollection = storage_path('/app/public/photos/') . '/' . $ImageNameCollection;
-            $imgFileCollection->insert($watermark, 'center')->save($pathCollection);
+            $image                  = $request->file('image');
+            $ImageNameCollection    = time().$image->getClientOriginalName();
+            $imgFileCollection      = Image::make($image->getRealPath()); //image resize from here;
+            $imgFileCollection->resize(600, 340, function($constraint)
+            {
+                $constraint->aspectRatio();
 
-
+            });
+            $height = $imgFileCollection->height();
+            $width = $imgFileCollection->width();
+            $pathCollection         = storage_path('/app/public/photos/') . '/' . $ImageNameCollection;
+            $imgFileCollection->save($pathCollection);
 
 
            //upload file for small thmbnails
-           $filenamewithextension = $image->getClientOriginalName();
-           $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+           $filenamewithextension    = $image->getClientOriginalName();
+           $filename                 = pathinfo($filenamewithextension, PATHINFO_FILENAME);
            //get extension
            $extension = $image->getClientOriginalExtension();
            //filename to store
            $smallfilenametostore = $filename.'_small_'.time().'.'.$extension;
            //resize image in storage
-           $smallthumbnailpath = storage_path('/app/public/photos/thumbnail') . '/' . $smallfilenametostore;
-           $smallthumbnail = Image::make($image->getRealPath())->resize(150, 93);
+           $smallthumbnailpath      = storage_path('/app/public/photos/thumbnail') . '/' . $smallfilenametostore;
+           $smallthumbnail          = Image::make($image->getRealPath());
+            $smallthumbnail->resize(150, 93, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
            $smallthumbnail->save($smallthumbnailpath);
 
            //upload file without watermark and original image
-           $ImageNameOriginal= time().$image->getClientOriginalName();
-           $imgFileOriginal = Image::make($image->getRealPath());       //image resize from here;
-           $pathOfCollectionImage = storage_path('/app/public/photos/originalImage') . '/' . $ImageNameOriginal;
+           $ImageNameOriginal       = time().$image->getClientOriginalName();
+           $imgFileOriginal         = Image::make($image->getRealPath());       //image resize from here;
+           $pathOfCollectionImage   = storage_path('/app/public/photos/originalImage') . '/' . $ImageNameOriginal;
            $imgFileOriginal->save($pathOfCollectionImage);
+
+
+
+            //upload file with watermark and resized image with new variable single image
+            $ImageNameWatermark= time().$image->getClientOriginalName();
+            $SingleImage = Image::make($image->getRealPath())
+            ->resize(900, 500, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $pathOfWatermarkImage = storage_path('/app/public/photos/singleImage') . '/' . $ImageNameWatermark;
+            $watermarkPath = public_path('frontend/img/logo.png');
+            $watermark              = Image::make($watermarkPath)->resize(160, 30)->opacity(40);
+            $wmarkWidth             = $watermark->width();
+            $wmarkHeight            = $watermark->height();
+            $imgHeight              = $SingleImage->height();
+            $imgWidth               = $SingleImage->width();
+            $x                      = 20;
+            $y                      = 10;
+            while ($x < $imgWidth) {
+                $y = 10;
+                while($y < $imgHeight) {
+                    $SingleImage->insert($watermark, 'top-left', $x, $y);
+                    $y += $wmarkHeight+70;
+                }
+                $x += $wmarkWidth+70;
+            }
+            $SingleImage->save($pathOfWatermarkImage, 80); //for single image
+
+
+
+
+
+
+
+            //upload file without watermark and resized image edit images
+            $WithoutWatermarkResized= time().$image->getClientOriginalName();
+            $imgWithoutWatermarkResized = Image::make($image->getRealPath());
+            $imgWithoutWatermarkResized->resize(600, 340, function($constraint)
+            {
+                $constraint->aspectRatio();
+
+            });
+            $pathOfEditOriginalImage = storage_path('/app/public/photos/originalResized') . '/' . $WithoutWatermarkResized;
+            $imgWithoutWatermarkResized->save($pathOfEditOriginalImage); //for edit show images
+
+
+        } else {
+            $ImageNameCollection  = $photo->image;
+            $smallfilenametostore = $photo->small_thumbnail;
+            $ImageNameOriginal    = $photo->original_image;
+            $ImageNameWatermark   = $photo->singleImage;
+            $WithoutWatermarkResized = $photo->originalResized;
         }
 
         $photo->image           =    $ImageNameCollection;
@@ -380,13 +527,18 @@ class PhotoController extends Controller
         $photo->small_thumbnail =    $smallfilenametostore;
         //update original_image name in database
         $photo->original_image  =    $ImageNameOriginal;
+        //update singleImage name in database
+        $photo->singleImage     =    $ImageNameWatermark;
+        //update originalResized name in database
+        $photo->originalResized =    $WithoutWatermarkResized;
+
         $categories = DB::table('categories')->where('id', $request->category_id)->first();
         $category_name          =    $categories->name;
 
 
         $photo->update();
         return redirect()->route('admin.photos', [$category_name])
-        ->with('success', 'Bild wurde erfolgreich aktualisiert');
+        ->with('success', 'Foto wurde erfolgreich aktualisiert');
     }
 
     /**

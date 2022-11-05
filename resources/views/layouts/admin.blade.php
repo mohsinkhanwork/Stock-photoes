@@ -123,7 +123,7 @@
                     </li>  --}}
                      <li class="nav-item">
                         <a href="{{route('admin.customers')}}" class="nav-link {{ Route::is('admin.customers') ? 'active' : '' }} ">
-                            <i class="nav-icon fa fa-users" aria-hidden="true" style="margin-right: 0.5rem;"></i>
+                            <i class="nav-icon fa fa-users"></i>
                             <p>
                                 Kunden
                             </p>
@@ -132,7 +132,7 @@
 
                     <li class="nav-item">
                         <a href="{{ route('admin.photos') }}" class="nav-link {{ Route::is('admin.photos') ? 'active' : '' }} ">
-                            <i class="nav-icon fas fa-image" aria-hidden="true" style="margin-right: 0.5rem;"></i>
+                            <i class="nav-icon fas fa-image"></i>
                             <p>
                                 Fotoverwaltung
                             </p>

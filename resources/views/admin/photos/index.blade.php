@@ -67,11 +67,12 @@
                     data-table-show="1"
                     data-custom-sort-type="asc"
                     data-table-name="logo-table"
-            style="width:100%">
+            style="width:100%;    font-size: 13px !important;">
          <thead>
          <tr>
 
             @foreach($columns as $column_key=>$column_val)
+
                             <th data-column="{{$column_key}}"
                             @if(isset($column_val['type']))
                             data-custom-type="{{$column_val['type']}}"
@@ -79,17 +80,26 @@
                             @if($column_val['name'] == '#')
                             style="text-align: right !important; padding-right: 6px; width:25px;"
                             @endif
+                            @if($column_val['name'] == 'Foto-ID')
+                            style="width: 45px;"
+                            @endif
+                            @if($column_val['name'] == 'Foto')
+                            style="width: 153px;text-align: center;"
+                            @endif
                             @if($column_val['name'] == 'Aktiv?')
-                            style="text-align: center !important; width:50px; padding-left: 12px !important;"
+                            style="text-align: center !important; width:35px; padding-left: 12px !important;"
                             @endif
-                            @if($column_val['name'] == 'Bild')
-                            style="text-align: center !important; width:6rem; padding-left: 12px !important;"
+                            @if($column_val['name'] == 'Kategorie')
+                            style="width:140px;"
                             @endif
-                            @if($column_val['name'] == 'Photo-ID')
-                            style="text-align: right; padding-right: 12px; width:70px;"
+                            @if($column_val['name'] == 'Unterkategorie')
+                            style="width: 140px;"
+                            @endif
+                            @if($column_val['name'] == 'Hochgeladenes Datum')
+                            style="width:151px;"
                             @endif
                             @if($column_val['name'] == 'Aktion')
-                            style="width:150px;"
+                            style="width:44px;"
                             @endif
                             @if(!$column_val['sort']) class="no-sort" @endif
                             data-sort="{{$column_val['sort']}}">{!! $column_val['name'] !!}

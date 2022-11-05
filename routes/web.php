@@ -28,7 +28,7 @@ Route::post('/access/grant', 'HomeController@access_grant')->name('access_grant'
 
 // testing starts
 
-Route::get('view/image', function() {
+Route::get('testing', function() {
     return view('test.image');
 })->name('view.image');
 
@@ -48,8 +48,8 @@ Route::group([
      Route::get('/', 'frontend\frontendController@home')->name('home');
 
      Route::get('/collections/{categoryId}/{categoryName}', 'frontend\frontendController@collections')->name('collections');
-
-     Route::get('/products/singleImage/{subcateid}', 'frontend\frontendController@singleImage')->name('single.Image');
+     Route::get('/collections-photo/cat-id/{categoryId}/cat/{categoryName}/sub-id/{subcategoryId}/sub/{subcategoryName}', 'frontend\frontendController@photo_collections')->name('photo.collections');
+     Route::get('/collection/image/{categoryId}/{subcategoryId}/{image_id}', 'frontend\frontendController@singleImage')->name('single.Image');
 
 
      Route::get('/pages/about', 'frontend\frontendController@pagesAbout')->name('pages.about');
@@ -242,6 +242,7 @@ Route::group([
             Route::get('/getAllPhotos', 'PhotoController@getAllPhotos')->name('admin.getAllPhotos');
             Route::get('/edit/photos/{photo_id}/{category_name}', 'PhotoController@edit')->name('admin.edit.photos');
             Route::post('/logo/get-delete-modal-photo', 'PhotoController@getDeleteLogoModaPhoto')->name('get-delete-modal-photo');
+            Route::post('/logo/get-modal-photo', 'PhotoController@getLogoModaPhoto')->name('get-modal-photo');
             Route::post('/logo/delete-process-photo', 'PhotoController@deleteLogoProcessPhoto')->name('delete-process-photo');
             Route::post('/update/photos', 'PhotoController@update')->name('admin.update.photos');
 
