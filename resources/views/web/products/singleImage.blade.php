@@ -126,21 +126,23 @@ vertical-align: middle;
 
 
              <div class="col-md-12">
-    <nav aria-label="breadcrumb" style="border-bottom: solid 1px lightgray;margin-left: 2%;font-size: 15px;">
+    {{--  <nav aria-label="breadcrumb" style="border-bottom: solid 1px lightgray;margin-left: 2%;font-size: 15px;">
   <ol class="breadcrumb" style="padding-left: 0;margin-bottom: 0;background: none;">
     <li class="breadcrumb-item"><a href="{{ asset('/') }}" style="color: black;">Home</a></li>
     <li class="breadcrumb-item">
         <a href="#" style="color: black;">{{ $category->name }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{ $image->description }}</li>
   </ol>
-</nav>
+</nav>  --}}
 <style>
 
     .singleImage {
         {{--  display: flex;  --}}
         min-height: 400px; /* if you prefer */
         text-align: center;
-        height: 535px;
+        {{--  height: 535px;  --}}
+        position: relative;
+        display: flex;
     }
     .singleImage img {
         margin: auto;
@@ -148,175 +150,259 @@ vertical-align: middle;
            /*  width: 100%;  */
             max-width: 100%;
             /*  object-fit: cover;  */
+
+    }
+
+    .singleImage .prev {
+        position: absolute;
+    top: 45%;
+    left: 2%;
+    /* right: 6%; */
+    /* transform: translate(-50%, -50%); */
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(8,8,8);
+    color: white;
+    font-size: 25px;
+    padding: 25px 18px 27px 19px;
+    /* border: none; */
+    cursor: pointer;
+    border-radius: 5px;
+    /* text-align: center; */
+    z-index: 1;
+
+      }
+
+      .singleImage .prev:hover {
+        background-color: black;
+      }
+
+      .singleImage .next {
+        position: absolute;
+        top: 45%;
+        /* left: 0%; */
+        right: 2%;
+        /* transform: translate(-50%, -50%); */
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgb(8,8,8);
+        color: white;
+        font-size: 25px;
+        padding: 25px 18px 27px 19px;
+        /* border: none; */
+        cursor: pointer;
+        border-radius: 5px;
+        /* text-align: center; */
+    z-index: 1;
+
+    }
+
+      .singleImage .next:hover {
+        background-color: black;
+      }
+
+</style>
+
+<style>
+
+    .singleImage {
+        min-height: 400px; /* if you prefer */
+        text-align: center;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 500px;
+    }
+
+    .singleImage .image-wrapper:hover .expand-img{
+        display: block;
+    }
+
+    .singleImage .expand-img {
+        background-color: rgba(8,8,8,.6);
+    border: 1px solid hsla(0,0%,40%,.4);
+    border-radius: 5px;
+    color: #fff;
+    display: none;
+    height: 50px;
+    margin: auto;
+    padding: 12px;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 50px;
+    cursor: pointer;
+    }
+    .singleImage .expand-img img{
+        width: auto;
+        height: auto;
+    }
+    .singleImage img {
+        margin: auto;
+        display: block;
+        /*  width: 100%;  */
+        max-width: 100%;
+        /*  object-fit: cover;  */
+        max-height: 500px;
+
+    }
+
+    .singleImage .prev {
+        position: absolute;
+    top: 45%;
+    left: 2%;
+    /* right: 6%; */
+    /* transform: translate(-50%, -50%); */
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(8,8,8);
+    color: white;
+    font-size: 25px;
+    padding: 25px 18px 27px 19px;
+    /* border: none; */
+    cursor: pointer;
+    border-radius: 5px;
+    /* text-align: center; */
+    z-index: 1;
+      }
+
+      .singleImage .prev:hover {
+        background-color: black;
+      }
+
+      .singleImage .next {
+        position: absolute;
+        top: 45%;
+        /* left: 0%; */
+        right: 2%;
+        /* transform: translate(-50%, -50%); */
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgb(8,8,8);
+        color: white;
+        font-size: 25px;
+        padding: 25px 18px 27px 19px;
+        /* border: none; */
+        cursor: pointer;
+        border-radius: 5px;
+        /* text-align: center; */
+    }
+
+      .singleImage .next:hover {
+        background-color: black;
+      }
+      .image-wrapper {
+        position: relative;
+      }
+
+      #fullpage {
+        align-items: center;
+        background-color: rgba(12, 13, 13, .8);
+        display: none;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
+        left: 0;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        transition: all .25s ease-in;
+        z-index: 100;
+
+      }
+
+      #fullpage .modal-image-wrapper {
+        height: auto;
+        left: 0;
+        margin: 40px;
+        max-height: 90vh;
+        position: relative;
+        top: 0;
+        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #fullpage .modal-image-wrapper .stock-photo-image{
+        cursor: initial;
+        cursor: initial;
+        height: 90vh;
+        max-height: 90vh;
+        max-width: 90vw;
+      }
+      #fullpage .modal-image-wrapper .close-btn-icon {
+        color: #fff;
+        cursor: pointer;
+        position: absolute;
+        right: -17px;
+        top: -35px;
+        width: 34px;
+        z-index: 101;
+        font-size: 24px;
+
+      }
+
+      .singleImage .image-wrapper:hover{
+        cursor: zoom-in;
+    }
+
+    .singleImage .image-wrapper:hover .expand-img{
+        cursor: zoom-in;
+        display: block;
+    }
+    .singleImage .image-wrapper:hover{
+        cursor: zoom-in;
     }
 
 </style>
-<style>
-    .slide-container .prev,
-.slide-container .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  /*  margin-top: -22px; */
-  padding: 16px;
-  /* color: white; */
-  font-weight: bold;
-  background: #CCCCCC;
-  font-size: 20px;
-  transition: all 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
 
-.slide-container .prev:hover,
-.slide-container .next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-}
+  <div class="row" style="margin: 28px 28px 30px 28px;">
+     <div class="col-md-7 SingleImage" style="background: #E8EAED;">
 
-.slide-container .prev {
-  left: 2px;
-}
-
-.slide-container .next {
-  right: 2px;
-}
-
-.dots-container {
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  display: none;
-}
-
-.dots-container .dot {
-  cursor: pointer;
-  margin: 5px;
-  width: 20px;
-  height: 20px;
-  color: #333;
-  border-radius: 50%;
-  background-color: #dfd6ce;
-}
-
-.dots-container .dot.active {
-  border: 2px solid green;
-}
-
-
-.slide-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 892px;
-  margin: auto;
-  position: relative;
-}
-
-.slide-container .slide {
-  display: none;
-  width: 100%;
-}
-
-.slide-container .slide.fade {
-  animation: fade 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
-}
-.fade:not(.show) {
-    opacity: 1;
-}
-
-.slide-container .prev, .slide-container .next {
-
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    /* margin-top: -22px; */
-    padding: 16px;
-    color: white;
-    font-weight: 100;
-    background: none;
-    font-size: 34px;
-    transition: all 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-}
-
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.0/dist/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-
-  <div class="row" style="margin: 2%;">
-     <div class="col-md-8 SingleImage" style="background: #E8EAED;">
-        <p class="imglist">
-            <div class="slide-container">
-            {{--  @foreach($images as $image)  --}}
-            <div class="slide fade">
-                @php
-                $height = Image::make(storage_path('/app/public/photos/').$image->image)->height();
-                $width = Image::make(storage_path('/app/public/photos/').$image->image)->width();
-                @endphp
-                @if($height > $width)
-
-                {{--  portrait  --}}
-
-            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
-             <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}">
-            </a>
-            @else
-
-            {{--  landscape  --}}
-
-            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
-                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" style="width: 886px;height: 528px;">
-               </a>
-            @endif
-
-            </div>
-            {{--  @endforeach  --}}
-
-            @foreach($images as $image)
-            @php
-                $height = Image::make(storage_path('/app/public/photos/').$image->image)->height();
-                $width = Image::make(storage_path('/app/public/photos/').$image->image)->width();
-                @endphp
-            <div class="slide fade">
-
-                @if($height > $width)
-
-                {{--  portrait  --}}
-
-                <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
-                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}">
+                <a href="{{ route('single.Image', ['category_id' => $image->category_id, 'image_id' => $previousID,
+                    'subcategoryId' => $image->sub_category_id, 'categoryId' => $categoryId] )}}"
+                    @if($previousID == null) style="display: none" @endif
+                    class="prev text-xl; color:rgb(68, 68, 68) !important">
+                    <i class="fa-solid fa-angle-left"></i>
                 </a>
-             @else
 
-            {{--  landscape  --}}
+        {{--  <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}">  --}}
 
-            <a href="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" data-fancybox="group" data-caption={{ $image->description }}>
-                <img src="{{asset('storage/photos/singleImage/'.$image->singleImage)}}" style="width: 886px;height: 528px;">
-               </a>
-            @endif
-
-
+        <div class="image-wrapper">
+            <div class="expand-img" role="button" >
+                <img src="{{ asset('frontend/img/zoom-hover-3.png') }}" alt=""></div>
+                <img id="myImg" src="{{asset('images/version_photos/singleImage/'.$image->singleImage)}}">
             </div>
-            @endforeach
 
-            <a href="#" class="prev" title="Previous">&#10094</a>
-             <a href="#" class="next" title="Next">&#10095</a>
-            </div>
-            <div class="dots-container">
-                @foreach($images as $image)
-                <span class="dot"></span>
-                @endforeach
-              </div>
-        </p>
+
+        <div class="expand-img" role="button" >
+            <img src="{{ asset('frontend/img/zoom-hover') }}">
+            {{--  <i class="fa-regular fa-arrow-up-right-and-arrow-down-left-from-center"></i>  --}}
+        </div>
+
+           {{-- Next Page Link --}}
+
+            <a href="{{ route('single.Image', ['category_id' => $image->category_id, 'image_id' => $nextID,
+                'subcategoryId' => $image->sub_category_id, 'categoryId' => $categoryId] )}}"
+                @if($nextID == null) style="display: none" @endif
+                class="next text-xl; color:rgb(68, 68, 68) !important"> <i class="fa-solid fa-angle-right"></i>
+            </a>
+
+
+
     </div>
-    <div class="col-md-4" style="border: 1px solid lightgray;padding: 1%;">
+
+
+    <div id="fullpage" onclick="this.style.display='none';" role="button" aria-label="close" tabindex="0">
+        <div class="modal-image-wrapper">
+          <div role="button" tabindex="0">
+            <img class="stock-photo-image" src="" alt="" />
+          </div>
+           {{--  <div class="close-btn-icon">x</div>  --}}
+           <span class="close-btn-icon">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </span>
+        </div>
+      </div>
+
+    <div class="col-md-5" style="border: 1px solid lightgray;padding: 1%;">
         <p style="font-size: 17px;font-weight: 500;">
             Buy this stock image now…
         </p>
@@ -442,60 +528,87 @@ vertical-align: middle;
 
          </tr>
 
-         {{--  @foreach ($subcategory as $subcategorySingleImage )
+
          <tr>
+            <tr>
+                <td>image-id:</td>
+                <td>{{ $image->singleImage }}</td>
+             </tr>
             <td>Dimensions:</td>
             <td>
-                {{ $subcategorySingleImage->width }} x {{ $subcategorySingleImage->height }} px
-                {{-- |
-                <?php
-                    // $inchewidth = $subcategorySingleImage->width * 0.0104166667;
-                    // $inchehight = $subcategorySingleImage->height * 0.0104166667;
-
-                ?>
-                {{ round($inchewidth, 2) }} x {{ round($inchehight, 2) }} inches
-                |
+                {{ $imageWidth }} x {{ $imageHeight }}
 
                 <?php
-                    // $cmwidth = $subcategorySingleImage->width * 0.026458333;
-                    // $cmheight = $subcategorySingleImage->height * 0.026458333;
+                    //$inchewidth = $imageWidth * 0.010417;
+                    //$inchehight = $imageHeight * 0.010417;
+
+                    //$cmwidth = $imageWidth * 0.026;
+                    //$cmheight = $imageHeight * 0.026;
+
+                    // 1 inch has 96 pixels
+                    //calculate the DPI of the image
+                    //$dpi = $imageWidth / $inchewidth;
+
+                    //calculate the the dpi in height
+                    //$dpih = $imageHeight / $inchehight;
+
 
                 ?>
 
-                {{ round($cmwidth, 2) }} x {{ round($cmheight, 2) }} cm -
+
+                {{--  {{ round($cmwidth, 2) }} x {{ round($cmheight, 2) }} cm  --}}
 
 
             </td>
          </tr>
+
+
          <tr>
             <td>Width:</td>
-            <td>{{ $subcategorySingleImage->width }} pixels</td>
+            <td>{{ $imageWidth }} pixel</td>
          </tr>
          <tr>
             <td>Height:</td>
-            <td>{{ $subcategorySingleImage->height }} pixels</td>
+            <td>{{ $imageHeight }} pixel</td>
          </tr>
          <tr>
-            <td>Resolutions:</td>
-            <td> 72 dpi </td>
+            @switch($horizontalDPI)
+                  @case(0)
+                @break
+
+                @default
+                <td>Horizontal Resolutions:</td>
+                <td>
+                    {{ $horizontalDPI }} dpi
+                </td>
+
+                @endswitch
          </tr>
          <tr>
-            <td>Vertical resolutions:</td>
-            <td> 96 dpi </td>
+            @switch($verticalDPI)
+            @case(0)
+             @break
+
+                @default
+            <td>
+                Vertical resolutions:
+            </td>
+            <td>
+                    {{ $verticalDPI }} dpi
+            </td>
+        @endswitch
          </tr>
-        <tr>
+        {{--  <tr>
             <td>Bit depth:</td>
             <td> 24 </td>
-         </tr>
+         </tr>  --}}
 
-         @endforeach  --}}
-      </tbody></table>
+
+      </tbody>
+    </table>
 
   </div>
 </div>
-
-
-
 
              <!-- row -->
 
@@ -529,6 +642,22 @@ vertical-align: middle;
           });
         </script>
 
+        <script>
+            const imgs = document.querySelectorAll(".SingleImage .image-wrapper img");
+            const showImgdiv = document.querySelector("#fullpage .modal-image-wrapper .stock-photo-image");
+            const fullPage = document.querySelector("#fullpage");
+            console.log('imgs', imgs)
+            imgs[1]?.addEventListener("click", function () {
+              showImgdiv.src = imgs[1]?.src;
+              fullPage.style.display = "flex";
+            });
+            imgs[0]?.addEventListener("click", function () {
+              showImgdiv.src = imgs[1]?.src;
+              fullPage.style.display = "flex";
+            });
+
+          </script>
+
 {{-- end buy button script --}}
 
 {{--  <script>
@@ -548,60 +677,5 @@ vertical-align: middle;
             }
             }
             </script>  --}}
-
-
-            <script>
-                let currentSlide = 0;
-const slides = document.querySelectorAll(".slide")
-const dots = document.querySelectorAll('.dot')
-
-const init = (n) => {
-  slides.forEach((slide, index) => {
-    slide.style.display = "none"
-    dots.forEach((dot, index) => {
-      dot.classList.remove("active")
-    })
-  })
-  slides[n].style.display = "block"
-  dots[n].classList.add("active")
-}
-document.addEventListener("DOMContentLoaded", init(currentSlide))
-const next = () => {
-  currentSlide >= slides.length - 1 ? currentSlide = 0 : currentSlide++
-  init(currentSlide)
-}
-
-const prev = () => {
-  currentSlide <= 0 ? currentSlide = slides.length - 1 : currentSlide--
-  init(currentSlide)
-}
-
-document.querySelector(".next").addEventListener('click', next)
-
-document.querySelector(".prev").addEventListener('click', prev)
-
-
-dots.forEach((dot, i) => {
-  dot.addEventListener("click", () => {
-    console.log(currentSlide)
-    init(i)
-    currentSlide = i
-  })
-})
-
-
-            </script>
-
-            <script>
-                document.addEventListener('click', event => {
-                    const link = event.target.closest('a[href="#"]');
-
-                    if (link === null) {
-                      return;
-                    }
-
-                    event.preventDefault();
-                  });
-            </script>
 
 @endsection

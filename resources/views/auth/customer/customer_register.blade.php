@@ -11,15 +11,18 @@
    <div class="container-fluid tm-container-content tm-mt-60" style="padding: 30px;margin-top: -3%;min-height: calc(100vh - 40px)">
 
             <div class="row mb-4">
-                <h1 class="text-center" style="margin-top: 50px;font-weight: 400;">
+                <h1 class="text-center" style="margin-top: 50px;font-weight: 400;font-size: 21px">
                     Create account
                 </h1>
         <div class="row">
              <div class="col-md-4 mx-auto">
                 <div class="myform form mt-2 ">
                  {{--  <p class="login-box-msg">{{__('auth.registration')}}</p>  --}}
-                   <form method="POST" class="customer_reg_form" action="{{ route('customer.send_verification_code') }}" autocomplete="off" novalidate>
-                    @csrf
+                 {{-- old  <form method="POST" class="customer_reg_form" action="{{ route('customer.send_verification_code') }}" autocomplete="off" novalidate>
+                    @csrf --}}
+                    {{--  new <form method="POST" action="{{ route('customer.register') }}" id="verify_code" autocomplete="off">
+                        @csrf --}}
+
 
                       <div class="form-group col-md-4 " style="padding: 0;">
                         <select style="border: solid 1px lightgrey;border-radius: 4px;color: grey !important;height: 8%;width: 33%;" data-message="Bitte w채hlen Sie die Option aus der Liste" name="title" id="data-message" class=" @error('title') is-invalid @enderror">
@@ -71,34 +74,67 @@
                             </span>
                             @enderror
                       </div>
-                      <div class="form-group">
+                      {{--  <div class="form-group">
                          <input  type="email" value="{{ old('email_confirmation') }}"
-                                   name="email_confirmation"
+                                   name="email_confirmation"  --}}
                                     {{--oninvalid="this.setCustomValidity('E-Mail Adresse stimmt nicht mit der Best채tigung 체berein.')"
                                     oninput="this.setCustomValidity('')"--}}
-                                   class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email" style="font-size: 20px;">
+                                   {{--  class="form-control @error('email') is-invalid @enderror" data-message="Bitte geben Sie in das Feld etwas ein" placeholder="Confirm Email"
+                                   style="font-size: 20px;">
 
                             @error('email_confirmation')
                             <span class="invalid-feedback error" role="alert">
-                                     <strong>{{ $message }}</strong> -
+                                     <strong>{{ $message }}</strong> -  --}}
                                         {{--<strong>{{__('auth.customer_registration_form_alert_input_email_confirm')}}</strong>--}}
-                                </span>
+                                {{--  </span>
                             @enderror
-                      </div>
-                       <div class="form-group">
-                          <div class="g-recaptcha {{ $errors->has('g-recaptcha-response') ? 'is-invalid' : '' }}"
-                                 data-sitekey="{{config('recaptcha.api_site_key')}}"></div>
-                            @error('g-recaptcha-response')
-                            <span class="invalid-feedback" role="alert">
+                      </div>  --}}
+
+
+                        {{-- old   --}}
+
+                        <div class="form-group">
+                                <input   autocomplete="off" type="password" data-message="Bitte geben Sie in das Feld etwas ein" name="password"
+                                class="form-control @error('password')   is-invalid @enderror"
+                                       placeholder="{{__('auth.customer_registration_form_input_password')}}" value="{{ old('password') ?? '' }}" style="font-size: 20px;">
+
+                                @error('password')
+                                <span class="error invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                            @enderror
+                                @enderror
+
                         </div>
+                        <div class="form-group">
+
+                                <input {{--minlength="8"--}} autocomplete="off" type="password" data-message="Bitte geben Sie in das Feld etwas ein" name="password_confirmation"
+                                class="form-control @error('password') is-invalid @enderror"
+                                       placeholder="{{__('auth.customer_registration_form_input_password_confirm')}}" value="{{ old('password') ?? '' }}" style="font-size: 20px;">
+
+                                @error('password_confirmation')
+                                <span class="error invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
+
+                        </div>
+                        {{--  end old  --}}
+
+                        <div class="form-group">
+                            <div class="g-recaptcha {{ $errors->has('g-recaptcha-response') ? 'is-invalid' : '' }}"
+                                   data-sitekey="{{config('recaptcha.api_site_key')}}"></div>
+                              @error('g-recaptcha-response')
+                              <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                              @enderror
+                          </div>
 
                         <div class="col-12" style="padding: 0;">
                         <button type="submit"  class="btn btn-secondary btn-sm" style="background-color:#048BA8;font-size: 19px;">create</button>
                       </div>
-</form>
+{{--  </form>  --}}
 
                       <div class="form-group text-center">
 

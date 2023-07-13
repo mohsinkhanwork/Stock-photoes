@@ -40,7 +40,11 @@ class SubCategory extends Model implements Sortable
     public static function getLastSortNumber()
     {
         $leastSortRecords = SubCategory::orderBy('sort', 'desc')->first();
-        return $leastSortRecords->sort;
+        if ($leastSortRecords) {
+            return $leastSortRecords->sort;
+        } else {
+            return 0;
+        }
     }
 
     public static function getFirstSortNumber()

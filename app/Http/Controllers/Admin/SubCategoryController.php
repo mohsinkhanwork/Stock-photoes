@@ -18,10 +18,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class SubCategoryController extends Controller
 {
-    public function __construct()
-    {
-        $this->session_name = "logo_table";
-    }
     /**
      * Display a listing of the resource.
      *
@@ -31,15 +27,17 @@ class SubCategoryController extends Controller
     {
         // $subcategories = SubCategory::get();
         if ($category_name == null) {
-            $categories = Category::all();
+            $categories = Category::orderBy('sort', 'asc')->get();
             // dd($categories);
         } else {
-            $categories = Category::where('name','!=',$category_name)->get();
+            $categories = Category::where('name','!=',$category_name)
+            ->orderBy('sort', 'asc')
+            ->get();
             // dd($categories);
         }
 
-        // dd($category_name);
-        User::clearSession($this->session_name);
+
+        // User::clearSession($this->session_name);
         $this->return_array['page_length'] = -1;
         $this->return_array['columns'] = array(
             'consecutive' => array(
@@ -75,6 +73,16 @@ class SubCategoryController extends Controller
 
         return view('admin.subcategories.index', compact('categories', 'category_name'))->with($this->return_array);
     }
+
+
+    public function getAllSubcategories(Request $request)
+        {
+            $category_name = $request->input('category');
+            $category_id = Category::where('name', $category_name)->value('id');
+            $subcategories = Subcategory::where('category_id', $category_id)->get();
+
+            return response()->json($subcategories);
+        }
 
     public function deleteLogoProcessSub(Request $request)
     {
@@ -148,23 +156,12 @@ class SubCategoryController extends Controller
         // dd($all_subcategories);
 
 
-        // if($request->ajax()){
-        //     if ($request->search['value'] == null) {
-        //         $query111 = SubCategory::query();
-        //     } else {
-        //         // $query = SubCategory::orderBy('sort', 'asc')->get();
-        //         $query = SubCategory::where('name', $request->search['value'])->orderBy('sort', 'desc')->get();
-        //         // dd($query);
-        //     }
-        // }
-
         if($request->ajax()){
                 $category_name = $request->search['value'];
                 // dd($DropDownSearchedCategory);
         }
 
-        // $lastSorting = SubCategory::getLastSortNumber();
-        // $firstSorting = SubCategory::getFirstSortNumber();
+
             return Datatables::of($all_subcategories)
                     ->addColumn('consecutive', function($row){
                         return '<p style="text-align: right;margin: 0px">' . $row->id . '</p>';
@@ -191,6 +188,9 @@ class SubCategoryController extends Controller
                         $arrowDown = "";
                         if ($row->sort != $firstSorting) {
                             $arrowUp = '<i data-url="' . route('sort-logo-sub') . '" class="fas fa-arrow-circle-up sort" data-mode="up" data-sort="' . $row->sort . '" data-id="' . $row->id . '" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;';
+                        }
+                        if ($row->sort == $firstSorting) {
+                            $arrowUp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
                         }
                         if ($row->sort != $lastSorting) {
                             $arrowDown = '<i data-url="' . route('sort-logo-sub') . '" style="font-size: 20px;cursor: pointer;" data-mode="down" data-sort="' . $row->sort . '" data-id="' . $row->id . '" class="sort fas fa-arrow-circle-down"></i>';
@@ -272,45 +272,7 @@ class SubCategoryController extends Controller
         // $image->image_title = $request->image_title;
         $image->category_id = $request->category_id;
 
-    //     // // original image
 
-    //     $uploadedoriginalImage = $request->file('image');
-
-    //     $originalinput['image'] = time().$uploadedoriginalImage->getClientOriginalName();
-    //     $imgFileoriginal = Image::make($uploadedoriginalImage->getRealPath());       // original image
-    //     $pathoriginal = storage_path('app/public/subcategories').'/'.$originalinput['image'];
-    //     $imgFileoriginal->save($pathoriginal);
-    //     $height = Image::make($uploadedoriginalImage)->height();      // height of the original image
-    //     $width = Image::make($uploadedoriginalImage)->width();
-    //     $image->originalImage = $originalinput['image'];
-    //     $image->height =  $height;
-    //     $image->width =  $width;
-    //     // end original image
-
-
-    //     // resoltuion of images
-    //     $uploadedoriginalImageresol = $request->file('image');
-    //     $originalinputresolution['image'] = time().$uploadedoriginalImageresol->getClientOriginalName();
-    //     $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(900, 675);       // original image
-    //     $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //     $pathoriginalresolution = storage_path('app/public/subcategories').'/'.$originalinputresolution['image'];
-    //     $imgFileoriginalreso->insert($watermark, 'center')->save($pathoriginalresolution);
-    //     $imgFileoriginalreso->save($pathoriginalresolution);
-        // $imagick = new Imagick($pathoriginalresolution);
-
-    //     $imagick->setImageResolution(72,72) ; // it change only image density.
-
-        // $getimagreso = $imagick->getImageResolution();
-    //     // dd($getimagreso['x']);
-    //     // dd($getimagreso['y']);
-
-    //     $saveImagePath = storage_path('app/public/subcategories/96dpiImagesForSub') . '/' . $originalinputresolution['image'];
-    //     $imagick->writeImages($saveImagePath, true);
-
-    //     $image->dpiImage = $originalinputresolution['image'];
-    //     // end resol of images
-
-    // }
 
         $categories = DB::table('categories')->where('id', $request->category_id)->first();
         $category_name = $categories->name;
@@ -376,84 +338,7 @@ class SubCategoryController extends Controller
         $image->category_id = $request->category_id;
         $categories = DB::table('categories')->where('id', $request->category_id)->first();
         $category_name = $categories->name;
-        // dd($image->category_id);
-        // $image->image_price = $request->image_price;
 
-        //
-
-        // pick logo from local folder
-
-    //     if ($request->file('image')) {
-
-    //     $uploadedimagepicklogo = $request->file('image');
-    //     $inputResized['image'] = time().$uploadedimagepicklogo->getClientOriginalName();
-    //     // $watermark = $request->file('watermark');
-    //     // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
-    //     $imgFile = Image::make($uploadedimagepicklogo->getRealPath())->resize(540, 405);       //image resize from here;
-    //     $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //     // $watermark = Image::make($watermark->getRealPath())->opacity(50);   // watermark resize from here
-    //     $path = storage_path('app/public/subcategories').'/'.$inputResized['image'];
-    //     $imgFile->insert($watermark, 'center')->save($path);
-    //     $image->image =  $inputResized['image'];
-
-    //     // end pick logo from local
-
-
-
-    //     // single image start
-
-    //     $uploadedimagesingle = $request->file('image');
-    //     $inputsingle['image'] = time().$uploadedimagesingle->getClientOriginalName();
-    //     // $watermark = $request->file('watermark');
-    //     // $watermark1['watermark'] = time().$watermark->getClientOriginalName();
-    //     $imgFilesingle = Image::make($uploadedimagesingle->getRealPath())->resize(1024, 768);       //image resize from here;
-    //     $watermarksingle = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //     $pathsingle = storage_path('app/public/subcategories').'/'.$inputsingle['image'];
-    //     $imgFilesingle->insert($watermarksingle, 'center')->save($pathsingle);
-    //     $image->image_singlePage =  $inputsingle['image'];
-
-
-    //     // end single image
-
-
-    //       // // original image
-
-    //       $uploadedoriginalImage = $request->file('image');
-    //       $originalinput['image'] = time().$uploadedoriginalImage->getClientOriginalName();
-    //       $imgFileoriginal = Image::make($uploadedoriginalImage->getRealPath());       // original image
-    //       $pathoriginal = storage_path('app/public/subcategories').'/'.$originalinput['image'];
-    //       $imgFileoriginal->save($pathoriginal);
-    //       $height = Image::make($uploadedoriginalImage)->height();      // height of the original image
-    //       $width = Image::make($uploadedoriginalImage)->width();
-    //       $image->originalImage = $originalinput['image'];
-    //       $image->height =  $height;
-    //       $image->width =  $width;
-
-    //     // end original image
-
-
-    //    // resoltuion of images
-    //    $uploadedoriginalImageresol = $request->file('image');
-    //    $originalinputresolution['image'] = time().$uploadedoriginalImageresol->getClientOriginalName();
-    //    $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(900, 675);       // original image
-    //    $watermark = Image::make(public_path('frontend/img/logo.png'))->resize(440, 90)->opacity(50);   // watermark resize from here
-    //    $pathoriginalresolution = storage_path('app/public/subcategories').'/'.$originalinputresolution['image'];
-    //    $imgFileoriginalreso->insert($watermark, 'center')->save($pathoriginalresolution);
-    //    $imgFileoriginalreso->save($pathoriginalresolution);
-    //    $imagick = new Imagick($pathoriginalresolution);
-
-    //    $imagick->setImageResolution(72,72) ; // it change only image density.
-
-    //    // $getimagreso = $imagick->getImageResolution();
-    //    // dd($getimagreso['x']);
-    //    // dd($getimagreso['y']);
-
-    //    $saveImagePath = storage_path('app/public/subcategories/96dpiImagesForSub') . '/' . $originalinputresolution['image'];
-    //    $imagick->writeImages($saveImagePath, true);
-
-    //    $image->dpiImage = $originalinputresolution['image'];
-    //    // end resol of images
-    //     }
 
           $image->update();
 

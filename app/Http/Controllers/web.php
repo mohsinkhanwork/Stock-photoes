@@ -34,7 +34,7 @@ Route::post('/access/grant', 'HomeController@access_grant')->name('access_grant'
 Route::group([
     'prefix' => LaravelLocalization::setLocale(session('locale')),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect'  , 'request_access' ]
-    /*->middleware(['request_access'])*/
+    ->middleware(['request_access'])
 ], function () {
     Route::get('/', 'HomeController@home')->name('home');
 

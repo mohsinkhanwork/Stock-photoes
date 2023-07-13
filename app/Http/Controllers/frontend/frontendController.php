@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\SubCategory;
 use App\Photo;
+use Intervention\Image\Facades\Image;
+use Carbon\Carbon;
+use App\VersionPhoto;
+
 
 
 class frontendController extends Controller
@@ -19,12 +23,19 @@ class frontendController extends Controller
     public function home()
     {
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
 
         // $subcategories = SubCategory::all();
         // $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
 
+        $date = "2020-12-31 23:59:59";
+        $carbon = Carbon::parse($date);
+        // dd($carbon);
 
-        return view('web.home', compact('categories'));
+
+        return view('web.home', compact('categories', 'categoryId', 'subCategoryId', 'categoryName'));
 
     }
 
@@ -95,52 +106,194 @@ class frontendController extends Controller
         //
     }
 
-    public function collections(Request $request, $categoryId, $categoryName)
+    public function collections(Request $request, $categoryId, $categoryName, $subcategoryId = null)
     {
-
+        // dd($categoryId, $categoryName, $subcategoryId);
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
         $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
-        //get all photos of this category with latest added first and paginate
-        $latestPhotos  = Photo::where('category_id', $categoryId)->orderBy('created_at', 'desc')->paginate(12);
-        // dd($latestPhotos);
 
-        return view('web.products.collection', compact('categories', 'latestPhotos' , 'categoryId' ,'subcategories','categoryName'));
+        // $latestPhotos  = Photo::where('category_id', $categoryId)->orderBy('created_at', 'desc')->paginate(12);
+
+        $latest_Version_Photos  = VersionPhoto::with('photo')->where('status', 'on')
+        ->where(function($query) use ($categoryId) {
+            $query->where('category_id', $categoryId)
+                  ->orWhere('category_id_2', $categoryId)
+                  ->orWhere('category_id_3', $categoryId);
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+
+        // dd($latest_Version_Photos);
+
+
+        return view('web.products.collection', compact('categories' , 'categoryId' ,'subcategories', 'subcategoryId' ,'categoryName',
+        'latest_Version_Photos'));
 
     }
     //function for photo_collections
     public function photo_collections(Request $request, $categoryId, $categoryName, $subcategoryId, $subcategoryName)
     {
+
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
         $subcategories = SubCategory::where('category_id', $categoryId)->orderBy('sort', 'asc')->get();
-        //get all photos of this category with latest added
-        $latestPhotos = Photo::where('category_id', $categoryId)->where('sub_category_id', $subcategoryId)->orderBy('created_at', 'desc')->paginate(12);
-        //if latestPhotos is empty then show message
-        if($latestPhotos->isEmpty()){
+
+        // $latestPhotos = Photo::where('category_id', $categoryId)->where('sub_category_id', $subcategoryId)->orderBy('created_at', 'asc')->paginate(12);
+
+        $latestVersion_Photos = VersionPhoto::with('photo')->where('status', 'on')
+        ->where(function($query) use ($categoryId, $subcategoryId) {
+            $query->where('category_id', $categoryId)
+                  ->where('sub_category_id', $subcategoryId)
+                  ->orWhere('category_id_2', $categoryId)
+                  ->where('sub_category_id_2', $subcategoryId)
+                  ->orWhere('category_id_3', $categoryId)
+                  ->where('sub_category_id_3', $subcategoryId);
+        })
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
+
+
+        // dd($latestVersion_Photos);
+
+
+
+        if($latestVersion_Photos->isEmpty()){
             $message = "Keine Fotos gefunden";
         }else{
             $message = "";
         }
 
-        return view('web.products.photo_collection', compact('categories', 'message' ,'latestPhotos' , 'categoryId' ,'subcategories','categoryName', 'subcategoryName'));
+        return view('web.products.photo_collection', compact('categories', 'subcategoryId' ,'message' , 'categoryId' ,'subcategories',
+        'categoryName', 'subcategoryName', 'latestVersion_Photos'));
 
     }
-    public function singleImage(Request $request, $categoryId,$subcategoryId, $image_id)
+
+    //make function for NewestCollection
+    public function NewestCollection(Request $request)
     {
-        // dd($image_id, $categoryId, $subcategoryId);
-        $image         = Photo::where('id', $image_id)->orderBy('created_at', 'desc')->first();
-        $category     = Category::with('subcategory')
-        ->where('id', $image->category_id)->first();
-        // dd($category);
-        $subcategory    = SubCategory::where('id', $image->sub_category_id)->first();
-        // dd($subcategory);
+
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
+        $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
+        $subcategories = SubCategory::all();
+
+        return view('web.products.newest_collection' , compact('categoryId', 'subCategoryId', 'categoryName', 'categories', 'subcategories'));
+    }
+
+    public function singleImage(Request $request, $category_id, $image_id, $subcategoryId = null, $categoryId = null)
+    {
+        $image = VersionPhoto::where('status', 'on')->findOrFail($image_id);
+    // Check if $categoryId and $subcategoryId are not provided and set it with image's category and subcategory ID
+    $categoryId = $categoryId ?? $image->category_id;
+    $subcategoryId = $subcategoryId ?? $image->sub_category_id;
+
+    //storage path
+    $public_path = public_path() . '/images/version_photos/originalImage/' . $image->original_image;
+
+    //getImageResolution from Imagick
+    $imageDPI = new \Imagick($public_path);
+    //get image width
+    $imageWidth = $imageDPI->getImageWidth();
+    //get image height
+    $imageHeight = $imageDPI->getImageHeight();
+    //get image dpi
+    $dpi = $imageDPI->getImageResolution();
+    $horizontalDPI = $dpi['x'];
+    $verticalDPI = $dpi['y'];
+
+    $category       = Category::with('subcategory')->where('id', $image->category_id)->first();
+    $subcategory    = SubCategory::where('id', $image->sub_category_id)->first();
+    $categoryName   = '';
+
+    $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
+    $subcategories = SubCategory::all();
+
+    $nextID = VersionPhoto::where('status', 'on')
+        ->where(function ($query) use ($categoryId, $subcategoryId) {
+            $query->where(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id', $categoryId)
+                    ->where('sub_category_id', $subcategoryId);
+            })->orWhere(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id_2', $categoryId)
+                    ->where('sub_category_id_2', $subcategoryId);
+            })->orWhere(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id_3', $categoryId)
+                    ->where('sub_category_id_3', $subcategoryId);
+            });
+        })
+        ->orderBy('created_at', 'desc')
+        ->where('id', '<', $image_id)
+        ->max('id');
+    // dd($previousID);
+
+    $previousID = VersionPhoto::where('status', 'on')
+        ->where(function ($query) use ($categoryId, $subcategoryId) {
+            $query->where(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id', $categoryId)
+                    ->where('sub_category_id', $subcategoryId);
+            })->orWhere(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id_2', $categoryId)
+                    ->where('sub_category_id_2', $subcategoryId);
+            })->orWhere(function ($query) use ($categoryId, $subcategoryId) {
+                $query->where('category_id_3', $categoryId)
+                    ->where('sub_category_id_3', $subcategoryId);
+            });
+        })
+        ->orderBy('created_at', 'desc')
+        ->where('id', '>', $image_id)
+        ->min('id');
+
+
+        return view('web.products.singleImage', compact('category', 'subcategory', 'categories' ,'image'
+        ,'imageWidth' ,'imageHeight' ,'nextID' ,'previousID' ,'subcategories', 'horizontalDPI', 'verticalDPI', 'subcategoryId', 'category_id', 'categoryName',
+        'categoryId'
+        ));
+    }
+
+    public function singleImage2(Request $request, $category_id, $image_id, $categoryId = null)
+    {
+        $image         = VersionPhoto::where('status', 'on')->findorfail($image_id);
+        $category_id = $image->category_id;
+        $category_id_2 = $image->category_id_2;
+        $category_id_3 = $image->category_id_3;
+
+        $public_path   = public_path() . '/images/version_photos/originalImage/' . $image->original_image;
+        $imageDPI = new \Imagick($public_path);
+        $imageWidth = $imageDPI->getImageWidth();
+        $imageHeight = $imageDPI->getImageHeight();
+
+        $dpi = $imageDPI->getImageResolution();
+        $horizontalDPI = $dpi['x'];
+        $verticalDPI = $dpi['y'];
+
+        $categoryName   = '';
 
         $categories = Category::with('subcategory')->orderBy('sort', 'asc')->get();
-        $subcategoris = SubCategory::all();
-        //get all images based on category id
-        $images = Photo::where('category_id', $categoryId)->where('sub_category_id', $subcategoryId)->get();
-        // dd($images);
 
-        return view('web.products.singleImage', compact('category', 'subcategory', 'categories' ,'image', 'images' ,'subcategoris'));
+
+        $nextID = VersionPhoto::where('status', 'on')
+        ->where(function($query) use ($categoryId) {
+            $query->where('category_id', $categoryId)
+                ->orWhere('category_id_2', $categoryId)
+                ->orWhere('category_id_3', $categoryId);
+        })
+        ->orderBy('created_at', 'desc')
+        ->where('id', '>', $image_id)
+        ->min('id');
+
+        $previousID  = VersionPhoto::where('status', 'on')
+        ->where(function($query) use ($categoryId) {
+            $query->where('category_id', $categoryId)
+                ->orWhere('category_id_2', $categoryId)
+                ->orWhere('category_id_3', $categoryId);
+        })
+        ->orderBy('created_at', 'desc')
+        ->where('id', '<', $image_id)
+        ->max('id');
+
+
+        return view('web.products.singleImage2', compact('categories' ,'image','imageWidth' ,'imageHeight' ,'nextID' ,'previousID',
+        'horizontalDPI', 'verticalDPI', 'category_id', 'categoryName','categoryId'));
     }
 
     public function pagesAbout()

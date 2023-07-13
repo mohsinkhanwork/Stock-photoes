@@ -78,7 +78,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return 'a;';
+        // return 'a;';
         $this->validator($data);
         $user = User::create([
             'title' => $data['name'],
@@ -93,8 +93,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
 
         ]);
-        $data['email_hash'] = Crypt::encrypt($data['email']);
-        Mail::to($user->email)->send(new Otpsend($data));
+        // $data['email_hash'] = Crypt::encrypt($data['email']);
+        // Mail::to($user->email)->send(new Otpsend($data));
         return $user;
     }
 
@@ -105,9 +105,14 @@ class RegisterController extends Controller
     public function showCustomerRegisterForm()
     {
         if(\auth()->guard('customer')->check()) return redirect()->back();
+
+
         $categories = Category::with('subcategory')->get();
         $subcategories = SubCategory::all();
-        return view('auth.customer.customer_register', compact('categories', 'subcategories'));
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
+        return view('auth.customer.customer_register', compact('categories', 'subcategories', 'categoryId', 'subCategoryId', 'categoryName'));
     }
 
 

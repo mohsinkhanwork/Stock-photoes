@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DataTables;
+use App\User;
 
 class DailyVisitController extends Controller
 {
@@ -21,7 +22,7 @@ class DailyVisitController extends Controller
 
     public function index()
     {
-        \App\User::clearSession($this->session_name);
+        User::clearSession($this->session_name);
         $this->return_array['page_length'] = 500;
         $this->return_array['columns'] = array(
             'day' => array(

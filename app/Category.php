@@ -37,7 +37,11 @@ class Category extends Model implements Sortable
     public static function getLastSortNumber()
     {
         $leastSortRecords = Category::orderBy('sort', 'desc')->first();
-        return $leastSortRecords->sort;
+        if ($leastSortRecords) {
+            return $leastSortRecords->sort;
+        } else {
+            return 0;
+        }
     }
 
     public static function getFirstSortNumber()

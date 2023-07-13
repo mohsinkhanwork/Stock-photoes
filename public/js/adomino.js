@@ -76,7 +76,6 @@ $(function() {
     var searchInputWidth;
 
     function yajraManual() {
-
         yajraTable = $('.data_table_yajra').DataTable({
             processing: true,
             bLengthChange: false,
@@ -91,7 +90,12 @@ $(function() {
             destroy: true,
             ajax: function(data, callback) {
                 data.filter = $('.data_table_yajra').attr('data-filter');
-                data.search = { regex: false, value: $('#yajraSearch').val() };
+                data.search = {
+                    regex: false,
+                    value: $('#yajraSearch').val(),
+                    subCategory: $('#subcategorySelect').val(),
+                };
+                console.log("Ajax data: ", data);  // Log the data being sent
                 $.ajax({
                     url: $('.data_table_yajra').attr('data-url'),
                     data: data,
@@ -100,6 +104,7 @@ $(function() {
                         $('.data_table_yajra > tbody').html("");
                     },
                     success: function(res) {
+                        console.log("Ajax response: ", res)
                         if ($('.data_table_yajra').attr('data-table-name') !== undefined && ($('.data_table_yajra').attr('data-table-name') == 'logo-table' || $('.data_table_yajra').attr('data-table-name') == 'not-found-domain-table')) {
                             $.each(res.data, function(key, value) {
                                 // res.data[key].id = '<p style="text-align: right;margin: 0px">' + (key + 1) + '</p>';
@@ -252,6 +257,7 @@ $(function() {
 
     if ($('#yajraSearch').length > 0) {
         var value = $('#yajraSearch').val();
+        var subCategory = $('#subcategorySelect').val();
         if (value.length > 0 && $('.data_table_yajra').length > 0) {
             $(document).ready(function() {
                 yajraBtnSearch()
@@ -440,7 +446,9 @@ $(function() {
     })
 
     function yajraBtnSearch() {
-        var inputVal = $('#yajraSearch').val();
+        var value = $('#yajraSearch').val();
+        var subCategory = $("#subcategorySelect").val();
+         console.log("Button search - Value: ", value, ", Subcategory: ", subCategory);  // Log the values
         if ($('.data_table_yajra').length > 0 && $('.data_table_yajra').attr('data-table-name') !== undefined) {
             yajraManual();
         } else {
@@ -502,3 +510,4 @@ $(function() {
 
 
 })
+

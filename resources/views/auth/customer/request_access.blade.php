@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{config('app.name')}}</title>
+    {{--  <title>{{config('app.name')}}</title>  --}}
+    <title>Stockfoto</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('img/stocfoto.png') }}">
 
@@ -318,7 +319,7 @@
                         @csrf
                         <div class="input-group mb-3">
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                   placeholder="Passwort" autocomplete="new-password" name="password">
+                                   placeholder="Password" autocomplete="new-password" name="password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -333,7 +334,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block">Bestätige</button>
+                                <button type="submit" class="btn btn-primary btn-block">Confirm</button>
                             </div>
                         </div>
                     </form>
@@ -345,7 +346,7 @@
     </div>
 </div>
 
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+{{--  <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>  --}}
 @include('common.cookie')
 @stack('scripts')
 

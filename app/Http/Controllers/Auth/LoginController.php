@@ -62,12 +62,16 @@ class LoginController extends Controller
         if(\auth()->guard(Customer::$guardType)->check()) return redirect()->route('home');
         $categories = Category::with('subcategory')->get();
         $subcategories = SubCategory::all();
-        return view('auth.customer.customer_login', compact('categories', 'subcategories'));
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
+        return view('auth.customer.customer_login', compact('categories', 'subcategories', 'categoryId', 'subCategoryId', 'categoryName'));
     }
 
 
 
     public function customerLogin(Request $request){
+        // dd($request->all());
         $rules = array(
             'email'    => 'required|email|exists:customers',
             'password' => 'required||min:8'
@@ -77,11 +81,14 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return Redirect::route('customer.login_form')->withErrors($validator);
         } else {
+            // dd($request->all());
             $emailExist = Customer::where(['email' => $request->email])->first();
             if (!$emailExist){
+                // dd('email not exist');
                 /*return Redirect::route('customer.login_form')->with('loginError', 'E-Mail nicht vorhanden!');*/
                 return \redirect()->back()->withInput()->withErrors(['email' => 'E-Mail nicht vorhanden!']);
             }
+            // dd('email exist');
             $userdata = array(
                 'email'     => $request->email,
                 'password'  => $request->password,
@@ -103,7 +110,12 @@ class LoginController extends Controller
                     App::setlocale(Auth::guard(Customer::$guardType)->user()->lang);
                     $url = LaravelLocalization::getLocalizedURL(session('locale'), route('customer.dashboard'));
                     // return redirect($url);
+
+                    // dd('here');
+
                 }
+
+                // dd('here 2');
 
                 \Session::put('customer',  $customer);
                 $request->session()->put('customer',  $customer);
@@ -117,8 +129,10 @@ class LoginController extends Controller
                 // dd(session()->all());
 
                 // return redirect()->route('customer.dashboard');
+                // dd('here');
 
             } else {
+                // dd('here 3');
                 /*return Redirect::route('customer.login_form')->with('loginError', 'Passwort falsch!');*/
                 return \redirect()->back()->withInput()->withErrors(['password' => 'Passwort falsch!']);
             }

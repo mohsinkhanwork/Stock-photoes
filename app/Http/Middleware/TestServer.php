@@ -17,8 +17,8 @@ class TestServer
      */
     public function handle($request, Closure $next)
     {
-        if(env('APP_URL') != 'https://adomino.net'){
-            $locked_status = session()->get('locked_status');
+        if(env('APP_URL') != 'https://adomino.net'){   //here we need to enter the url of the live server that does not need to be locked
+            $locked_status = session()->get('locked_status');   //http://127.0.0.1:8000/ is the url of the local server
             if ($locked_status and $locked_status == 'unlock') {
                 return $next($request);
             }

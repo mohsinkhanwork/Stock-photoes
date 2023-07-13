@@ -119,7 +119,7 @@ class CategoryController extends Controller
                     })
                     ->addColumn('image', function ($row) {
                         return '<div style="text-align:center; padding-left:7px;">
-                        <img src="' . asset('/storage/categories/'.$row->image) . '" style="object-fit: cover;width: 4rem; margin-top:5px; margin-bottom:3px;"/>
+                        <img src="' . asset('/images/categories/'.$row->image) . '" style="object-fit: cover;width: 4rem; margin-top:5px; margin-bottom:3px;"/>
                         </div>';
                     })
                     ->editColumn('name', function($row){
@@ -130,6 +130,9 @@ class CategoryController extends Controller
                         $arrowDown = "";
                         if ($row->sort != $firstSorting) {
                             $arrowUp = '<i data-url="' . route('sort-logo') . '" class="fas fa-arrow-circle-up sort" data-mode="up" data-sort="' . $row->sort . '" data-id="' . $row->id . '" style="font-size: 20px;cursor: pointer;"></i>&nbsp;&nbsp;';
+                        }
+                        if ($row->sort == $firstSorting) {
+                            $arrowUp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp';
                         }
                         if ($row->sort != $lastSorting) {
                             $arrowDown = '<i data-url="' . route('sort-logo') . '" style="font-size: 20px;cursor: pointer;" data-mode="down" data-sort="' . $row->sort . '" data-id="' . $row->id . '" class="sort fas fa-arrow-circle-down"></i>';
@@ -199,15 +202,18 @@ class CategoryController extends Controller
         $uploadedoriginalImageresol = $request->file('image');
         $originalinputresolution = time().$uploadedoriginalImageresol->getClientOriginalName();
         $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(510, 340);       // original image
-        $pathoriginalresolution = storage_path('/app/public/categories').'/'.$originalinputresolution;
-        $imgFileoriginalreso->save($pathoriginalresolution);
+        // $pathoriginalresolution = storage_path('/categories').'/'.$originalinputresolution;
+        $pathoriginalresolution = public_path().'/images/categories/';
+        $imgFileoriginalreso->save($pathoriginalresolution.$originalinputresolution);
 
-        $imagick = new Imagick($pathoriginalresolution);
+        // $imgFileoriginalreso->save($pathoriginalresolution);
 
-        $imagick->setImageResolution(72,72) ; // it change only image density.
+        // $imagick = new Imagick($pathoriginalresolution);
 
-        $saveImagePath = storage_path('app/public/categories/72dpiImages') . '/' . $originalinputresolution;
-        $imagick->writeImages($saveImagePath, true);
+        // $imagick->setImageResolution(72,72) ; // it change only image density.
+
+        // $saveImagePath = storage_path('/categories/72dpiImages') . '/' . $originalinputresolution;
+        // $imagick->writeImages($saveImagePath, true);
 
         $category->image = $originalinputresolution;
 
@@ -266,7 +272,8 @@ class CategoryController extends Controller
 
         if ($request->file('image')) {
 
-            $image_path           = storage_path('/app/public/categories') . '/' . $category->image;
+            //find in public folder
+            $image_path = public_path() . '/images/categories/' . $category->image;
             if (File::exists($image_path)) {
                 File::delete($image_path);
             }
@@ -274,15 +281,15 @@ class CategoryController extends Controller
             $uploadedoriginalImageresol = $request->file('image');
             $originalinputresolution = time().$uploadedoriginalImageresol->getClientOriginalName();
             $imgFileoriginalreso = Image::make($uploadedoriginalImageresol->getRealPath())->resize(510, 340);       // original image
-            $pathoriginalresolution = storage_path('/app/public/categories').'/'.$originalinputresolution;
-            $imgFileoriginalreso->save($pathoriginalresolution);
+            $pathoriginalresolution = public_path() . '/images/categories/';
+            $imgFileoriginalreso->save($pathoriginalresolution . $originalinputresolution);
 
-            $imagick = new Imagick($pathoriginalresolution);
+            // $imagick = new Imagick($pathoriginalresolution);
 
-            $imagick->setImageResolution(72,72) ; // it change only image density.
+            // $imagick->setImageResolution(72,72) ; // it change only image density.
 
-            $saveImagePath = storage_path('app/public/categories/72dpiImages') . '/' . $originalinputresolution;
-            $imagick->writeImages($saveImagePath, true);
+            // $saveImagePath = storage_path('app/public/categories/72dpiImages') . '/' . $originalinputresolution;
+            // $imagick->writeImages($saveImagePath, true);
 
             $category->image = $originalinputresolution;
 

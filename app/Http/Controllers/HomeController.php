@@ -254,8 +254,9 @@ class HomeController extends Controller
 
     public function access_grant(Request $request)
     {
+        // dd($request->all());
         if($request->post()){
-            if($request->password == env('ACCESS_PASSWORD')){
+            if($request->password == config('access_passwords.master_password')){
                 session(['locked_status' => 'unlock']);
                 return redirect()->route('home');
             }

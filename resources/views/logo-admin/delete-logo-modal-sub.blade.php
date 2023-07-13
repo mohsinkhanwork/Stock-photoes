@@ -1,4 +1,4 @@
-@extends('layouts.modal-layout')
+@extends('layouts.modal-layout-sub')
 @section('content')
     <form action="{{route('delete-logo-process-sub')}}" method="post">
         @csrf

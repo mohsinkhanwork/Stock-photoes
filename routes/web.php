@@ -26,21 +26,44 @@ Route::get('/auction_automation', 'HomeController@auction_automation')->name('au
 Route::get('/access/grant', 'HomeController@access_grant')->name('request_access');
 Route::post('/access/grant', 'HomeController@access_grant')->name('access_grant');
 
+//get php info route
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
+
 // testing starts
 
-Route::get('testing', function() {
-    return view('test.image');
+Route::get('get-email', function() {
+
+        $details['to'] = 'mkhan9658@gmail.com';
+        $details['name'] = 'mohsin khan';
+        $details['subject'] = 'Hello Laravelcode';
+        $details['message'] = 'Here goes all message body.';
+
+    dispatch(new App\Jobs\SendEmailJob($details))
+    ->delay(now()->addSeconds(5));
+
+    // dd('done');
+    return response('Email sent successfully');
+
+
+})->name('view.email');
+
+
+Route::get('/testing', function() {
+   return view('test.image');
 })->name('view.image');
 
-Route::get('/test/users', 'testController@testusers')->name('testusers');
+Route::get('/testing-php', 'testController@test')->name('testusers');
 
 
 // end testinf
 
 Route::group([
     // 'prefix' => LaravelLocalization::setLocale(session('locale')),
-    //'middleware' => ['localeSessionRedirect', 'localizationRedirect'  , 'request_access' ]
-    /*->middleware(['request_access'])*/
+    // 'middleware' => ['localeSessionRedirect', 'localizationRedirect'  , 'request_access' ]
+    'middleware' => ['request_access' ]
+    // ->middleware(['request_access'])
 ], function () {
 
      // front end products home page starts
@@ -49,7 +72,10 @@ Route::group([
 
      Route::get('/collections/{categoryId}/{categoryName}', 'frontend\frontendController@collections')->name('collections');
      Route::get('/collections-photo/cat-id/{categoryId}/cat/{categoryName}/sub-id/{subcategoryId}/sub/{subcategoryName}', 'frontend\frontendController@photo_collections')->name('photo.collections');
-     Route::get('/collection/image/{categoryId}/{subcategoryId}/{image_id}', 'frontend\frontendController@singleImage')->name('single.Image');
+     Route::get('/collection/image/{category_id?}/{image_id?}/{subcategoryId?}/{categoryId?}', 'frontend\frontendController@singleImage')->name('single.Image');
+     Route::get('/collection/image2/{category_id?}/{image_id?}/{categoryId?}', 'frontend\frontendController@singleImage2')->name('single.Image2');
+
+     Route::get('/Newsest-collection', 'frontend\frontendController@NewestCollection')->name('Newest.Collection');
 
 
      Route::get('/pages/about', 'frontend\frontendController@pagesAbout')->name('pages.about');
@@ -229,33 +255,74 @@ Route::group([
             Route::post('/logo/get-delete-logo-modal-sub', 'SubCategoryController@getDeleteLogoModaSub')->name('get-delete-logo-modal-sub');
             Route::post('/logo/delete-logo-process-sub', 'SubCategoryController@deleteLogoProcessSub')->name('delete-logo-process-sub');
 
+            Route::get('/all-subcategories', 'SubCategoryController@getAllSubcategories')->name('admin.getAllSubcategories');
 
 
-            //
+
+
+
 
             // photo section started
 
-            Route::get('/photos/{category_name?}', 'PhotoController@index')->name('admin.photos');
+            Route::get('/photos', 'PhotoController@index')->name('admin.photos');
             Route::get('/photos-cat-name/{name}', 'PhotoController@getCatName')->name('admin.getCatName.photos');
-            Route::get('/create/photos/{name}', 'PhotoController@create')->name('admin.create.photos');
+            Route::get('/photossubcatname/{category_name?}', 'PhotoController@getSubCatName')->name('admin.getall.sub');
+            Route::get('getSubcategoryName/{id}', 'PhotoController@getSubcategoryName1')->name('admin.getSubcategoryName1');
+            Route::get('/create/photos', 'PhotoController@create')->name('admin.create.photos');
             Route::post('/store/photos', 'PhotoController@store')->name('admin.store.photos');
             Route::get('/getAllPhotos', 'PhotoController@getAllPhotos')->name('admin.getAllPhotos');
-            Route::get('/edit/photos/{photo_id}/{category_name}', 'PhotoController@edit')->name('admin.edit.photos');
+            Route::get('/edit/photos/{category_name}/{photo_id}/{subCatID?}', 'PhotoController@edit')->name('admin.edit.photos');
             Route::post('/logo/get-delete-modal-photo', 'PhotoController@getDeleteLogoModaPhoto')->name('get-delete-modal-photo');
             Route::post('/logo/get-modal-photo', 'PhotoController@getLogoModaPhoto')->name('get-modal-photo');
             Route::post('/logo/delete-process-photo', 'PhotoController@deleteLogoProcessPhoto')->name('delete-process-photo');
             Route::post('/update/photos', 'PhotoController@update')->name('admin.update.photos');
+            Route::get('/fetch-subcategories', 'PhotoController@fetchSubcategories')->name('admin.fetch.subcategories');
+            Route::get('/allsubcategorynames', 'PhotoController@allsubcategorynames')->name('admin.fetch.allsubcategorynames');
+            Route::post('/update-title', 'PhotoController@updateTitle')->name('admin.update.versions.title');
+
 
 
             // photo ended
+
+
+            //version part started
+
+            Route::get('/create-versions/{photo_id}/{counter}/{color_create_version}/{category_name}', 'VersionPhotoController@create')->name('admin.create.versions');
+            Route::get('/edit-versions/{version_id}', 'VersionPhotoController@edit')->name('admin.edit.versions');
+            Route::post('/update-versions', 'VersionPhotoController@update')->name('admin.update.versions');
+            Route::post('/store-versions', 'VersionPhotoController@store')->name('admin.store.version.photos');
+            //make route admin.delete.versions
+            // Route::get('/delete-versions/{id}/{photo_id}/{category_name}/{color}', 'VersionPhotoController@destroy')->name('admin.delete.version');
+            Route::get('/delete/version/photo/{id}', 'VersionPhotoController@destroy')->name('admin.delete.version');
+            Route::post('/records', 'VersionPhotoController@updateStatus')->name('admin.update.status');
+            Route::post('/records1/{id}', 'VersionPhotoController@updateStatus1')->name('admin.update.status1');
+
+            Route::post('/update-categories-version-photos', 'VersionPhotoController@updateCategoriesVersion')->name('admin.update.versions.categories');
+            Route::post('/update-categories-version-photos2', 'VersionPhotoController@updateCategoriesVersion2')->name('admin.update.versions.categories2');
+            Route::post('/update-categories-version-photos3', 'VersionPhotoController@updateCategoriesVersion3')->name('admin.update.versions.categories3');
+
+            Route::post('/update-categories-version-photos4', 'VersionPhotoController@updateCategoriesVersion4')->name('admin.update.versions.categories4');
+            Route::post('/update-categories-version-photos5', 'VersionPhotoController@updateCategoriesVersion5')->name('admin.update.versions.categories5');
+            Route::post('/update-categories-version-photos6', 'VersionPhotoController@updateCategoriesVersion6')->name('admin.update.versions.categories6');
+
+            Route::post('/update-categories-version-photos7', 'VersionPhotoController@updateCategoriesVersion7')->name('admin.update.versions.categories7');
+            Route::post('/update-categories-version-photos8', 'VersionPhotoController@updateCategoriesVersion8')->name('admin.update.versions.categories8');
+            Route::post('/update-categories-version-photos9', 'VersionPhotoController@updateCategoriesVersion9')->name('admin.update.versions.categories9');
+
+
+            //version part ended
+
+            //route for version photo asc and desc
+            Route::get('/version-sort/{column}/{order}/{photo_id}/{category_name}/{color_create_version}', 'PhotoController@version_sort')->name('version-sort');
+            //
 
 
             //Customer part started
             Route::get('/customers', 'CustomerController@index')->name('admin.customers');
             Route::get('/customer/add-new-customer', 'CustomerController@create')->name('admin.customer.create_page');
             Route::post('/customer/add-new-customer-process', 'CustomerController@store')->name('admin.customer.create');
-        //     Route::get('/customer/edit-customer/{id}', 'CustomerController@edit')->name('admin.customer.edit');
-        //     Route::post('/customer/update-customer/{id}', 'CustomerController@update')->name('admin.customer.update');
+        //  Route::get('/customer/edit-customer/{id}', 'CustomerController@edit')->name('admin.customer.edit');
+        //  Route::post('/customer/update-customer/{id}', 'CustomerController@update')->name('admin.customer.update');
             Route::post('/customer/get-delete-customer-modal', 'CustomerController@getDeleteCustomerModal')->name('get-delete-customer-modal');
             Route::get('/customer/delete-customer-process/{customer}', 'CustomerController@destroy')->name('delete-customer-process');
             /*Customer part ended*/

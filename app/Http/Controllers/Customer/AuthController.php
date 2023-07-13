@@ -27,9 +27,13 @@ class AuthController extends Controller
     {
         if(\auth()->guard('customer')->check()) return redirect()->route('home');
         $categories = Category::with('subcategory')->get();
-
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
         $subcategories = SubCategory::all();
-        return view('auth.customer.password.email', compact('categories', 'subcategories'));
+        return view('auth.customer.password.email', compact('categories', 'subcategories',
+        'categoryId', 'subCategoryId', 'categoryName'
+    ));
     }
 
     public function reset_password_request_validate(Request $request){
@@ -66,9 +70,20 @@ class AuthController extends Controller
         }
         $nowDate = Carbon::now();
         if($nowDate->gt($tokenData->created_at)){
-            return view('auth.customer.password.reset', compact('token', 'email', 'emailHash'))->with('expired', trans('Token ist abgelaufen, bitte setzen Sie das Passwort erneut zur端ck!'));
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
+            return view('auth.customer.password.reset', compact('token', 'email', 'emailHash',
+            'categoryId', 'subCategoryId', 'categoryName'
+            ))->with('expired', trans('Token ist abgelaufen, bitte setzen Sie das Passwort erneut zur端ck!'));
         }
-        return view('auth.customer.password.reset', compact('token', 'email', 'emailHash'));
+
+        $categoryId = '';
+        $subCategoryId = '';
+        $categoryName   = '';
+        return view('auth.customer.password.reset', compact('token', 'email', 'emailHash'
+        , 'categoryId', 'subCategoryId', 'categoryName'
+        ));
     }
 
     public function update_password(Request $request){
@@ -140,42 +155,44 @@ class AuthController extends Controller
     }
 
     public function register(Request $request){
+
+        // dd($request->all());
         $request->validate([
-            'code' => ['required', 'string'],
-            'agree' => ['required', 'string'],
+            // 'code' => ['required', 'string'],
+            // 'agree' => ['required', 'string'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
         $emailHash = encrypt($request->email);
-        if(!$request->agree){
-            $data['term_conditions'] = 'Bitte lesen und akzeptieren Sie die AGBs';
-            $data['customer'] = $request->all();
-            return redirect()->route('customer.verify_code', $emailHash)->with($data);
-        }
+        // if(!$request->agree){
+        //     $data['term_conditions'] = 'Bitte lesen und akzeptieren Sie die AGBs';
+        //     $data['customer'] = $request->all();
+        //     return redirect()->route('customer.verify_code', $emailHash)->with($data);
+        // }
 
-        $user_code = CustomerVerificationCode::whereEmail($request->email)->orderBy('id', 'desc')->first();
-        if(!$user_code){
-            return redirect('404');
-        }
-        $nowDate = Carbon::now();
-        if($nowDate->gt($user_code->expired_at)){
-            /*$data['verification_error'] = __('auth.expired_verification_code');
-            $data['customer'] = $request->all();
-            return redirect()->route('customer.verify_code', $emailHash)->with($data);*/
-            $data['customer'] = $request->all();
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['code' => __('auth.expired_verification_code')])->with($data);
-        }
+        // $user_code = CustomerVerificationCode::whereEmail($request->email)->orderBy('id', 'desc')->first();
+        // if(!$user_code){
+        //     return redirect('404');
+        // }
+        // $nowDate = Carbon::now();
+        // if($nowDate->gt($user_code->expired_at)){
+        //     /*$data['verification_error'] = __('auth.expired_verification_code');
+        //     $data['customer'] = $request->all();
+        //     return redirect()->route('customer.verify_code', $emailHash)->with($data);*/
+        //     $data['customer'] = $request->all();
+        //     return redirect()->back()
+        //         ->withInput()
+        //         ->withErrors(['code' => __('auth.expired_verification_code')])->with($data);
+        // }
 
-        if($user_code->verification_code != $request->code){
-            /*$data['verification_error'] = __('auth.verification_code_mismatch');
-            $data['customer'] = $request->all();
-            return redirect()->route('customer.verify_code',$emailHash)->with($data);*/
-            $data['customer'] = $request->all();
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['code' => __('auth.verification_code_mismatch')])->with($data);
-        }
+        // if($user_code->verification_code != $request->code){
+        //     /*$data['verification_error'] = __('auth.verification_code_mismatch');
+        //     $data['customer'] = $request->all();
+        //     return redirect()->route('customer.verify_code',$emailHash)->with($data);*/
+        //     $data['customer'] = $request->all();
+        //     return redirect()->back()
+        //         ->withInput()
+        //         ->withErrors(['code' => __('auth.verification_code_mismatch')])->with($data);
+        // }
         $customer = Customer::create([
             'title' => $request->title,
             'first_name' =>$request->name,

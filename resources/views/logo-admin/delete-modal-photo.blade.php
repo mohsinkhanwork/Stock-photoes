@@ -1,4 +1,4 @@
-@extends('layouts.modal-layout')
+@extends('layouts.modal-layout-photo')
 @section('content')
     <form action="{{route('delete-process-photo')}}" method="post">
         @csrf

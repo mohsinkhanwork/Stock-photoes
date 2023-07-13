@@ -1,37 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Episode 1: The Absolute Basics</title>
-    <script src="https://unpkg.com/vue@3"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
-    <div id="app">
-        <p>
-            <input type="text" v-model="greeting">
-        </p>
+<?php
 
-        <p>
-            {{ greeting }} {{ greeting.length }}
-        </p>
-    </div>
+$color = [
+    'red',
+    'blue',
+    'green',
+    'yellow',
+    'black',
+]
 
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.1/vue.min.js"></script>
+$string = 'my favourite colors are' . implode(', ', $color);
+echo $string;
 
-    <script>
-        Vue.createApp({
-            data() {
-                return {
-                    greeting: 'What is up'
-                };
-            },
-
-            mounted() {
-                setTimeout(() => {
-                    this.greeting = 'Changed';
-                }, 3000);
-            }
-        }).mount('#app');
-    </script>
+   ?>
 </body>
 </html>
